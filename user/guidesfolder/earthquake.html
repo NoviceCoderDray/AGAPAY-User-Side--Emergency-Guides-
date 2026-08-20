@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Earthquake Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #7f5112;
+      --accent: #c5ac66;
+      --bg-light: #ffffff;
+      --bg-color: #e1c3a2;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .quake-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .quake-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .quake-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .quake-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .quake-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    #game-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #game-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.game-modal {
+      background: linear-gradient(135deg, #fffbe6 60%, #e1c3a2 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(127, 81, 18, 0.1);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+      max-width: 430px;
+      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: center;
+      max-width: 430px;
+      width: 98vw;
+      margin: auto;
+    }
+
+    @media (min-width: 576px) {
+      .modal-dialog {
+        max-width: 430px;
+      }
+    }
+
+    .game-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .game-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .game-body {
+      padding: 18px 12px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 340px;
+      max-width: 100%;
+      height: 260px;
+      max-height: 260px;
+      background: #f7e9d1;
+      border: 3px solid var(--primary);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #c5ac66;
+      animation: shake-bg 0.25s infinite linear;
+      box-sizing: border-box;
+    }
+
+    @keyframes shake-bg {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      20% {
+        transform: translate(-2px, 2px);
+      }
+
+      40% {
+        transform: translate(2px, -2px);
+      }
+
+      60% {
+        transform: translate(-1px, 1px);
+      }
+
+      80% {
+        transform: translate(1px, -1px);
+      }
+
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    .game-table {
+      position: absolute;
+      left: 110px;
+      bottom: 40px;
+      width: 120px;
+      height: 38px;
+      background: #c5ac66;
+      border: 3px solid #7f5112;
+      border-radius: 8px 8px 12px 12px;
+      z-index: 2;
+      box-shadow: 0 2px 8px #bfa76a;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 10px 0 10px;
+      overflow: visible;
+    }
+
+    .game-table-top {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 16px;
+      background: linear-gradient(90deg, #e7d7a9 60%, #c5ac66 100%);
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom: 2px solid #bfa76a;
+      z-index: 2;
+    }
+
+    .game-table-leg {
+      width: 10px;
+      height: 22px;
+      background: #a88a4f;
+      border: 2px solid #7f5112;
+      border-radius: 0 0 6px 6px;
+      margin-bottom: -2px;
+      z-index: 1;
+      box-shadow: 0 2px 4px #bfa76a;
+    }
+
+    .game-character {
+      position: absolute;
+      width: 32px;
+      height: 38px;
+      bottom: 38px;
+      left: 30px;
+      z-index: 3;
+      transition: left 0.13s cubic-bezier(.6, 1.5, .6, 1), bottom 0.13s;
+      background: none;
+    }
+
+    .game-character-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .game-debris {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: #a87c4f;
+      border: 2px solid #7f5112;
+      border-radius: 7px;
+      z-index: 4;
+      box-shadow: 0 2px 8px #bfa76a;
+      animation: shake-debris 0.2s infinite alternate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+    }
+
+    @keyframes shake-debris {
+      0% {
+        transform: rotate(-3deg);
+      }
+
+      100% {
+        transform: rotate(3deg);
+      }
+    }
+
+    .game-controls {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 6px;
+      justify-content: center;
+    }
+
+    .game-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 2.1rem;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #c5ac66;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .game-btn:active {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .game-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #7f5112;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .game-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .game-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .quake-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .quake-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .quake-card p {
+        font-size: 0.88rem;
+      }
+
+      #gameArea {
+        width: 98vw;
+        min-width: 220px;
+        max-width: 99vw;
+        height: 180px;
+        max-height: 180px;
+      }
+
+      .game-table {
+        width: 70px;
+        left: 60px;
+      }
+
+      .game-character {
+        width: 22px;
+        height: 28px;
+      }
+
+      .game-debris {
+        width: 20px;
+        height: 20px;
+        font-size: 1rem;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #fffbe6 70%, #ffe082 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(127, 81, 18, 0.13);
+      border: 2px solid #ffe082;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+
+
+
+
+
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+
+
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>What to do in<br><span>case of an earthquake!</span></h1>
+      </div>
+      <img src="assets/earthquake.png" alt="Earthquake Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="quake-card d-flex justify-content-between align-items-center"
+      onclick="openContent('what_is_earthquake.html')">
+      <div>
+        <h2>What is Earthquake?</h2>
+        <p>(Ano ang lindol?)</p>
+      </div>
+      <img src="assets/what_quake.png" alt="Signs Icon" />
+    </div>
+
+    <div class="quake-card d-flex justify-content-between align-items-center"
+      onclick="openContent('earthquake_signs.html')">
+      <div>
+        <h2>Signs of an Earthquake</h2>
+        <p>(Mga palatandaan ng lindol)</p>
+      </div>
+      <img src="assets/quake_signs.png" alt="Signs Icon" />
+    </div>
+
+    <div class="quake-card d-flex justify-content-between align-items-center"
+      onclick="openContent('earthquake_during.html')">
+      <div>
+        <h2>What to do during an Earthquake</h2>
+        <p>(Ano ang gagawin habang lumilindol)</p>
+      </div>
+      <img src="assets/quake_during.png" alt="During Icon" />
+    </div>
+
+    <div class="quake-card d-flex justify-content-between align-items-center"
+      onclick="openContent('earthquake_after.html')">
+      <div>
+        <h2>What to do after an Earthquake</h2>
+        <p>(Ano ang gagawin pagkatapos ng lindol)</p>
+      </div>
+      <img src="assets/quake_after.png" alt="After Icon" />
+    </div>
+
+    <div class="quake-card d-flex justify-content-between align-items-center"
+      onclick="openContent('earthquake_preparedness.html')">
+      <div>
+        <h2>Preparedness Tips</h2>
+        <p>(Mga tip sa paghahanda sa lindol)</p>
+      </div>
+      <img src="assets/preparedness.png" alt="Preparedness Icon" />
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+
+
+
+
+
+    // Array of earthquake trivia facts
+    const triviaFacts = [
+      "The largest recorded earthquake was the 1960 Valdivia earthquake in Chile, measuring 9.5 on the Richter scale.",
+      "Earthquakes occur along fault lines where tectonic plates meet, grind, or pull apart from each other.",
+      "The Earth experiences about 500,000 detectable earthquakes every year, though only about 100 cause damage.",
+      "Earthquake weather is a myth—earthquakes can happen in any weather condition and are not influenced by temperature or clouds.",
+      "The longest recorded earthquake lasted between 5 to 10 minutes during the 2011 Tōhoku earthquake in Japan.",
+      "Moonquakes, or lunar earthquakes, occur on the moon and can last up to 10 minutes, much longer than Earth's quakes.",
+      "The 1906 San Francisco earthquake was so powerful that it could be felt from Oregon to Los Angeles and inland to Nevada.",
+      "Foreshocks are smaller earthquakes that occur before a larger mainshock in the same location.",
+      "The Ring of Fire, a horseshoe-shaped area in the Pacific Ocean basin, is where 90% of the world's earthquakes occur.",
+      "Buildings in earthquake-prone areas use base isolators—shock absorbers that allow structures to move independently from ground motion.",
+      "The word seismology comes from the Greek word seismos, meaning earthquake or shaking.",
+      "Animals may sense earthquakes before humans due to their ability to detect P-waves, the first seismic waves to arrive.",
+      "The liquefaction effect during earthquakes can cause solid ground to behave like liquid, making buildings sink or tip over.",
+      "Alaska has more earthquakes than any other U.S. state, experiencing a magnitude 7 earthquake almost every year.",
+      "The 2004 Indian Ocean earthquake was so powerful it made the entire planet vibrate about half an inch.",
+      "Earthquakes can trigger other earthquakes thousands of miles away through a phenomenon called dynamic triggering.",
+      "The deepest earthquakes occur about 450 miles below the Earth's surface in subduction zones.",
+      "Japan has invested billions in early warning systems that can alert people seconds before shaking begins.",
+      "The Modified Mercalli Intensity Scale measures earthquake effects on people and structures, while the Richter scale measures magnitude.",
+      "Fracking, or hydraulic fracturing for oil and gas, has been linked to increased earthquake activity in some regions.",
+      "The 1811-1812 New Madrid earthquakes in Missouri were so strong they temporarily reversed the flow of the Mississippi River.",
+      "Tsunami waves generated by underwater earthquakes can travel as fast as a commercial jet airplane.",
+      "The Earth's core is constantly moving, but only sudden movements along faults release the energy we feel as earthquakes.",
+      "Skyscrapers in earthquake zones often have counterweights at the top that swing opposite to the building's movement to reduce sway.",
+      "The Gutenberg-Richter law states that for every magnitude decrease, there are about 10 times more earthquakes.",
+      "Aftershocks can continue for months or even years after a major earthquake and can sometimes be nearly as strong as the mainshock.",
+      "The elastic rebound theory explains that earthquakes occur when stress on rocks exceeds their strength, causing them to snap back.",
+      "Nepal experiences frequent earthquakes because it sits where the Indian tectonic plate pushes under the Eurasian plate.",
+      "The earliest known earthquake detector was invented in China in 132 AD by Zhang Heng.",
+      "Modern smartphones can be used as earthquake sensors, with apps that collect data to create crowdsourced seismic networks."
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+    
+
+    function goBack() {
+      window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+  </script>
+
+  <div id="game-float" title="Play Earthquake Game!" data-bs-toggle="modal" data-bs-target="#gameModal">
+    <i class="bi bi-controller"></i>
+  </div>
+
+  <!-- Game Modal -->
+  <div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content game-modal">
+        <div class="game-header">
+          <i class="bi bi-controller"></i>
+          <span class="game-title" id="gameModalLabel">Earthquake Survival Mini Game</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close" onclick="endGame()"></button>
+        </div>
+        <div class="game-body">
+          <div class="game-status" id="gameStatus">Move the character under the table to survive!</div>
+          <div id="gameArea">
+            <div class="game-table" id="gameTable">
+              <div class="game-table-top"></div>
+              <div class="game-table-leg"></div>
+              <div class="game-table-leg"></div>
+            </div>
+            <div class="game-character" id="gameCharacter">
+              <svg width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Head -->
+                <circle cx="18" cy="10" r="7" fill="#f9d29d" stroke="#e0a96d" stroke-width="1" />
+                <!-- Body (life vest) -->
+                <rect x="11" y="17" width="14" height="13" rx="6" fill="#ffb300" stroke="#e65100" stroke-width="1" />
+                <rect x="13" y="19" width="10" height="9" rx="4" fill="#fffde7" opacity="0.7" />
+                <!-- Arms (just 2, static down) -->
+                <rect x="5" y="24" width="5" height="13" rx="2.5" fill="#f9d29d" />
+                <rect x="26" y="24" width="5" height="13" rx="2.5" fill="#f9d29d" />
+                <!-- Legs -->
+                <rect x="13" y="30" width="4" height="12" rx="2" fill="#1976d2" />
+                <rect x="19" y="30" width="4" height="12" rx="2" fill="#1976d2" />
+                <!-- Face (scared: open mouth, wide eyes, eyebrows) -->
+                <!-- Eyebrows -->
+                <rect x="14" y="7" width="3" height="1" rx="0.5" fill="#a67c52" transform="rotate(-12 14 7)" />
+                <rect x="19" y="7" width="3" height="1" rx="0.5" fill="#a67c52" transform="rotate(12 19 7)" />
+                <!-- Eyes (wide) -->
+                <ellipse cx="15.5" cy="10" rx="1" ry="1.5" fill="#a67c52" />
+                <ellipse cx="20.5" cy="10" rx="1" ry="1.5" fill="#a67c52" />
+                <!-- Mouth (scared, open) -->
+                <ellipse cx="18" cy="14.5" rx="2" ry="2.2" fill="#fff" />
+                <ellipse cx="18" cy="15" rx="1.1" ry="1.4" fill="#a67c52" />
+              </svg></div>
+            <!-- Debris will be generated here -->
+          </div>
+          <div class="game-controls mt-2">
+            <button class="game-btn" onclick="moveChar(-1)" title="Left"><i class="bi bi-arrow-left"></i></button>
+            <button class="game-btn" onclick="moveChar(1)" title="Right"><i class="bi bi-arrow-right"></i></button>
+          </div>
+          <div style="font-size:0.98rem;color:#7f5112;">Tip: Move under the table before debris falls!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content trivia-modal">
+      <div class="trivia-header d-flex align-items-center" style="background: #fffbe6; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+        <i class="bi bi-lightbulb" style="font-size:2rem;color:#ffeb3b;background:#fffde7;border-radius:50%;padding:8px;margin-right:10px;"></i>
+        <span style="font-size:1.2rem;font-weight:600;color:#7f5112;">Did you know that:</span>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #fffbe6 70%, #ffe082 100%); border-radius: 0 0 16px 16px;">
+        <div style="font-size:1.08rem;color:#7f5112;font-weight:500;">
+          <span style="font-weight:600;">The 2011 Japan quake was so powerful it shortened Earth’s day by about 1.8 microseconds.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    // Game variables
+    let charPos = 30; // px from left
+    let charWidth = 32;
+    let charBottom = 38;
+    let tableLeft = 110,
+      tableWidth = 120;
+    let debrisInterval = null,
+      debrisFall = null,
+      gameActive = false,
+      debrisList = [];
+    let gameOver = false;
+    let tableMoveInterval = null;
+    let tableMoveDir = 1; // 1 = right, -1 = left
+
+    // Only brick debris type
+    const debrisTypes = [
+      { icon: '<i class="bi bi-bricks"></i>', color: '#b22222' } // brick
+    ];
+
+    function resetGameVars() {
+      charPos = 30;
+      charWidth = 32;
+      charBottom = 38;
+      tableLeft = 110;
+      tableWidth = 120;
+      debrisList = [];
+      gameOver = false;
+      gameActive = true;
+      tableMoveDir = Math.random() > 0.5 ? 1 : -1;
+    }
+
+    function moveChar(dir) {
+      if (!gameActive) return;
+      const area = document.getElementById('gameArea');
+      let maxLeft = area.offsetWidth - charWidth - 4;
+      charPos += dir * 28;
+      if (charPos < 0) charPos = 0;
+      if (charPos > maxLeft) charPos = maxLeft;
+      document.getElementById('gameCharacter').style.left = charPos + 'px';
+    }
+
+    function isUnderTable() {
+      // Character center must be within table bounds
+      let center = charPos + charWidth / 2;
+      return (center >= tableLeft && center <= tableLeft + tableWidth);
+    }
+
+    function moveTable() {
+      const area = document.getElementById('gameArea');
+      const table = document.getElementById('gameTable');
+      let maxLeft = area.offsetWidth - tableWidth - 4;
+      tableMoveInterval = setInterval(() => {
+        if (!gameActive) return;
+        tableLeft += tableMoveDir * 2.2; // slower movement
+        if (tableLeft < 0) {
+          tableLeft = 0;
+          tableMoveDir = 1;
+        }
+        if (tableLeft > maxLeft) {
+          tableLeft = maxLeft;
+          tableMoveDir = -1;
+        }
+        table.style.left = tableLeft + 'px';
+      }, 38); // slower interval
+    }
+
+    function spawnDebris() {
+      const area = document.getElementById('gameArea');
+      let debris = document.createElement('div');
+      debris.className = 'game-debris';
+
+      // Random debris type
+      let type = debrisTypes[Math.floor(Math.random() * debrisTypes.length)];
+      debris.innerHTML = type.icon;
+      debris.style.background = type.color;
+
+      // Random x within area
+      let maxLeft = area.offsetWidth - 32;
+      let dLeft = Math.floor(Math.random() * maxLeft);
+      debris.style.left = dLeft + 'px';
+      debris.style.top = '-32px';
+      area.appendChild(debris);
+
+      let fallY = -32;
+      let fallSpeed = 2 + Math.random() * 1.5; // slower fall
+      let interval = setInterval(() => {
+        if (!gameActive) {
+          clearInterval(interval);
+          debris.remove();
+          return;
+        }
+        fallY += fallSpeed;
+        debris.style.top = fallY + 'px';
+
+        // Collision detection
+        let charRect = document.getElementById('gameCharacter').getBoundingClientRect();
+        let debrisRect = debris.getBoundingClientRect();
+        let areaRect = area.getBoundingClientRect();
+        let tableRect = document.getElementById('gameTable').getBoundingClientRect();
+
+        // Debris and character collision
+        let dX = debrisRect.left - areaRect.left;
+        let dY = debrisRect.top - areaRect.top;
+
+        // Debris and table collision
+        let tX = tableRect.left - areaRect.left;
+        let tWidth = tableRect.width;
+
+        // Make the table area immune: if debris is falling within the table area, it is blocked and cannot hit the character
+        // So, only check for collision if debris is NOT above the table
+        let debrisCenter = dX + 16;
+        let isDebrisAboveTable = debrisCenter >= tableLeft && debrisCenter <= tableLeft + tableWidth;
+
+        // If debris hits character and is NOT above the table (so not protected)
+        if (
+          dY + 32 >= area.offsetHeight - charBottom - 2 &&
+          dY + 32 <= area.offsetHeight - charBottom + 20 &&
+          dX + 24 >= charPos &&
+          dX <= charPos + charWidth &&
+          !isDebrisAboveTable
+        ) {
+          endGame('lose');
+          debris.style.background = '#dc3545';
+          debris.innerHTML = '<i class="bi bi-x-octagon"></i>';
+        }
+
+        // Remove if out of area
+        if (fallY > area.offsetHeight) {
+          clearInterval(interval);
+          debris.remove();
+        }
+      }, 22); // slower fall interval
+      debrisList.push(interval);
+    }
+
+    function startGame() {
+      resetGameVars();
+      document.getElementById('gameCharacter').style.left = charPos + 'px';
+      document.getElementById('gameTable').style.left = tableLeft + 'px';
+      document.getElementById('gameStatus').textContent = "Move the character under the table to survive!";
+      // Remove old debris
+      document.querySelectorAll('.game-debris').forEach(e => e.remove());
+      // Start moving table
+      moveTable();
+      // Increase number of debris and frequency
+      let count = 0;
+      let maxDebris = 25; // even more debris for higher difficulty
+      debrisInterval = setInterval(() => {
+        if (!gameActive) return;
+        spawnDebris();
+        count++;
+        if (count >= maxDebris) {
+          clearInterval(debrisInterval);
+          setTimeout(() => {
+            if (!gameOver) endGame('win');
+          }, 1800);
+        }
+      }, 650); // faster spawn for more challenge
+    }
+
+    function endGame(result) {
+      gameActive = false;
+      gameOver = true;
+      debrisList.forEach(i => clearInterval(i));
+      if (debrisInterval) clearInterval(debrisInterval);
+      if (tableMoveInterval) clearInterval(tableMoveInterval);
+      if (result === 'lose') {
+        document.getElementById('gameStatus').innerHTML = '<span class="game-over">Game Over! Hit by debris.<br>Try again!</span>';
+      } else if (result === 'win') {
+        document.getElementById('gameStatus').innerHTML = '<span class="game-success">You survived the earthquake! 🎉</span>';
+      }
+    }
+
+    // Reset/start game when modal opens
+    document.getElementById('gameModal').addEventListener('show.bs.modal', function () {
+      setTimeout(startGame, 300);
+    });
+    // End game when modal closes
+    document.getElementById('gameModal').addEventListener('hide.bs.modal', function () {
+      endGame();
+    });
+  </script>
+</body>
+
+</html>

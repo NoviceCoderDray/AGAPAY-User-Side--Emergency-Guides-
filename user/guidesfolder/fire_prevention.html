@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fire Prevention Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #802108;
+      --accent: #a7432d;
+      --bg-light: #ffffff;
+      --bg-color: #f5a684;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .header img {
+      width: 85px;
+      height: auto;
+    }
+
+    .video-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .video-player {
+      width: 100%;
+      max-height: 280px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background-color: #ffc598;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 15px 18px;
+      margin-bottom: 20px;
+    }
+
+    .tip-img {
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tip-content {
+      flex: 1;
+    }
+
+    .tip-content h2 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .tip-content p {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .translated {
+      display: block;
+      margin-top: 8px;
+      font-style: italic;
+      color: #555;
+    }
+
+    #help-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #help-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .modal-content.quiz-modal {
+      background: linear-gradient(135deg, #fffbe6 60%, #f5e1c3 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(127, 81, 18, 0.15);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+    }
+
+    .quiz-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .quiz-body {
+      padding: 24px 24px 12px 24px;
+    }
+
+    .quiz-label {
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .quiz-question {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #e1c3a2;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+      border-left: 5px solid var(--accent);
+      transition: box-shadow 0.2s;
+    }
+
+    .quiz-question span {
+      font-size: 1rem;
+      color: #7f5112;
+      font-weight: 500;
+    }
+
+    .quiz-btn {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .quiz-btn:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    #quizResult {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .is-valid {
+      border-color: #198754 !important;
+      background-color: #e9fbe8 !important;
+    }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+      background-color: #fbeaea !important;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .tip-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .tip-img {
+        margin-bottom: 10px;
+      }
+
+      .tip-content {
+        text-align: left;
+      }
+
+      .tip-content h2 {
+        font-size: 1.1rem;
+      }
+
+      .tip-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="back-arrow" onclick="goBack(this)">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </div>
+
+
+    <div class="header">
+      <div class="header-text">
+        <h1>Fire Prevention<br><span>Tips you should Follow</span></h1>
+      </div>
+      <img src="assets/fire_prevention.png" alt="Fire Prevention Icon" />
+    </div>
+
+    <div class="video-section">
+      <video class="video-player" controls>
+        <source src="videos/How to Prevent Fire and Fire Safety Tips.mp4" type="video/mp4">
+      </video>
+      <p><em>This video shows common ways to prevent fire incidents.</em></p>
+      <p><small>A video from:
+          <a href="https://youtu.be/UvyDdWMZm40" target="_blank">
+            "Top 10 Fire Safety Tips" by LIFESAVER
+          </a>
+        </small></p>
+    </div>
+
+
+    <div class="tip-card">
+      <img src="assets/check_appliances.png" alt="Check Appliances" class="tip-img">
+      <div class="tip-content">
+        <h2>1. Unplug appliances when not in use</h2>
+        <p>
+          Turn off and unplug appliances like irons, rice cookers, and fans when you're not using them to avoid
+          overheating or short circuits.<br><br>
+          <span class="translated">I-off at tanggalin sa saksakan ang mga gamit tulad ng plantsa, rice cooker, at
+            electric fan kapag hindi ginagamit upang maiwasan ang sobrang init o short circuit.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/gas_safety.png" alt="Gas Safety" class="tip-img">
+      <div class="tip-content">
+        <h2>2. Always check gas stoves and tanks</h2>
+        <p>
+          Make sure gas stoves are turned off and check for leaks regularly. If you smell gas, open windows and do not
+          use electrical switches.<br><br>
+          <span class="translated">Siguraduhing nakapatay ang gas stove at regular na tingnan kung may tagas. Kapag may
+            naamoy na gas, buksan ang mga bintana at huwag gumamit ng mga switch.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/no_overload1.png" alt="No Overloading" class="tip-img">
+      <div class="tip-content">
+        <h2>3. Don’t overload electrical outlets</h2>
+        <p>
+          Plugging too many devices in one outlet can overheat wires and start a fire. Use a power strip with a breaker
+          if needed.<br><br>
+          <span class="translated">Ang pagsaksak ng maraming gamit sa isang outlet ay maaaring magdulot ng sobrang init
+            at sunog. Gumamit ng power strip na may breaker kung kinakailangan.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/match_lighter.png" alt="Keep Matches Away" class="tip-img">
+      <div class="tip-content">
+        <h2>4. Keep matches and lighters away from children</h2>
+        <p>
+          Store them in high places out of reach of kids to prevent accidents or fire play.<br><br>
+          <span class="translated">Itago ang mga posporo at lighter sa mataas na lugar na hindi maaabot ng mga bata
+            upang maiwasan ang aksidente o paglalaro ng apoy.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/fire_extinguisher.png" alt="Fire Extinguisher" class="tip-img">
+      <div class="tip-content">
+        <h2>5. Have a fire extinguisher ready</h2>
+        <p>
+          Keep one in the kitchen or near potential fire sources. Make sure everyone at home knows how to use
+          it.<br><br>
+          <span class="translated">Maglagay ng fire extinguisher sa kusina o malapit sa mga posibleng pag-umpisahan ng
+            sunog. Siguraduhing alam ng lahat sa bahay kung paano ito gamitin.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/candle_safety.png" alt="Candle Safety" class="tip-img">
+      <div class="tip-content">
+        <h2>6. Be careful with candles</h2>
+        <p>
+          Never leave candles burning unattended. Place them on a stable surface away from anything flammable.<br><br>
+          <span class="translated">Huwag iwanang nakasindi ang kandila nang walang nagbabantay. Ilagay ito sa patag at
+            matibay na lugar na malayo sa anumang madaling magliyab.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/smoke_alarm.png" alt="Smoke Alarm" class="tip-img">
+      <div class="tip-content">
+        <h2>7. Install smoke alarms</h2>
+        <p>
+          Smoke alarms alert you early if a fire starts. Test them monthly and replace the batteries when
+          needed.<br><br>
+          <span class="translated">Nagbibigay babala ang smoke alarm kung may apoy na nagsisimula. Subukan ito
+            buwan-buwan at palitan ang baterya kung kinakailangan.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function goBack() {
+      window.location.href = 'fire.html';
+    }
+  </script>
+
+  <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+    ?
+  </div>
+
+  <!-- Quiz Modal -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content quiz-modal">
+        <div class="quiz-header">
+          <i class="bi bi-patch-question-fill"></i>
+          <span class="quiz-title" id="quizModalLabel">Fire Prevention Quiz</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="quiz-body">
+          <form id="quizForm">
+            <div class="quiz-question">
+              <div class="quiz-label">1. Which of the following are good fire prevention habits at home? (Select all that apply)
+              </div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1a" value="Unplug Appliances">
+                  <label class="form-check-label" for="q1a">Unplug appliances when not in use</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1b" value="Leave Candles">
+                  <label class="form-check-label" for="q1b">Leave candles burning unattended</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1c" value="Check Gas">
+                  <label class="form-check-label" for="q1c">Check gas stoves and tanks regularly</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1d" value="Overload Outlets">
+                  <label class="form-check-label" for="q1d">Overload electrical outlets</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">2. What should you do to keep children safe from fire hazards? (Select all that apply)
+              </div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2a" value="Keep Matches Away">
+                  <label class="form-check-label" for="q2a">Keep matches and lighters away from children</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2b" value="Teach Fire Safety">
+                  <label class="form-check-label" for="q2b">Teach children about fire safety</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2c" value="Let Kids Play">
+                  <label class="form-check-label" for="q2c">Let kids play with matches if supervised</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2d" value="Store Lighters High">
+                  <label class="form-check-label" for="q2d">Store lighters in high places</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">3. Which of these are important for fire preparedness at home? (Select all that apply)
+              </div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3a" value="Have Extinguisher">
+                  <label class="form-check-label" for="q3a">Have a fire extinguisher ready</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3b" value="Install Smoke Alarm">
+                  <label class="form-check-label" for="q3b">Install smoke alarms</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3c" value="Ignore Gas Leaks">
+                  <label class="form-check-label" for="q3c">Ignore gas leaks if they seem small</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3d" value="Check Candles">
+                  <label class="form-check-label" for="q3d">Be careful with candles</label>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn quiz-btn w-100" onclick="checkQuiz()">Check Answers</button>
+          </form>
+          <div id="quizResult" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkQuiz() {
+      // Correct answers
+      const answers = {
+        q1: ["Unplug Appliances", "Check Gas"],
+        q2: ["Keep Matches Away", "Teach Fire Safety", "Store Lighters High"],
+        q3: ["Have Extinguisher", "Install Smoke Alarm", "Check Candles"]
+      };
+      let correct = 0;
+      let form = document.getElementById('quizForm');
+      let result = '';
+
+      // Helper to check if two arrays have the same elements (order doesn't matter)
+      function arraysEqual(a, b) {
+        if (a.length !== b.length) return false;
+        const sortedA = [...a].sort();
+        const sortedB = [...b].sort();
+        return sortedA.every((val, i) => val === sortedB[i]);
+      }
+
+      // Remove previous coloring
+      form.querySelectorAll('.form-check-input').forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+
+      // Q1
+      let q1Checked = Array.from(form.querySelectorAll('input[name="q1"]:checked')).map(i => i.value);
+      let q1Inputs = form.querySelectorAll('input[name="q1"]');
+      if (arraysEqual(q1Checked, answers.q1)) {
+        q1Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q1Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      // Q2
+      let q2Checked = Array.from(form.querySelectorAll('input[name="q2"]:checked')).map(i => i.value);
+      let q2Inputs = form.querySelectorAll('input[name="q2"]');
+      if (arraysEqual(q2Checked, answers.q2)) {
+        q2Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q2Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      // Q3
+      let q3Checked = Array.from(form.querySelectorAll('input[name="q3"]:checked')).map(i => i.value);
+      let q3Inputs = form.querySelectorAll('input[name="q3"]');
+      if (arraysEqual(q3Checked, answers.q3)) {
+        q3Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q3Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      if (correct === 3) {
+        result = `<div class="alert alert-success">All correct! 🎉</div>`;
+      } else {
+        result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+      }
+      document.getElementById('quizResult').innerHTML = result;
+    }
+  </script>
+</body>
+
+</html>

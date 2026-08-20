@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CPR Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #155263;
+      --accent: #3b9ca6;
+      --bg-light: #ffffff;
+      --bg-color: #a9d0ed;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .header img {
+      width: 85px;
+      height: auto;
+    }
+
+    .video-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .video-player {
+      width: 100%;
+      max-height: 280px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background-color: #c2e9fd;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 15px 18px;
+      margin-bottom: 20px;
+    }
+
+    .tip-img {
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tip-content {
+      flex: 1;
+    }
+
+    .tip-content h2 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .tip-content p {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* Floating "?" icon */
+    #help-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #help-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    /* Quiz Modal Custom Design */
+    .modal-content.quiz-modal {
+      background: linear-gradient(135deg, #fffbe6 60%, #f5e1c3 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(127, 81, 18, 0.15);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+    }
+
+    .quiz-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .quiz-body {
+      padding: 24px 24px 12px 24px;
+    }
+
+    .quiz-label {
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .quiz-question {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #e1c3a2;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+      border-left: 5px solid var(--accent);
+      transition: box-shadow 0.2s;
+    }
+
+    .quiz-question span {
+      font-size: 1rem;
+      color: #7f5112;
+      font-weight: 500;
+    }
+
+    .quiz-btn {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .quiz-btn:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    #quizResult {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .is-valid {
+      border-color: #198754 !important;
+      background-color: #e9fbe8 !important;
+    }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+      background-color: #fbeaea !important;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .tip-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .tip-img {
+        margin-bottom: 10px;
+      }
+
+      .tip-content {
+        text-align: left;
+      }
+
+      .tip-content h2 {
+        font-size: 1.1rem;
+      }
+
+      .tip-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="back-arrow" onclick="goBack()">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </div>
+
+    <div class="header">
+      <div class="header-text">
+        <h1>CPR Basics<br><span>Life-Saving Steps</span></h1>
+      </div>
+      <img src="assets/cpr.png" alt="CPR Icon" />
+    </div>
+
+    <div class="video-section">
+      <video class="video-player" controls>
+        <source src="videos/CPR_Tutorial.mp4" type="video/mp4">
+      </video>
+      <p><em>This video shows how to perform CPR on adults during emergencies.</em></p>
+      <p><small>A video from:
+          <a href="https://youtu.be/wa5oPu2hTdw" target="_blank">
+            "How to Conduct Hands only Cardiopulmonary Resuscitation or CPR?" by LIFESAVER on YouTube
+          </a>
+        </small></p>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/check_responsiveness.png" alt="Check Responsiveness" class="tip-img">
+      <div class="tip-content">
+        <h2>1. Check for responsiveness</h2>
+        <p>
+          Tap the person and shout to see if they respond. If there's no response, call for help immediately.<br><br>
+          <em>Tapikin at tawagin ang tao upang makita kung siya ay tutugon. Kung walang tugon, humingi agad ng
+            tulong.</em>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/call_emergency.png" alt="Call Emergency" class="tip-img">
+      <div class="tip-content">
+        <h2>2. Call emergency services</h2>
+        <p>
+          Call your local emergency number before starting CPR, or ask someone nearby to call.<br><br>
+          <em>Tawagan ang lokal na numero ng pang-emergency bago simulan ang CPR, o hilingin sa ibang tao na
+            tumawag.</em>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/start_compressions.png" alt="Chest Compressions" class="tip-img">
+      <div class="tip-content">
+        <h2>3. Start chest compressions</h2>
+        <p>
+          Push hard and fast in the center of the chest at a rate of 100–120 compressions per minute, about 2 inches
+          deep.<br><br>
+          <em>Itulak nang malakas at mabilis sa gitna ng dibdib, 100–120 compressions kada minuto, mga 2 pulgada ang
+            lalim.</em>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/give_breaths.png" alt="Give Rescue Breaths" class="tip-img">
+      <div class="tip-content">
+        <h2>4. Give rescue breaths (if trained)</h2>
+        <p>
+          Tilt the head, lift the chin, and give 2 breaths after every 30 compressions. Skip if untrained.<br><br>
+          <em>Itagilid ang ulo, itaas ang baba, at magbigay ng 2 paghinga pagkatapos ng bawat 30 compressions. Laktawan
+            kung hindi sanay.</em>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/continue_until_help.png" alt="Continue CPR" class="tip-img">
+      <div class="tip-content">
+        <h2>5. Continue until help arrives</h2>
+        <p>
+          Keep giving CPR until emergency responders take over or the person begins to breathe normally.<br><br>
+          <em>Ipagpatuloy ang pagbibigay ng CPR hanggang dumating ang mga tagapagligtas o kapag nagsimulang huminga nang
+            normal ang pasyente.</em>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Floating Help Icon -->
+  <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+    ?
+  </div>
+
+  <!-- Quiz Modal -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content quiz-modal">
+        <div class="quiz-header">
+          <i class="bi bi-patch-question-fill"></i>
+          <span class="quiz-title" id="quizModalLabel">CPR First Aid Quiz</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="quiz-body">
+          <form id="quizForm">
+            <div class="quiz-question">
+              <div class="quiz-label">1. You should check for responsiveness before starting CPR. (True/False)</div>
+              <div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="q1" id="q1true" value="True">
+                  <label class="form-check-label" for="q1true">True</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="q1" id="q1false" value="False">
+                  <label class="form-check-label" for="q1false">False</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">2. You should give chest compressions at a rate of 60 per minute and about 1 inch deep. (True/False)</div>
+              <div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="q2" id="q2true" value="True">
+                  <label class="form-check-label" for="q2true">True</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="q2" id="q2false" value="False">
+                  <label class="form-check-label" for="q2false">False</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">3. You should stop CPR as soon as the person starts breathing normally or help arrives. (True/False)</div>
+              <div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="q3" id="q3true" value="True">
+                  <label class="form-check-label" for="q3true">True</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="q3" id="q3false" value="False">
+                  <label class="form-check-label" for="q3false">False</label>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn quiz-btn w-100" onclick="checkQuiz()">Check Answers</button>
+          </form>
+          <div id="quizResult" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function goBack() {
+      window.location.href = 'firstaid.html';
+    }
+
+    function checkQuiz() {
+      const answers = {
+        q1: "True",
+        q2: "False", // Mark number 2 as wrong (correct answer is False)
+        q3: "True"
+      };
+      let correct = 0;
+      let form = document.getElementById('quizForm');
+      let result = '';
+      // Remove previous coloring
+      form.querySelectorAll('.form-check-input').forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+
+      // Q1
+      let q1 = form.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === answers.q1) {
+        q1.classList.add('is-valid');
+        correct++;
+      } else if (q1) {
+        q1.classList.add('is-invalid');
+      }
+      // Q2
+      let q2 = form.querySelector('input[name="q2"]:checked');
+      if (q2 && q2.value === answers.q2) {
+        q2.classList.add('is-valid');
+        correct++;
+      } else if (q2) {
+        q2.classList.add('is-invalid');
+      }
+      // Q3
+      let q3 = form.querySelector('input[name="q3"]:checked');
+      if (q3 && q3.value === answers.q3) {
+        q3.classList.add('is-valid');
+        correct++;
+      } else if (q3) {
+        q3.classList.add('is-invalid');
+      }
+
+      if (correct === 3) {
+        result = `<div class="alert alert-success">All correct! 🎉</div>`;
+      } else {
+        result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+      }
+      document.getElementById('quizResult').innerHTML = result;
+    }
+  </script>
+
+</body>
+
+</html>

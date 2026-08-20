@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Typhoon Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1b4f72;
+      --accent: #2980b9;
+      --bg-light: #ffffff;
+      --bg-color: #9ebce1;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .typhoon-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .typhoon-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .typhoon-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .typhoon-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .typhoon-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    #typhoon-balance-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary, #1b4f72);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent, #2980b9);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #typhoon-balance-float:hover {
+      background: var(--accent, #2980b9);
+      color: var(--primary, #1b4f72);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.typhoon-balance-modal {
+      max-width: 350px;
+      width: 98vw;
+      margin: auto;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--accent, #2980b9);
+      background-clip: padding-box;
+    }
+
+    @media (max-width: 480px) {
+      .modal-content.typhoon-balance-modal {
+        max-width: 99vw;
+        width: 99vw;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      #typhoonBalanceGameArea {
+        width: 100%;
+        max-width: 320px;
+        min-width: 180px;
+        /* Remove padding-left/right here */
+      }
+    }
+
+    .typhoon-balance-header {
+      background: var(--primary, #1b4f72);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .typhoon-balance-header i {
+      font-size: 2rem;
+      background: var(--accent, #2980b9);
+      color: var(--primary, #1b4f72);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .typhoon-balance-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .typhoon-balance-body {
+      padding: 18px 8px 12px 8px; /* Add horizontal padding to keep border visible */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #typhoonBalanceGameArea {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      min-width: 180px;
+      height: 220px;
+      background: #eaf6fb;
+      border: 3px solid var(--primary, #1b4f72);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 16px #b3d1f7;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      touch-action: none;
+      box-sizing: border-box; /* Ensure border is inside width */
+      max-width: 98%;         /* Prevent overflow */
+    }
+
+    .tb-char {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      font-size: 2.7rem;
+      z-index: 2;
+      transition: left 0.18s cubic-bezier(.6, 1.5, .6, 1), bottom 0.18s cubic-bezier(.6, 1.5, .6, 1);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .tb-wind {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.2rem;
+      z-index: 3;
+      color: #2980b9;
+      text-shadow: 0 2px 8px #b3d1f7;
+      animation: wind-blow 0.7s infinite alternate;
+    }
+
+    @keyframes wind-blow {
+      0% {
+        filter: blur(0.5px);
+      }
+
+      100% {
+        filter: blur(2px);
+      }
+    }
+
+    .tb-balance-controls {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin-bottom: 8px;
+      margin-top: 6px;
+    }
+
+    .tb-balance-btn {
+      background: var(--primary, #1b4f72);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 2.4rem;
+      width: 76px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #b3d1f7;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      font-weight: bold;
+      outline: none;
+      user-select: none;
+    }
+
+    .tb-balance-btn:active {
+      background: var(--accent, #2980b9);
+      color: var(--primary, #1b4f72);
+      transform: scale(0.97);
+    }
+
+    .typhoon-balance-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1b4f72;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .typhoon-balance-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .typhoon-balance-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .typhoon-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .typhoon-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .typhoon-card p {
+        font-size: 0.88rem;
+      }
+
+      .typhoon-balance-body {
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+
+      #typhoonBalanceGameArea {
+        width: 100%;
+        max-width: 99vw;
+        min-width: 140px;
+        height: 44vw;
+        max-height: 60vw;
+        min-height: 120px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .modal-dialog {
+        max-width: 99vw;
+      }
+
+      .tb-balance-btn {
+        width: 56px;
+        height: 48px;
+        font-size: 1.7rem;
+      }
+
+      .tb-char {
+        font-size: 2.1rem;
+      }
+
+      .tb-wind {
+        font-size: 1.5rem;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #f0f8ff 70%, #b3d1f7 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(41, 80, 185, 0.13);
+      border: 2px solid #b3d1f7;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>What to do in<br><span>case of a Typhoon!</span></h1>
+      </div>
+      <img src="assets/typhoon.png" alt="Typhoon Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="typhoon-card d-flex justify-content-between align-items-center"
+      onclick="openContent('typhoon_info.html')">
+      <div>
+        <h2>What is a Typhoon?</h2>
+        <p>(Ano ang bagyo at paano ito nabubuo?)</p>
+      </div>
+      <img src="assets/what_typhoon.png" alt="Typhoon Info Icon" />
+    </div>
+
+    <div class="typhoon-card d-flex justify-content-between align-items-center"
+      onclick="openContent('typhoon_signs.html')">
+      <div>
+        <h2>Signs of approaching Typhoon</h2>
+        <p>(Mga palatandaan ng paparating na Bagyo)</p>
+      </div>
+      <img src="assets/typhoon_warning.png" alt="Typhoon Info Icon" />
+    </div>
+
+    <div class="typhoon-card d-flex justify-content-between align-items-center"
+      onclick="openContent('typhoon_before.html')">
+      <div>
+        <h2>Before a Typhoon</h2>
+        <p>(Mga dapat gawin bago ang bagyo)</p>
+      </div>
+      <img src="assets/before_typhoon.png" alt="Before Typhoon Icon" />
+    </div>
+
+    <div class="typhoon-card d-flex justify-content-between align-items-center"
+      onclick="openContent('typhoon_during.html')">
+      <div>
+        <h2>During a Typhoon</h2>
+        <p>(Mga safety tips habang may bagyo)</p>
+      </div>
+      <img src="assets/during_typhoon.png" alt="During Typhoon Icon" />
+    </div>
+
+    <div class="typhoon-card d-flex justify-content-between align-items-center"
+      onclick="openContent('typhoon_after.html')">
+      <div>
+        <h2>After a Typhoon</h2>
+        <p>(Mga dapat gawin pagkatapos ng bagyo)</p>
+      </div>
+      <img src="assets/after_typhoon.png" alt="After Typhoon Icon" />
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+
+// Array of trivia facts
+    const triviaFacts = [
+      "A typhoon is a tropical cyclone in the western Pacific, the same type of storm as a hurricane.",
+  "The Philippines is hit by around 18–20 typhoons annually.",
+  "Typhoon Haiyan (November 8, 2013) made landfall in the Philippines with winds over 300 km/h and killed over 6,300 people.",
+  "Storm surge during typhoons often causes more damage than wind over coastal zones.",
+  "Typhoon Yutu struck the Philippines, killing 32 and displacing hundreds of thousands.",
+  "Typhoons in the Philippines often trigger landslides in mountainous areas.",
+  "Climate change is increasing the intensity of some tropical cyclones.",
+  "Typhoon damage includes uprooted trees, destroyed power lines, and flooded settlements.",
+  "Preparedness for typhoons includes strong shelters, evacuation centres, and early warnings.",
+  "Typhoon Mangkhut (September 2018) caused hundreds of landslides in the Philippines.",
+  "Storm surge from a typhoon can exceed 3–5 metres in vulnerable coastal areas.",
+  "Agricultural losses from typhoons include ruined crops, fruit trees, and farm infrastructure.",
+  "Urban drainage and flood-control systems lessen the impact of typhoon rainfall.",
+  "In November 2024, typhoons in the Philippines caused over ₱800 million in damage to roads and flood control.",
+  "Typhoon tracks are shaped by warm ocean waters and atmospheric circulation.",
+  "After a typhoon, combined effects of wind, rain, and surge make recovery harder than one hazard alone.",
+  "Typhoons arriving while the ground is saturated dramatically increase landslide risk.",
+  "The 'Philippine Typhoon Belt' refers to the frequent Pacific storm track that affects the archipelago.",
+  "Offshore islands near Luzon and the Bicol regions are especially vulnerable to direct typhoon hits.",
+  "Buildings designed with wind resistance and elevated floors perform better during typhoons.",
+  "Storm surges may flood evacuation centres if they are too close to coastlines.",
+  "In the Atlantic, the counterpart of a typhoon is a hurricane; the physics is similar though local names differ.",
+  "Satellite tracking gives advance notice of typhoon formation and landfall.",
+  "Evacuation of hillside homes before typhoons significantly reduces landslide fatalities.",
+  "Typhoons may spawn tornadoes when interacting with land and terrain.",
+  "Urbanisation in flood-prone coastlines increases typhoon vulnerability.",
+  "Typhoon season in the Philippines is typically most active from August to October.",
+  "Insurance and state compensation often follow major typhoon damage, aiding recovery.",
+  "Typhoon-induced flooding and landslides often cause more deaths than the wind itself.",
+  "Early warning systems save lives: countries improving detection have lower mortality per storm."
+
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function goBack() {
+     window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+  </script>
+
+  <style>
+    #typhoon-balance-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary, #1b4f72);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent, #2980b9);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #typhoon-balance-float:hover {
+      background: var(--accent, #2980b9);
+      color: var(--primary, #1b4f72);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.typhoon-balance-modal {
+      max-width: 350px;
+      width: 98vw;
+      margin: auto;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--accent, #2980b9);
+      background-clip: padding-box;
+    }
+
+    @media (max-width: 480px) {
+      .modal-content.typhoon-balance-modal {
+        max-width: 99vw;
+        width: 99vw;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      #typhoonBalanceGameArea {
+        width: 100%;
+        max-width: 320px;
+        min-width: 180px;
+        /* Remove padding-left/right here */
+      }
+    }
+
+    .typhoon-balance-header {
+      background: var(--primary, #1b4f72);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .typhoon-balance-header i {
+      font-size: 2rem;
+      background: var(--accent, #2980b9);
+      color: var(--primary, #1b4f72);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .typhoon-balance-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .typhoon-balance-body {
+      padding: 18px 8px 12px 8px; /* Add horizontal padding to keep border visible */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #typhoonBalanceGameArea {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      min-width: 180px;
+      height: 220px;
+      background: #eaf6fb;
+      border: 3px solid var(--primary, #1b4f72);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 16px #b3d1f7;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      touch-action: none;
+      box-sizing: border-box; /* Ensure border is inside width */
+      max-width: 98%;         /* Prevent overflow */
+    }
+
+    .tb-char {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      font-size: 2.7rem;
+      z-index: 2;
+      transition: left 0.18s cubic-bezier(.6, 1.5, .6, 1), bottom 0.18s cubic-bezier(.6, 1.5, .6, 1);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .tb-wind {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.2rem;
+      z-index: 3;
+      color: #2980b9;
+      text-shadow: 0 2px 8px #b3d1f7;
+      animation: wind-blow 0.7s infinite alternate;
+    }
+
+    @keyframes wind-blow {
+      0% {
+        filter: blur(0.5px);
+      }
+
+      100% {
+        filter: blur(2px);
+      }
+    }
+
+    .tb-balance-controls {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin-bottom: 8px;
+      margin-top: 6px;
+    }
+
+    .tb-balance-btn {
+      background: var(--primary, #1b4f72);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 2.4rem;
+      width: 76px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #b3d1f7;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      font-weight: bold;
+      outline: none;
+      user-select: none;
+    }
+
+    .tb-balance-btn:active {
+      background: var(--accent, #2980b9);
+      color: var(--primary, #1b4f72);
+      transform: scale(0.97);
+    }
+
+    .typhoon-balance-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1b4f72;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .typhoon-balance-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .typhoon-balance-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .typhoon-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .typhoon-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .typhoon-card p {
+        font-size: 0.88rem;
+      }
+
+      .typhoon-balance-body {
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+
+      #typhoonBalanceGameArea {
+        width: 100%;
+        max-width: 99vw;
+        min-width: 140px;
+        height: 44vw;
+        max-height: 60vw;
+        min-height: 120px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .modal-dialog {
+        max-width: 99vw;
+      }
+
+      .tb-balance-btn {
+        width: 56px;
+        height: 48px;
+        font-size: 1.7rem;
+      }
+
+      .tb-char {
+        font-size: 2.1rem;
+      }
+
+      .tb-wind {
+        font-size: 1.5rem;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #f0f8ff 70%, #b3d1f7 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(41, 80, 185, 0.13);
+      border: 2px solid #b3d1f7;
+      padding-bottom: 8px;
+    }
+  </style>
+
+  <div id="typhoon-balance-float" title="Play Typhoon Balance Game!" data-bs-toggle="modal" data-bs-target="#typhoonBalanceGameModal">
+    <i class="bi bi-umbrella"></i>
+  </div>
+
+  <!-- Typhoon Balance Mini Game Modal -->
+  <div class="modal fade" id="typhoonBalanceGameModal" tabindex="-1" aria-labelledby="typhoonBalanceGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content typhoon-balance-modal">
+        <div class="typhoon-balance-header">
+          <i class="bi bi-umbrella"></i>
+          <span class="typhoon-balance-title" id="typhoonBalanceGameModalLabel">Typhoon Balance Game</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close" onclick="endTyphoonBalanceGame()"></button>
+        </div>
+        <div class="typhoon-balance-body">
+          <div class="typhoon-balance-status" id="typhoonBalanceStatus">
+            Tap the correct arrow quickly to keep your balance against the wind!
+          </div>
+          <div id="typhoonBalanceGameArea"></div>
+          <div class="tb-balance-controls">
+            <button class="tb-balance-btn" id="tb-btn-left" onclick="typhoonBalanceInput('left')" title="Left"><i class="bi bi-arrow-left"></i></button>
+            <button class="tb-balance-btn" id="tb-btn-up" onclick="typhoonBalanceInput('up')" title="Up"><i class="bi bi-arrow-up"></i></button>
+            <button class="tb-balance-btn" id="tb-btn-right" onclick="typhoonBalanceInput('right')" title="Right"><i class="bi bi-arrow-right"></i></button>
+          </div>
+          <button class="btn btn-primary mt-2" onclick="resetTyphoonBalanceGame()">Restart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Typhoon Balance Game Variables ---
+    let tbBalanceActive = false,
+      tbBalanceOver = false;
+    let tbBalanceWind = null;
+    let tbBalanceTimeout = null;
+    let tbBalanceRound = 0;
+    let tbBalanceMaxRounds = 10;
+    let tbBalanceSpeed = 1800;
+    let tbBalanceDirections = ['left', 'up', 'right'];
+    let tbBalanceCharLeft = 50; // percent
+    let tbBalanceCharBottom = 18; // px
+
+    function resetTyphoonBalanceGameVars() {
+      tbBalanceActive = true;
+      tbBalanceOver = false;
+      tbBalanceRound = 0;
+      tbBalanceSpeed = 1800;
+      tbBalanceCharLeft = 50;
+      tbBalanceCharBottom = 18;
+      document.getElementById('typhoonBalanceStatus').innerHTML =
+        "Tap the correct arrow quickly to keep your balance against the wind!";
+      renderTyphoonBalanceGame();
+      setTimeout(typhoonBalanceNextWind, 700);
+    }
+
+    function renderTyphoonBalanceGame() {
+      const area = document.getElementById('typhoonBalanceGameArea');
+      area.innerHTML = `
+        <!-- Rain and Gust Effects -->
+        <div id="tbRainEffect"></div>
+        <div id="tbGustEffect"></div>
+        <div class="tb-char" id="tbBalanceChar" style="left:${tbBalanceCharLeft}%;bottom:${tbBalanceCharBottom}px;">
+          <!-- SVG Character holding umbrella to the side -->
+          <svg width="60" height="70" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Umbrella top (right side) -->
+            <ellipse cx="46" cy="18" rx="14" ry="10" fill="#2980b9" stroke="#1b4f72" stroke-width="2"/>
+            <path d="M32 18 Q46 35 60 18" fill="#b3d1f7" opacity="0.3"/>
+            <!-- Umbrella handle -->
+            <rect x="44" y="18" width="4" height="28" rx="2" fill="#8d6e63"/>
+            <path d="M46 46 Q50 54 44 58" stroke="#8d6e63" stroke-width="2" fill="none"/>
+            <!-- Head -->
+            <circle cx="30" cy="38" r="7" fill="#f9e0c7" stroke="#bfa76a" stroke-width="1.5"/>
+            <!-- Body -->
+            <rect x="25" y="45" width="10" height="16" rx="5" fill="#4a90e2"/>
+            <!-- Left arm -->
+            <rect x="17" y="48" width="10" height="4" rx="2" fill="#f9e0c7" transform="rotate(-20 17 48)"/>
+            <!-- Right arm (holding umbrella handle) -->
+            <rect x="35" y="48" width="14" height="4" rx="2" fill="#f9e0c7" transform="rotate(30 35 48)"/>
+            <!-- Left leg -->
+            <rect x="25" y="61" width="4" height="9" rx="2" fill="#bfa76a" transform="rotate(-10 25 61)"/>
+            <!-- Right leg -->
+            <rect x="31" y="61" width="4" height="9" rx="2" fill="#bfa76a" transform="rotate(10 31 61)"/>
+          </svg>
+        </div>
+        <div class="tb-wind" id="tbBalanceWind"></div>
+      `;
+      createRainEffect();
+      createGustEffect();
+    }
+
+    // Rain effect
+    function createRainEffect() {
+      const rain = document.getElementById('tbRainEffect');
+      if (!rain) return;
+      rain.innerHTML = '';
+      rain.style.position = 'absolute';
+      rain.style.left = '0';
+      rain.style.top = '0';
+      rain.style.width = '100%';
+      rain.style.height = '100%';
+      rain.style.pointerEvents = 'none';
+      rain.style.zIndex = '0';
+      for (let i = 0; i < 24; i++) {
+        let drop = document.createElement('div');
+        drop.style.position = 'absolute';
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.top = Math.random() * 100 + '%';
+        drop.style.width = '2px';
+        drop.style.height = (10 + Math.random() * 16) + 'px';
+        drop.style.background = 'rgba(41,128,185,0.22)';
+        drop.style.borderRadius = '2px';
+        drop.style.animation = `rain-fall ${0.7 + Math.random() * 0.7}s linear infinite`;
+        drop.style.animationDelay = (Math.random() * 1.2) + 's';
+        rain.appendChild(drop);
+      }
+    }
+
+    // Gust effect
+    function createGustEffect() {
+      const gust = document.getElementById('tbGustEffect');
+      if (!gust) return;
+      gust.innerHTML = '';
+      gust.style.position = 'absolute';
+      gust.style.left = '0';
+      gust.style.top = '0';
+      gust.style.width = '100%';
+      gust.style.height = '100%';
+      gust.style.pointerEvents = 'none';
+      gust.style.zIndex = '1';
+      for (let i = 0; i < 2; i++) {
+        let gustDiv = document.createElement('div');
+        gustDiv.style.position = 'absolute';
+        gustDiv.style.left = (Math.random() * 60 + 10) + '%';
+        gustDiv.style.top = (Math.random() * 60 + 10) + '%';
+        gustDiv.style.width = '60px';
+        gustDiv.style.height = '18px';
+        gustDiv.style.background = 'linear-gradient(90deg,rgba(41,128,185,0.13),rgba(255,255,255,0.18),rgba(41,128,185,0.09))';
+        gustDiv.style.borderRadius = '12px';
+        gustDiv.style.filter = 'blur(2px)';
+        gustDiv.style.animation = `gust-move ${1.8 + Math.random()}s linear infinite`;
+        gustDiv.style.animationDelay = (Math.random() * 1.2) + 's';
+        gust.appendChild(gustDiv);
+      }
+    }
+
+    // Add rain and gust keyframes
+    const style = document.createElement('style');
+    style.innerHTML = `
+    @keyframes rain-fall {
+      0% { transform: translateY(-20px);}
+      100% { transform: translateY(220px);}
+    }
+    @keyframes gust-move {
+      0% { opacity: 0.2; transform: translateX(0);}
+      50% { opacity: 0.4; transform: translateX(30px);}
+      100% { opacity: 0.2; transform: translateX(0);}
+    }
+    `;
+    document.head.appendChild(style);
+
+    function typhoonBalanceNextWind() {
+      if (!tbBalanceActive || !tbBalanceOver) {
+        tbBalanceRound++;
+        tbBalanceWind = tbBalanceDirections[Math.floor(Math.random() * tbBalanceDirections.length)];
+        let windIcon = tbBalanceWind === 'left' ? '<i class="bi bi-arrow-left"></i> Strong wind!' :
+          tbBalanceWind === 'right' ? '<i class="bi bi-arrow-right"></i> Strong wind!' :
+          '<i class="bi bi-arrow-up"></i> Gust!';
+        document.getElementById('tbBalanceWind').innerHTML = windIcon;
+        // REMOVE: Highlight correct button (make it tricky)
+        document.getElementById('tb-btn-left').style.boxShadow = '';
+        document.getElementById('tb-btn-up').style.boxShadow = '';
+        document.getElementById('tb-btn-right').style.boxShadow = '';
+        // Set timeout for reaction
+        if (tbBalanceTimeout) clearTimeout(tbBalanceTimeout);
+        tbBalanceTimeout = setTimeout(() => {
+          if (tbBalanceActive && !tbBalanceOver) {
+            typhoonBalanceFlyOff();
+          }
+        }, tbBalanceSpeed);
+      }
+    }
+
+    function typhoonBalanceInput(dir) {
+      if (!tbBalanceActive || tbBalanceOver) return;
+      if (dir === tbBalanceWind) {
+        tbBalanceCharLeft = 50 + (Math.random() - 0.5) * 10;
+        tbBalanceCharBottom = 18 + Math.random() * 6;
+        renderTyphoonBalanceGame();
+        document.getElementById('typhoonBalanceStatus').innerHTML = "<span style='color:#198754'>Good balance!</span>";
+        setTimeout(() => {
+          // Only clear if not game over/win
+          if (!tbBalanceOver) document.getElementById('typhoonBalanceStatus').textContent = "";
+        }, 500);
+        if (tbBalanceTimeout) clearTimeout(tbBalanceTimeout);
+        if (tbBalanceRound >= tbBalanceMaxRounds) {
+          endTyphoonBalanceGame('win');
+        } else {
+          tbBalanceSpeed = Math.max(650, tbBalanceSpeed - 120);
+          setTimeout(typhoonBalanceNextWind, 600);
+        }
+      } else {
+        typhoonBalanceFlyOff();
+      }
+    }
+
+    function typhoonBalanceFlyOff() {
+      tbBalanceActive = false;
+      tbBalanceOver = true;
+      if (tbBalanceTimeout) clearTimeout(tbBalanceTimeout);
+      let char = document.getElementById('tbBalanceChar');
+      if (char) {
+        char.style.transition = "left 0.7s cubic-bezier(.6,1.5,.6,1), bottom 0.7s cubic-bezier(.6,1.5,.6,1)";
+        if (tbBalanceWind === 'left') {
+          char.style.left = '-40%';
+          char.style.bottom = '120px';
+        } else if (tbBalanceWind === 'right') {
+          char.style.left = '140%';
+          char.style.bottom = '120px';
+        } else {
+          char.style.bottom = '220px';
+        }
+      }
+      document.getElementById('typhoonBalanceStatus').innerHTML =
+        '<span class="typhoon-balance-over">Game Over! You lost your balance.<br>Try again!</span>';
+      document.getElementById('tb-btn-left').style.boxShadow = '';
+      document.getElementById('tb-btn-up').style.boxShadow = '';
+      document.getElementById('tb-btn-right').style.boxShadow = '';
+    }
+
+    function endTyphoonBalanceGame(result) {
+      tbBalanceActive = false;
+      tbBalanceOver = true;
+      if (tbBalanceTimeout) clearTimeout(tbBalanceTimeout);
+      document.getElementById('tb-btn-left').style.boxShadow = '';
+      document.getElementById('tb-btn-up').style.boxShadow = '';
+      document.getElementById('tb-btn-right').style.boxShadow = '';
+      if (result === 'win') {
+        document.getElementById('typhoonBalanceStatus').innerHTML =
+          `<span class="typhoon-balance-success" style="display:block;">
+        Congratulations! You survived the typhoon winds! 🎉<br>
+        <span style="font-size:1.1rem;color:#2980b9;">You kept your balance and stayed safe!</span>
+      </span>`;
+        // Message stays pinned until restart or modal close
+      }
+    }
+
+    function resetTyphoonBalanceGame() {
+      endTyphoonBalanceGame();
+      setTimeout(resetTyphoonBalanceGameVars, 200);
+    }
+
+    // Start game when modal opens
+    document.body.insertAdjacentHTML('beforeend', `
+    <div id="typhoon-balance-float" title="Play Typhoon Balance Game!" data-bs-toggle="modal" data-bs-target="#typhoonBalanceGameModal">
+      <i class="bi bi-umbrella"></i>
+    </div>
+  `);
+    document.getElementById('typhoonBalanceGameModal')?.addEventListener('show.bs.modal', function () {
+      setTimeout(resetTyphoonBalanceGameVars, 300);
+    });
+    document.getElementById('typhoonBalanceGameModal')?.addEventListener('hide.bs.modal', function () {
+      endTyphoonBalanceGame();
+    });
+  </script>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content trivia-modal">
+        <div class="trivia-header d-flex align-items-center" style="background: #f0f8ff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+          <i class="bi bi-lightbulb" style="font-size:2rem;color:#2980b9;background:#eaf6fb;border-radius:50%;padding:8px;margin-right:10px;"></i>
+          <span style="font-size:1.2rem;font-weight:600;color:#1b4f72;">Did you know that:</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #f0f8ff 70%, #b3d1f7 100%); border-radius: 0 0 16px 16px;">
+          <div style="font-size:1.08rem;color:#1b4f72;font-weight:500;">
+            <span style="font-weight:600;">The eye of a powerful typhoon can be eerily calm and even sunny, while fierce winds rage all around it.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

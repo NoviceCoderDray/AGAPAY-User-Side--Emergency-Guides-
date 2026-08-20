@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flood Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #145ca4;
+      --accent: #4a90e2;
+      --bg-light: #ffffff;
+      --bg-color: #b1d9e6;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .flood-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .flood-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .flood-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .flood-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .flood-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .flood-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .flood-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .flood-card p {
+        font-size: 0.88rem;
+      }
+    }
+
+    @keyframes float-boat {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        transform: translateY(-7px) scale(1.04);
+      }
+    }
+
+    @keyframes shake-water {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-7px);
+      }
+    }
+
+    .flood-person {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      bottom: 0;
+      left: 0;
+      transition: left 0.2s, bottom 0.2s;
+      z-index: 2;
+    }
+
+    .flood-boat {
+      position: absolute;
+      width: 60px;
+      height: 38px;
+      bottom: 10px;
+      left: 130px;
+      z-index: 3;
+      transition: left 0.13s cubic-bezier(.6, 1.5, .6, 1);
+      pointer-events: none;
+    }
+
+    .flood-boat svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .flood-person svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    #flood-game-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      border: 3px solid var(--accent);
+      animation: shake-float 0.7s infinite alternate;
+      transition: background 0.2s;
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #e3f6fd 70%, #b1d9e6 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(20, 92, 164, 0.13);
+      border: 2px solid #b1d9e6;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>What to do in<br><span>case of a Flood!</span></h1>
+      </div>
+      <img src="assets/flood.png" alt="Flood Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="flood-card d-flex justify-content-between align-items-center" onclick="openContent('flood_info.html')">
+      <div>
+        <h2>What is Flood?</h2>
+        <p>(Ano ang pagbaha?)</p>
+      </div>
+      <img src="assets/what_flood.png" alt="Cause Icon" />
+    </div>
+
+    <div class="flood-card d-flex justify-content-between align-items-center"
+      onclick="openContent('flood_during.html')">
+      <div>
+        <h2>What to do during flood</h2>
+        <p>(Ano ang dapat gawin sa panahon ng baha)</p>
+      </div>
+      <img src="assets/during_flood.png" alt="Tips Icon" />
+    </div>
+
+    <div class="flood-card d-flex justify-content-between align-items-center" onclick="openContent('flood_after.html')">
+      <div>
+        <h2>What to do after a flood</h2>
+        <p>(Ano ang gagawin pagkatapos ng baha)</p>
+      </div>
+      <img src="assets/after_flood.png" alt="Tips Icon" />
+    </div>
+
+
+    <div class="flood-card d-flex justify-content-between align-items-center"
+      onclick="openContent('flood_before.html')">
+      <div>
+        <h2>What to do before flood</h2>
+        <p>(Ano ang dapat gawin bago bumaha)</p>
+      </div>
+      <img src="assets/before_flood.png" alt="Prevention Icon" />
+    </div>
+  </div>
+
+  <!-- Floating Game Icon -->
+  <div id="flood-game-float" title="Play Flood Rescue Game!" data-bs-toggle="modal" data-bs-target="#floodGameModal"
+    style="position: fixed; bottom: 32px; right: 32px; z-index: 1050; background: var(--primary); color: #fff; width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: var(--shadow); cursor: pointer; border: 3px solid var(--accent);">
+    <i class="bi bi-life-preserver"></i>
+  </div>
+
+  <!-- Flood Rescue Game Modal -->
+  <div class="modal fade" id="floodGameModal" tabindex="-1" aria-labelledby="floodGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content" style="background: linear-gradient(135deg, #e3f6fd 60%, #b1d9e6 100%); border-radius: 18px; box-shadow: 0 8px 32px rgba(20,92,164,0.10); border: 2px solid var(--accent); padding-bottom: 8px;">
+        <div style="background: var(--primary); color: #fff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 18px 24px 12px 24px; display: flex; align-items: center; gap: 12px; position: relative;">
+          <i class="bi bi-life-preserver" style="font-size: 2rem; background: var(--accent); color: var(--primary); border-radius: 50%; padding: 8px; margin-right: 8px;"></i>
+          <span style="font-size: 1.3rem; font-weight: 600;">Flood Rescue Game</span>
+          <!-- Boat Icon -->
+          
+          <!-- X Button -->
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div style="padding: 18px 12px 12px 12px; display: flex; flex-direction: column; align-items: center;">
+          <div id="floodGameArea" style="position: relative; width: 320px; height: 220px; background: repeating-linear-gradient(180deg, #b1d9e6 0px, #e3f6fd 20px, #b1d9e6 40px); border: 3px solid var(--primary); border-radius: 14px; overflow: hidden; margin-bottom: 12px; box-shadow: 0 4px 16px #b1d9e6; display: flex; align-items: flex-end; justify-content: center; animation: shake-water 0.7s infinite alternate;">
+            <!-- Boat and people will be rendered here -->
+          </div>
+          <div id="floodGameStatus" style="font-size: 1.1rem; font-weight: 600; color: #145ca4; margin-bottom: 4px; min-height: 28px; text-align: center;"></div>
+          <div class="flood-game-controls" style="margin: 10px 0 0 0; display: flex; gap: 28px; justify-content: center;">
+            <button id="floodLeftBtn" class="btn" style="background: var(--primary); color: #fff; border-radius: 12px; font-size: 2.1rem; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px #b1d9e6; cursor: pointer; border: none;">
+              <i class="bi bi-arrow-left-circle"></i>
+            </button>
+            <button id="floodRightBtn" class="btn" style="background: var(--primary); color: #fff; border-radius: 12px; font-size: 2.1rem; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px #b1d9e6; cursor: pointer; border: none;">
+              <i class="bi bi-arrow-right-circle"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content trivia-modal">
+        <div class="trivia-header d-flex align-items-center" style="background: #e3f6fd; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+          <i class="bi bi-lightbulb" style="font-size:2rem;color:#4a90e2;background:#e3f6fd;border-radius:50%;padding:8px;margin-right:10px;"></i>
+          <span style="font-size:1.2rem;font-weight:600;color:#145ca4;">Did you know that:</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #e3f6fd 70%, #b1d9e6 100%); border-radius: 0 0 16px 16px;">
+          <div style="font-size:1.08rem;color:#145ca4;font-weight:500;">
+            <span style="font-weight:600;">Flash floods can occur within 10 minutes of intense rain, even in places with no rivers, especially in dry gullies or urban roads.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+
+// Array of trivia facts
+    const triviaFacts = [
+      "A flood happens when water inundates land that is usually dry.",
+  "In the Philippines, heavy monsoon rains in 2024–25 caused flooding and landslides, leaving 26 people dead and nearly 2.8 million people affected.",
+  "Urban flooding is exacerbated by poor drainage and impermeable surfaces like concrete.",
+  "Coastal flooding may be triggered by typhoon storm surge as well as heavy rainfall.",
+  "In October 2024, the Philippines was hit by Tropical Storm Trami which caused flooding and landslides with at least 85 killed and 41 missing.",
+  "Floodwaters often carry debris, sewage, and contaminants, increasing health risks.",
+  "Clearing rivers, maintaining levees, and proper zoning reduce flood risk.",
+  "Climate change is increasing the frequency of extreme rainfall and thus flood hazard.",
+  "In rural areas, floods can cut off access to healthcare and supplies for displaced communities.",
+  "Integrated early-warning systems combining rain and river-level data save lives.",
+  "Wetlands and mangroves act as natural buffers against coastal and river floods.",
+  "Insurance in many flood-prone zones is either expensive or unavailable.",
+  "Flood recovery often involves debris removal, drying, disinfection, and rebuilding.",
+  "In developed countries, flood losses often come from infrastructure damage rather than high fatalities.",
+  "In the Philippines, agriculture near rivers must consider flood cycles in planting and harvest.",
+  "Flash floods are especially dangerous when rainfall is intense and terrain is steep.",
+  "Building homes on stilts or elevated platforms helps survival in seasonal floods.",
+  "Urban drainage systems must be cleaned regularly to avoid clogging during heavy rain.",
+  "Floods often lead to subsequent landslides as soils become saturated.",
+  "Population growth in flood plains increases disaster risk for communities.",
+  "During floods, evacuation shelters must be accessible even when roads are cut off.",
+  "Flood water may remain long after rain ends, causing prolonged disruption.",
+  "Floodplain zoning is a key tool for limiting development in high-risk areas.",
+  "The cost of flood damage in the Philippines after recent storms has reached hundreds of millions of pesos for infrastructure.",
+  "Communities in flood-prone areas benefit from regular drills and preparedness education.",
+  "Despite billions spent on flood control, some Filipinos joke that 'water always finds its way — especially to poorly planned projects.'",
+  "In cities, trucks and heavy vehicles often detour or stop when main roads flood, disrupting logistics.",
+  "Many flood victims globally are economically and socially marginalized.",
+  "Flood damage includes loss of homes, transport links, utilities, crops, and livelihoods.",
+  "Integrating climate-resilient infrastructure (e.g., elevated roads, improved drainage) helps communities withstand future floods."
+
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function goBack() {
+      window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+
+    const FLOOD_GAME_WIDTH = 320;
+    const FLOOD_GAME_HEIGHT = 220;
+    const BOAT_WIDTH = 60;
+    const PERSON_WIDTH = 32;
+    let boatPos = Math.floor((FLOOD_GAME_WIDTH - BOAT_WIDTH) / 2);
+    let rescued = 0;
+    let currentPerson = null;
+    let floodGameActive = false;
+    let floodGameOver = false;
+    let floodPersonInterval = null;
+
+    function renderFloodGame() {
+      const area = document.getElementById('floodGameArea');
+      area.innerHTML = '';
+      // Boat
+      const boat = document.createElement('div');
+      boat.className = 'flood-boat';
+      boat.style.left = boatPos + 'px';
+      boat.innerHTML = `<svg viewBox="0 0 60 38"><ellipse cx="30" cy="32" rx="28" ry="6" fill="#145ca4"/><rect x="18" y="10" width="24" height="14" rx="6" fill="#b1d9e6"/><rect x="26" y="2" width="8" height="12" rx="4" fill="#4a90e2"/></svg>`;
+      area.appendChild(boat);
+
+      // Person
+      if (currentPerson) {
+        const person = document.createElement('div');
+        person.className = 'flood-person';
+        person.style.left = currentPerson.x + 'px';
+        person.style.bottom = currentPerson.y + 'px';
+        person.innerHTML = `<svg viewBox="0 0 32 32"><circle cx="16" cy="10" r="7" fill="#ffe0b2"/><rect x="10" y="17" width="12" height="10" rx="5" fill="#4a90e2"/></svg>`;
+        area.appendChild(person);
+      }
+    }
+
+    function resetFloodGameVars() {
+      boatPos = Math.floor((FLOOD_GAME_WIDTH - BOAT_WIDTH) / 2);
+      rescued = 0;
+      floodGameActive = true;
+      floodGameOver = false;
+      currentPerson = null;
+      document.getElementById('floodGameStatus').innerHTML = "Rescue all 10 people! Move the boat under each person before they reach the edge.";
+      renderFloodGame();
+      setTimeout(spawnFloodPerson, 700);
+    }
+
+    function moveBoat(dir) {
+      if (!floodGameActive) return;
+      boatPos += dir * 32;
+      if (boatPos < 0) boatPos = 0;
+      if (boatPos > FLOOD_GAME_WIDTH - BOAT_WIDTH) boatPos = FLOOD_GAME_WIDTH - BOAT_WIDTH;
+      renderFloodGame();
+    }
+
+    function spawnFloodPerson() {
+      if (!floodGameActive) return;
+      if (rescued >= 10) {
+        floodGameActive = false;
+        floodGameOver = true;
+        document.getElementById('floodGameStatus').innerHTML = "<span style='color:#198754;font-weight:bold;'>You rescued everyone! 🎉</span>";
+        return;
+      }
+      // Random horizontal position
+      const px = Math.floor(Math.random() * (FLOOD_GAME_WIDTH - PERSON_WIDTH));
+      currentPerson = { x: px, y: FLOOD_GAME_HEIGHT - 40 };
+      renderFloodGame();
+      floodPersonInterval = setInterval(() => {
+        if (!currentPerson) return;
+        currentPerson.y -= 15;
+        if (currentPerson.y <= 10) {
+          // Check if boat is under person
+          if (currentPerson.x + PERSON_WIDTH > boatPos && currentPerson.x < boatPos + BOAT_WIDTH) {
+            rescued++;
+            currentPerson = null;
+            clearInterval(floodPersonInterval);
+            setTimeout(spawnFloodPerson, 700);
+          } else {
+            floodGameActive = false;
+            floodGameOver = true;
+            currentPerson = null;
+            renderFloodGame();
+            document.getElementById('floodGameStatus').innerHTML = "<span style='color:#dc3545;font-weight:bold;'>Game Over! Someone was swept away.<br>Try again!</span>";
+            clearInterval(floodPersonInterval);
+          }
+        } else if (currentPerson.y < -10) {
+          // Person disappeared
+          floodGameActive = false;
+          floodGameOver = true;
+          currentPerson = null;
+          renderFloodGame();
+          document.getElementById('floodGameStatus').innerHTML = "<span style='color:#dc3545;font-weight:bold;'>Game Over! Someone was swept away.<br>Try again!</span>";
+          clearInterval(floodPersonInterval);
+        } else {
+          renderFloodGame();
+        }
+      }, 60);
+    }
+
+    // Controls
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('floodLeftBtn').onclick = () => moveBoat(-1);
+      document.getElementById('floodRightBtn').onclick = () => moveBoat(1);
+
+      // Keyboard support
+      document.addEventListener('keydown', function (e) {
+        if (!floodGameActive) return;
+        if (e.key === 'ArrowLeft') moveBoat(-1);
+        if (e.key === 'ArrowRight') moveBoat(1);
+      });
+
+      // Modal open/close events
+      document.getElementById('floodGameModal').addEventListener('show.bs.modal', function () {
+        resetFloodGameVars();
+      });
+      document.getElementById('floodGameModal').addEventListener('hide.bs.modal', function () {
+        floodGameActive = false;
+        floodGameOver = true;
+        currentPerson = null;
+        clearInterval(floodPersonInterval);
+        renderFloodGame();
+      });
+    });
+  </script>
+</body>
+</html>

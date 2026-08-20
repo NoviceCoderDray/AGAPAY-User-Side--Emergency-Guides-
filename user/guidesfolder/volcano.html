@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Volcano Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #7b241c;
+      --accent: #c0392b;
+      --bg-light: #ffffff;
+      --bg-color: #e9a698;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .volcano-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .volcano-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .volcano-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .volcano-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .volcano-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    #game-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #game-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.volcano-game-modal {
+      background: linear-gradient(135deg, #fffbe6 60%, #e9a698 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(123, 36, 28, 0.10);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+    }
+
+    .volcano-game-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .volcano-game-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .volcano-game-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .volcano-game-body {
+      padding: 18px 0 12px 0; /* Remove horizontal padding */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #volcanoGameArea {
+      position: relative;
+      width: 320px;
+      height: 260px;
+      background: #fbeee6;
+      border: 3px solid var(--primary);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #e9a698;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .volcano-character {
+      position: absolute;
+      width: 38px;
+      height: 44px;
+      bottom: 10px;
+      left: 140px;
+      z-index: 3;
+      transition: left 0.13s cubic-bezier(.6, 1.5, .6, 1);
+      background: none;
+    }
+
+    .volcano-character-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .volcano-lava {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: #ff7043;
+      border: 2px solid #c0392b;
+      border-radius: 50%;
+      z-index: 4;
+      box-shadow: 0 2px 8px #bfa76a;
+      animation: lava-glow 0.7s infinite alternate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #fff;
+    }
+
+    @keyframes lava-glow {
+      0% {
+        box-shadow: 0 0 8px #ff7043;
+      }
+
+      100% {
+        box-shadow: 0 0 18px #ff7043;
+      }
+    }
+
+    .volcano-mask {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      background: #e3f2fd;
+      border: 2px solid #1976d2;
+      border-radius: 50%;
+      z-index: 4;
+      box-shadow: 0 2px 8px #bfa76a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #1976d2;
+      animation: mask-glow 1s infinite alternate;
+    }
+
+    @keyframes mask-glow {
+      0% {
+        box-shadow: 0 0 8px #90caf9;
+      }
+
+      100% {
+        box-shadow: 0 0 18px #1976d2;
+      }
+    }
+
+    .volcano-game-controls {
+      margin: 10px 0 0 0;
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+    }
+
+    .volcano-game-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 2.1rem;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #e9a698;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .volcano-game-btn:active {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .volcano-game-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #7b241c;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .volcano-game-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .volcano-game-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .volcano-mask-count {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1976d2;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .volcano-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .volcano-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .volcano-card p {
+        font-size: 0.88rem;
+      }
+
+      #volcanoGameArea {
+        width: 98vw;
+        max-width: 99vw;
+        min-width: 220px;
+        height: 54vw;
+        max-height: 70vw;
+        min-height: 180px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .volcano-game-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+
+      .modal-dialog {
+        max-width: 99vw;
+      }
+    }
+
+    #volcanoMazeArea {
+      width: 100%;
+      max-width: 320px;
+      height: 320px;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      gap: 2px;
+      background: #fbeee6;
+      border: 3px solid #7b241c;
+      border-radius: 14px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #e9a698;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .maze-cell {
+      width: 100%;
+      height: 100%;
+      background: #fffbe6;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+      box-sizing: border-box;
+    }
+
+    .maze-wall {
+      background: #bdbdbd;
+    }
+
+    .maze-exit {
+      background: #d4edda;
+      border: 2px solid #198754;
+      box-shadow: 0 0 8px #19875455;
+    }
+
+    .maze-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .maze-player svg {
+      width: 90%;
+      height: 90%;
+    }
+
+    .maze-lava {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      animation: lava-fall 0.5s linear;
+    }
+
+    .maze-lava svg {
+      width: 80%;
+      height: 80%;
+    }
+
+    @keyframes lava-fall {
+      0% {
+        opacity: 0.2;
+        transform: translateY(-30%);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .maze-hit {
+      animation: maze-hit-flash 0.3s;
+    }
+
+    @keyframes maze-hit-flash {
+      0% {
+        background: #ffb3b3;
+      }
+
+      100% {
+        background: #fffbe6;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #fff6e6 70%, #ffd6b3 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(123, 36, 28, 0.13);
+      border: 2px solid #ffd6b3;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+
+
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>What to do in<br><span>case of a Volcanic Eruption!</span></h1>
+      </div>
+      <img src="assets/volcano.png" alt="Volcano Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="volcano-card d-flex justify-content-between align-items-center"
+      onclick="openContent('volcano_info.html')">
+      <div>
+        <h2>What is a Volcano?</h2>
+        <p>(Ano ang bulkan at paano ito sumasabog?)</p>
+      </div>
+      <img src="assets/what_volcano.png" alt="Volcano Info Icon" />
+    </div>
+
+    <div class="volcano-card d-flex justify-content-between align-items-center"
+      onclick="openContent('volcano_signs.html')">
+      <div>
+        <h2>Signs of an Eruption</h2>
+        <p>(Mga palatandaan ng pagputok ng bulkan)</p>
+      </div>
+      <img src="assets/volcano_warning.png" alt="Volcano Warning Icon" />
+    </div>
+
+    <div class="volcano-card d-flex justify-content-between align-items-center"
+      onclick="openContent('volcano_before.html')">
+      <div>
+        <h2>Before an Eruption</h2>
+        <p>(Mga dapat gawin bago ang pagsabog ng bulkan)</p>
+      </div>
+      <img src="assets/before_volcano.png" alt="Before Volcano Icon" />
+    </div>
+
+    <div class="volcano-card d-flex justify-content-between align-items-center"
+      onclick="openContent('volcano_during.html')">
+      <div>
+        <h2>During an Eruption</h2>
+        <p>(Mga safety tips habang may pagsabog ng bulkan)</p>
+      </div>
+      <img src="assets/during_volcano.png" alt="During Volcano Icon" />
+    </div>
+
+    <div class="volcano-card d-flex justify-content-between align-items-center"
+      onclick="openContent('volcano_after.html')">
+      <div>
+        <h2>After an Eruption</h2>
+        <p>(Mga dapat gawin pagkatapos ng pagsabog)</p>
+      </div>
+      <img src="assets/after_volcano.png" alt="After Volcano Icon" />
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <script>
+
+
+
+
+// Array of volcano trivia facts
+    const triviaFacts = [
+      "The 1815 eruption of Mount Tambora in Indonesia was the most powerful volcanic eruption in recorded history, causing global climate changes.",
+      "Volcanic lightning, also called dirty thunderstorms, occurs when ash particles collide and generate static electricity during eruptions.",
+      "There are approximately 1,500 active volcanoes on Earth, with about 50 to 70 erupting each year.",
+      "The term volcano comes from Vulcan, the Roman god of fire and metalworking.",
+      "Pompeii was buried under 13 to 20 feet of volcanic ash and pumice when Mount Vesuvius erupted in 79 AD.",
+      "Mauna Loa in Hawaii is the world's largest active volcano, covering half of the Big Island.",
+      "The Year Without a Summer in 1816 was caused by the massive eruption of Mount Tambora, which lowered global temperatures.",
+      "Volcanic soil is extremely fertile, which is why many people live near active volcanoes despite the danger.",
+      "The largest volcanic region on Earth is actually underwater—the Tamu Massif in the Pacific Ocean.",
+      "Pyroclastic flows, mixtures of hot gas and volcanic matter, can travel faster than 100 miles per hour and reach temperatures of 1,000°C.",
+      "Iceland is one of the most volcanically active places on Earth because it sits on the Mid-Atlantic Ridge.",
+      "The eruption column of Mount St. Helens in 1980 reached 80,000 feet into the atmosphere in just 15 minutes.",
+      "Lava can reach temperatures between 700°C to 1,200°C depending on its mineral composition.",
+      "The Pacific Ring of Fire contains 75% of the world's active and dormant volcanoes.",
+      "Volcanic ash is not actually ash but tiny fragments of pulverized rock and glass that can damage aircraft engines.",
+      "Mount Kilauea in Hawaii has been erupting continuously since 1983, making it one of the world's most active volcanoes.",
+      "Supervolcanoes, like the one beneath Yellowstone National Park, have the potential to erupt with 1,000 times the force of regular volcanoes.",
+      "The sound of the 1883 Krakatoa eruption was heard 3,000 miles away, making it the loudest sound in recorded history.",
+      "Volcanologists wear heat-resistant suits and gas masks to study active volcanoes up close.",
+      "The Hawaiian word aa describes rough, jagged lava while pahoehoe describes smooth, ropy lava.",
+      "Some bacteria and organisms called extremophiles can survive in volcanic hot springs and acidic pools.",
+      "Mount Etna in Italy has been erupting for approximately 500,000 years, making it one of the world's oldest active volcanoes.",
+      "Volcanic eruptions can inject sulfur dioxide into the stratosphere, which reflects sunlight and causes global cooling.",
+      "The 1991 eruption of Mount Pinatubo in the Philippines lowered global temperatures by about 0.5°C for two years.",
+      "Shield volcanoes like those in Hawaii have gentle slopes and produce fluid lava, while stratovolcanoes are steep and explosive.",
+      "Approximately 800 million people live within 100 kilometers of an active volcano.",
+      "The moon, Mars, and Venus all have volcanoes, though most are now extinct or dormant.",
+      "Volcanic islands like Hawaii are formed when underwater volcanoes erupt repeatedly, building up layers until they breach the ocean surface.",
+      "The color of lava depends on its temperature—red lava is cooler while orange-yellow lava is hotter.",
+      "Volcanoes release gases including water vapor, carbon dioxide, and sulfur dioxide, which can be toxic in high concentrations."
+
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function goBack() {
+      window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+  </script>
+
+  <div id="game-float" title="Play Volcano Survival Game!" data-bs-toggle="modal" data-bs-target="#volcanoGameModal">
+    <i class="bi bi-joystick"></i>
+  </div>
+
+  <!-- Volcano Survival Game Modal -->
+  <div class="modal fade" id="volcanoGameModal" tabindex="-1" aria-labelledby="volcanoGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content volcano-game-modal">
+        <div class="volcano-game-header">
+          <i class="bi bi-joystick"></i>
+          <span class="volcano-game-title" id="volcanoGameModalLabel">Volcano Maze Escape</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close" onclick="endVolcanoGame()"></button>
+        </div>
+        <div class="volcano-game-body">
+          <div class="volcano-game-status" id="volcanoGameStatus" style="margin-bottom:10px;">
+            <b>How to Play:</b> <br>
+            Use <b>arrow keys</b> or the <b>buttons</b> to move.<br>
+            Reach the <span style="color:#198754;font-weight:bold;">green exit</span> at the bottom.<br>
+            Avoid the falling <span style="color:#e25822;font-weight:bold;">lava balls</span>!
+          </div>
+          <div id="volcanoMazeArea"></div>
+          <div class="volcano-game-controls mt-2">
+            <button class="volcano-game-btn" onclick="moveMazeChar(-1,0)" title="Left"><i class="bi bi-arrow-left"></i></button>
+            <button class="volcano-game-btn" onclick="moveMazeChar(1,0)" title="Right"><i class="bi bi-arrow-right"></i></button>
+            <button class="volcano-game-btn" onclick="moveMazeChar(0,-1)" title="Up"><i class="bi bi-arrow-up"></i></button>
+            <button class="volcano-game-btn" onclick="moveMazeChar(0,1)" title="Down"><i class="bi bi-arrow-down"></i></button>
+          </div>
+          <div style="font-size:0.98rem;color:#7b241c;">Tip: Plan your path and watch out for lava!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content trivia-modal">
+        <div class="trivia-header d-flex align-items-center" style="background: #fff6e6; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+          <i class="bi bi-lightbulb" style="font-size:2rem;color:#ffc107;background:#fffde7;border-radius:50%;padding:8px;margin-right:10px;"></i>
+          <span style="font-size:1.2rem;font-weight:600;color:#c04a1c;">Did you know that:</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #fff6e6 70%, #ffd6b3 100%); border-radius: 0 0 16px 16px;">
+          <div style="font-size:1.08rem;color:#c04a1c;font-weight:500;">
+            <span style="font-weight:600;">The 1815 eruption of Mount Tambora in Indonesia was so massive it caused the “Year Without a Summer” worldwide.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    #volcanoMazeArea {
+      width: 100%;
+      max-width: 320px;
+      height: 320px;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      gap: 2px;
+      background: #fbeee6;
+      border: 3px solid #7b241c;
+      border-radius: 14px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #e9a698;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .maze-cell {
+      width: 100%;
+      height: 100%;
+      background: #fffbe6;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+      box-sizing: border-box;
+    }
+
+    .maze-wall {
+      background: #bdbdbd;
+    }
+
+    .maze-exit {
+      background: #d4edda;
+      border: 2px solid #198754;
+      box-shadow: 0 0 8px #19875455;
+    }
+
+    .maze-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .maze-player svg {
+      width: 90%;
+      height: 90%;
+    }
+
+    .maze-lava {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      animation: lava-fall 0.5s linear;
+    }
+
+    .maze-lava svg {
+      width: 80%;
+      height: 80%;
+    }
+
+    @keyframes lava-fall {
+      0% {
+        opacity: 0.2;
+        transform: translateY(-30%);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .maze-hit {
+      animation: maze-hit-flash 0.3s;
+    }
+
+    @keyframes maze-hit-flash {
+      0% {
+        background: #ffb3b3;
+      }
+
+      100% {
+        background: #fffbe6;
+      }
+    }
+  </style>
+
+  <script>
+    // --- Maze Game Variables ---
+    const MAZE_SIZE = 8;
+    const mazeLayout = [
+      // 0: empty, 1: wall
+      [0, 1, 0, 0, 0, 1, 0, 0],
+      [0, 1, 0, 1, 0, 1, 0, 1],
+      [0, 0, 0, 1, 0, 0, 0, 1],
+      [1, 1, 0, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 1, 0],
+      [0, 1, 1, 1, 0, 0, 0, 0],
+      [0, 0, 0, 1, 0, 1, 1, 0],
+      [1, 1, 0, 0, 0, 0, 0, 0]
+    ];
+    let mazePlayer = {
+        x: 0,
+        y: 0
+      }; // spawn at top-left open cell
+    let mazeExit = {
+        x: 7,
+        y: 7
+      }; // bottom-right open cell
+    let mazeLava = [];
+    // {x, y}
+    let mazeLavaIntervals = [];
+    let mazeGameActive = false;
+    let mazeGameOver = false;
+
+    function renderMaze() {
+      const area = document.getElementById('volcanoMazeArea');
+      area.innerHTML = '';
+      for (let y = 0; y < MAZE_SIZE; y++) {
+        for (let x = 0; x < MAZE_SIZE; x++) {
+          const cell = document.createElement('div');
+          cell.className = 'maze-cell';
+          if (mazeLayout[y][x] === 1) cell.classList.add('maze-wall');
+          if (x === mazeExit.x && y === mazeExit.y) cell.classList.add('maze-exit');
+          cell.id = `maze-cell-${x}-${y}`;
+          area.appendChild(cell);
+        }
+      }
+      // Place player
+      const playerCell = document.getElementById(`maze-cell-${mazePlayer.x}-${mazePlayer.y}`);
+      if (playerCell) {
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'maze-player';
+        playerDiv.innerHTML = `
+          <svg viewBox="0 0 36 44" fill="none">
+            <circle cx="18" cy="10" r="7" fill="#f9d29d" stroke="#e0a96d" stroke-width="1"/>
+            <rect x="11" y="17" width="14" height="13" rx="6" fill="#ffb300" stroke="#e65100" stroke-width="1"/>
+            <rect x="13" y="19" width="10" height="9" rx="4" fill="#fffde7" opacity="0.7"/>
+            <rect x="5" y="24" width="5" height="13" rx="2.5" fill="#f9d29d"/>
+            <rect x="26" y="24" width="5" height="13" rx="2.5" fill="#f9d29d"/>
+            <rect x="13" y="30" width="4" height="12" rx="2" fill="#1976d2"/>
+            <rect x="19" y="30" width="4" height="12" rx="2" fill="#1976d2"/>
+            <!-- Scared face -->
+            <rect x="14" y="7" width="3" height="1" rx="0.5" fill="#a67c52" transform="rotate(-12 14 7)" />
+            <rect x="19" y="7" width="3" height="1" rx="0.5" fill="#a67c52" transform="rotate(12 19 7)" />
+            <ellipse cx="15.5" cy="10" rx="1" ry="1.5" fill="#a67c52" />
+            <ellipse cx="20.5" cy="10" rx="1" ry="1.5" fill="#a67c52" />
+            <ellipse cx="18" cy="14.5" rx="2" ry="2.2" fill="#fff" />
+            <ellipse cx="18" cy="15" rx="1.1" ry="1.4" fill="#a67c52" />
+          </svg>
+        `;
+        playerCell.appendChild(playerDiv);
+      }
+      // Place lava
+      for (const lava of mazeLava) {
+        const lavaCell = document.getElementById(`maze-cell-${lava.x}-${lava.y}`);
+        if (lavaCell) {
+          const lavaDiv = document.createElement('div');
+          lavaDiv.className = 'maze-lava';
+          lavaDiv.innerHTML = `
+            <svg viewBox="0 0 32 32">
+              <ellipse cx="16" cy="24" rx="12" ry="6" fill="#ffb74d" opacity="0.4"/>
+              <circle cx="16" cy="16" r="12" fill="#ff7043"/>
+              <ellipse cx="16" cy="13" rx="7" ry="4" fill="#fff3e0" opacity="0.5"/>
+              <path d="M16 6 Q18 10 16 14 Q14 10 16 6Z" fill="#fffde7" opacity="0.7"/>
+            </svg>
+          `;
+          lavaCell.appendChild(lavaDiv);
+        }
+      }
+    }
+
+    function resetMazeGameVars() {
+      // Find first open cell at top row for spawn
+      mazePlayer = {
+        x: 0,
+        y: 0
+      };
+      for (let x = 0; x < MAZE_SIZE; x++) {
+        if (mazeLayout[0][x] === 0) {
+          mazePlayer.x = x;
+          break;
+        }
+      }
+      // Find last open cell at bottom row for exit
+      mazeExit = {
+        x: MAZE_SIZE - 1,
+        y: MAZE_SIZE - 1
+      };
+      for (let x = MAZE_SIZE - 1; x >= 0; x--) {
+        if (mazeLayout[MAZE_SIZE - 1][x] === 0) {
+          mazeExit.x = x;
+          break;
+        }
+      }
+      mazeLava = [];
+      mazeGameActive = true;
+      mazeGameOver = false;
+      renderMaze();
+      document.getElementById('volcanoGameStatus').innerHTML =
+        "<b>How to Play:</b> <br>Use <b>arrow keys</b> or the <b>buttons</b> to move.<br>Reach the <span style='color:#198754;font-weight:bold;'>green exit</span> at the bottom.<br>Avoid the falling <span style='color:#e25822;font-weight:bold;'>lava balls</span>!";
+    }
+
+    function moveMazeChar(dx, dy) {
+      if (!mazeGameActive) return;
+      const nx = mazePlayer.x + dx;
+      const ny = mazePlayer.y + dy;
+      if (
+        nx < 0 || nx >= MAZE_SIZE ||
+        ny < 0 || ny >= MAZE_SIZE ||
+        mazeLayout[ny][nx] === 1
+      ) return;
+      mazePlayer.x = nx;
+      mazePlayer.y = ny;
+      // Check for lava collision
+      for (const lava of mazeLava) {
+        if (lava.x === mazePlayer.x && lava.y === mazePlayer.y) {
+          mazeHit();
+          return;
+        }
+      }
+      // Check for win
+      if (mazePlayer.x === mazeExit.x && mazePlayer.y === mazeExit.y) {
+        mazeWin();
+        return;
+      }
+      renderMaze();
+    }
+
+    function mazeHit() {
+      mazeGameActive = false;
+      mazeGameOver = true;
+      const cell = document.getElementById(`maze-cell-${mazePlayer.x}-${mazePlayer.y}`);
+      if (cell) cell.classList.add('maze-hit');
+      document.getElementById('volcanoGameStatus').innerHTML =
+        "<span class='volcano-game-over'>Game Over! You were hit by lava.<br>Try again!</span>";
+      stopMazeLava();
+    }
+
+    function mazeWin() {
+      mazeGameActive = false;
+      mazeGameOver = true;
+      document.getElementById('volcanoGameStatus').innerHTML =
+        "<span class='volcano-game-success'>You escaped the volcano maze! 🎉</span>";
+      stopMazeLava();
+    }
+
+    function spawnMazeLava() {
+      // Pick a random open cell in the top row
+      let open = [];
+      for (let x = 0; x < MAZE_SIZE; x++) {
+        if (mazeLayout[0][x] === 0) open.push(x);
+      }
+      if (open.length === 0) return;
+      let lx = open[Math.floor(Math.random() * open.length)];
+      let lava = { x: lx, y: 0 };
+      mazeLava.push(lava);
+
+      // Animate falling (lava ignores walls)
+      let interval = setInterval(() => {
+        if (!mazeGameActive) {
+          clearInterval(interval);
+          return;
+        }
+        // Remove from current cell
+        const idx = mazeLava.indexOf(lava);
+        if (idx !== -1) mazeLava.splice(idx, 1);
+        // Move down (ignore walls)
+        if (lava.y + 1 < MAZE_SIZE) {
+          lava.y++;
+          // Check collision with player
+          if (lava.x === mazePlayer.x && lava.y === mazePlayer.y) {
+            mazeLava.push(lava);
+            renderMaze();
+            mazeHit();
+            clearInterval(interval);
+            return;
+          }
+          mazeLava.push(lava);
+          renderMaze();
+        } else {
+          // Stop at bottom
+          mazeLava.push(lava);
+          renderMaze();
+          clearInterval(interval);
+          // Remove lava after a short delay
+          setTimeout(() => {
+            const idx2 = mazeLava.indexOf(lava);
+            if (idx2 !== -1) {
+              mazeLava.splice(idx2, 1);
+              renderMaze();
+            }
+          }, 400);
+        }
+      }, 320);
+      mazeLavaIntervals.push(interval);
+    }
+
+    function stopMazeLava() {
+      mazeLavaIntervals.forEach(i => clearInterval(i));
+      mazeLavaIntervals = [];
+    }
+
+    // Keyboard controls
+    document.addEventListener('keydown', function (e) {
+      if (!mazeGameActive) return;
+      if (document.getElementById('volcanoGameModal').classList.contains('show')) {
+        if (e.key === 'ArrowLeft') moveMazeChar(-1, 0);
+        if (e.key === 'ArrowRight') moveMazeChar(1, 0);
+        if (e.key === 'ArrowUp') moveMazeChar(0, -1);
+        if (e.key === 'ArrowDown') moveMazeChar(0, 1);
+      }
+    });
+
+    // Modal open/close events
+    document.getElementById('volcanoGameModal').addEventListener('show.bs.modal', function () {
+      setTimeout(() => {
+        resetMazeGameVars();
+        stopMazeLava();
+        // Start spawning lava balls
+        mazeLavaIntervals = [];
+        mazeGameActive = true;
+        mazeGameOver = false;
+        renderMaze();
+        mazeLavaIntervals.push(setInterval(spawnMazeLava, 900));
+      }, 200);
+    });
+    document.getElementById('volcanoGameModal').addEventListener('hide.bs.modal', function () {
+      mazeGameActive = false;
+      mazeGameOver = true;
+      stopMazeLava();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Choking First Aid</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #155263;
+            --accent: #3b9ca6;
+            --bg-light: #ffffff;
+            --bg-color: #a6c6d5;
+            --text-dark: #1c1c1c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .back-arrow:hover {
+            background-color: #e0e0e0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .header-text h1 span {
+            color: var(--primary);
+        }
+
+        .header img {
+            width: 85px;
+            height: auto;
+        }
+
+        .video-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .tip-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background-color: #f0faff;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 15px 18px;
+            margin-bottom: 20px;
+        }
+
+        .tip-img {
+            width: 150px;
+            height: 100px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .tip-content {
+            flex: 1;
+        }
+
+        .tip-content h2 {
+            margin: 0 0 8px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .tip-content p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Floating "?" icon */
+        #help-float {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1050;
+            background: var(--primary);
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #help-float:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Quiz Modal Custom Design */
+        .modal-content.quiz-modal {
+            background: linear-gradient(135deg, #fffbe6 60%, #f5e1c3 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(127, 81, 18, 0.15);
+            border: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .quiz-header {
+            background: var(--primary);
+            color: #fff;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 18px 24px 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-header i {
+            font-size: 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .quiz-body {
+            padding: 24px 24px 12px 24px;
+        }
+
+        .quiz-label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .quiz-question {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #e1c3a2;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+            border-left: 5px solid var(--accent);
+            transition: box-shadow 0.2s;
+        }
+
+        .quiz-question span {
+            font-size: 1rem;
+            color: #7f5112;
+            font-weight: 500;
+        }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        #quizResult {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .is-valid {
+            border-color: #198754 !important;
+            background-color: #e9fbe8 !important;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fbeaea !important;
+        }
+
+        @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .tip-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .tip-img {
+                margin-bottom: 10px;
+            }
+
+            .tip-content {
+                text-align: left;
+            }
+
+            .tip-content h2 {
+                font-size: 1.1rem;
+            }
+
+            .tip-content p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="d-flex align-items-center mb-3">
+            <span class="back-arrow" onclick="goBack()">
+                <i class="bi bi-chevron-left"></i>
+            </span>
+        </div>
+
+        <div class="header">
+            <div class="header-text">
+                <h1>Choking First Aid<br><span>How to Respond</span></h1>
+            </div>
+            <img src="assets/choking.png" alt="Choking Icon" />
+        </div>
+
+        <div class="video-section">
+            <video class="video-player" controls>
+                <source src="videos/Choking_Response.mp4" type="video/mp4">
+            </video>
+            <p><em>This video demonstrates how to assist someone who is choking.</em></p>
+            <p><small>A video from:
+                    <a href="https://youtu.be/pzlwOI7xQRc" target="_blank">
+                        "How to help a Choking Person" by LIFESAVER on YouTube
+                    </a>
+                </small></p>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/ask_if_choking.png" alt="Ask if choking" class="tip-img">
+            <div class="tip-content">
+                <h2>1. Check if the person is choking</h2>
+                <p>
+                    Ask “Are you choking?” If they can’t talk, cough, or breathe, they need help immediately.
+                    <br><br>
+                    <em>Tanungin kung "Nabubulunan ka ba?" Kung hindi sila makapagsalita, umubo, o huminga, kailangan
+                        nila ng agarang tulong.</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/encourage_cough.png" alt="Encourage Cough" class="tip-img">
+            <div class="tip-content">
+                <h2>2. Encourage coughing (if mild)</h2>
+                <p>
+                    If the person can cough, encourage them to continue. Coughing is the body’s way to clear the airway.
+                    <br><br>
+                    <em>Kung kaya nilang umubo, hikayatin silang ipagpatuloy ito. Ang pag-ubo ay natural na paraan ng
+                        katawan upang alisin ang bara sa daanan ng hangin.</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/perform_thrusts.png" alt="Abdominal Thrusts" class="tip-img">
+            <div class="tip-content">
+                <h2>3. Perform abdominal thrusts (Heimlich)</h2>
+                <p>
+                    Stand behind them, wrap your arms around their waist, and thrust inward and upward quickly.
+                    <br><br>
+                    <em>Tumayo sa likod nila, yakapin ang kanilang baywang, at biglaang itulak papaloob at pataas.</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/call_emergency.png" alt="Call Emergency" class="tip-img">
+            <div class="tip-content">
+                <h2>4. Call emergency services</h2>
+                <p>
+                    If the object doesn’t come out, call emergency services or have someone call while you continue
+                    helping.
+                    <br><br>
+                    <em>Kung hindi mailabas ang bara, tumawag ng emergency services o ipatawag ito habang patuloy na
+                        tumutulong.</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/unconscious_person.png" alt="Unconscious Person" class="tip-img">
+            <div class="tip-content">
+                <h2>5. If person becomes unconscious</h2>
+                <p>
+                    Lower them gently to the ground and begin CPR. Look for the object in their mouth and remove it if
+                    visible.
+                    <br><br>
+                    <em>Ihiga sila ng dahan-dahan at simulan ang CPR. Tingnan kung may makikitang bara sa bibig at
+                        alisin ito kung posible.</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/monitor_breathing.png" alt="Monitor Breathing" class="tip-img">
+            <div class="tip-content">
+                <h2>6. Monitor breathing until help arrives</h2>
+                <p>
+                    Keep checking their breathing and responsiveness while waiting for professionals to take over.
+                    <br><br>
+                    <em>Patuloy na tingnan kung humihinga at tumutugon sila habang hinihintay ang mga propesyonal na
+                        dumating.</em>
+                </p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Floating "?" icon -->
+    <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+        ?
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content quiz-modal">
+                <div class="quiz-header">
+                    <i class="bi bi-patch-question-fill"></i>
+                    <span class="quiz-title" id="quizModalLabel">Choking First Aid Quiz</span>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="quiz-body">
+                    <form id="quizForm">
+                        <div class="quiz-question">
+                            <div class="quiz-label">1. If a person can cough, you should encourage them to keep coughing. (True/False)
+                            </div>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1true" value="True">
+                                    <label class="form-check-label" for="q1true">True</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1false" value="False">
+                                    <label class="form-check-label" for="q1false">False</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">2. If the person becomes unconscious, you should immediately start CPR. (True/False)
+                            </div>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2true" value="True">
+                                    <label class="form-check-label" for="q2true">True</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2false" value="False">
+                                    <label class="form-check-label" for="q2false">False</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">3. You should wait for emergency services before helping a choking person. (True/False)
+                            </div>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3true" value="True">
+                                    <label class="form-check-label" for="q3true">True</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3false" value="False">
+                                    <label class="form-check-label" for="q3false">False</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn quiz-btn w-100" onclick="checkQuiz()">Check Answers</button>
+                    </form>
+                    <div id="quizResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.location.href = 'firstaid.html';
+        }
+
+        function checkQuiz() {
+            const answers = {
+                q1: "True",
+                q2: "True",
+                q3: "False"
+            };
+            let correct = 0;
+            let form = document.getElementById('quizForm');
+            let result = '';
+            // Remove previous coloring
+            form.querySelectorAll('.form-check-input').forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+            });
+
+            // Q1
+            let q1 = form.querySelector('input[name="q1"]:checked');
+            if (q1 && q1.value === answers.q1) {
+                q1.classList.add('is-valid');
+                correct++;
+            } else if (q1) {
+                q1.classList.add('is-invalid');
+            }
+            // Q2
+            let q2 = form.querySelector('input[name="q2"]:checked');
+            if (q2 && q2.value === answers.q2) {
+                q2.classList.add('is-valid');
+                correct++;
+            } else if (q2) {
+                q2.classList.add('is-invalid');
+            }
+            // Q3
+            let q3 = form.querySelector('input[name="q3"]:checked');
+            if (q3 && q3.value === answers.q3) {
+                q3.classList.add('is-valid');
+                correct++;
+            } else if (q3) {
+                q3.classList.add('is-invalid');
+            }
+
+            if (correct === 3) {
+                result = `<div class="alert alert-success">All correct! 🎉</div>`;
+            } else {
+                result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+            }
+            document.getElementById('quizResult').innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>

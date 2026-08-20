@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landslide Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4a5e2c;
+      --accent: #789262;
+      --bg-light: #ffffff;
+      --bg-color: #9aad83;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .landslide-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .landslide-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .landslide-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .landslide-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .landslide-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    #maze-game-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary, #4a5e2c);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent, #789262);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #maze-game-float:hover {
+      background: var(--accent, #789262);
+      color: var(--primary, #4a5e2c);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.maze-game-modal {
+      background: linear-gradient(135deg, #f8fff8 60%, #c7e6b8 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(74, 94, 44, 0.10);
+      border: 2px solid var(--accent, #789262);
+      padding-bottom: 8px;
+    }
+
+    .maze-game-header {
+      background: var(--primary, #4a5e2c);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .maze-game-header i {
+      font-size: 2rem;
+      background: var(--accent, #789262);
+      color: var(--primary, #4a5e2c);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .maze-game-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .maze-game-body {
+      padding: 18px 10px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    #mazeGameArea {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      min-width: 180px;
+      margin-left: auto;
+      margin-right: auto;
+      height: 260px;
+      background: #eafbe6;
+      border: 3px solid var(--primary, #4a5e2c);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #c7e6b8;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+      gap: 2px;
+      touch-action: none;
+      box-sizing: border-box;
+    }
+
+    .maze-tile {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 7px;
+      border: 2px solid #e9a698;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      user-select: none;
+      position: relative;
+      z-index: 2;
+      transition: background 0.2s;
+    }
+
+    .maze-tile.wall {
+      background: #bfa76a;
+      border: 2px solid #802108;
+    }
+
+    .maze-tile.player {
+      background: #b2dfdb;
+      border: 2px solid #009688;
+      font-size: 1.7rem;
+      z-index: 3;
+    }
+
+    .maze-tile.finish {
+      background: #c5e1a5;
+      border: 2px solid #558b2f;
+      font-size: 1.7rem;
+      z-index: 2;
+    }
+
+    .maze-tile.landslide {
+      background: #ff7043;
+      border: 2px solid #c0392b;
+      color: #fff;
+      font-size: 1.7rem;
+      animation: lava-glow 0.7s infinite alternate;
+      z-index: 1;
+    }
+
+    @keyframes lava-glow {
+      0% {
+        box-shadow: 0 0 8px #ff7043;
+      }
+
+      100% {
+        box-shadow: 0 0 18px #ff7043;
+      }
+    }
+
+    .maze-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 8px;
+      margin-top: 2px;
+    }
+
+    .maze-controls-row {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .maze-btn {
+      background: var(--primary, #4a5e2c);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 2.2rem;
+      width: 68px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #c7e6b8;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      font-weight: bold;
+      outline: none;
+      user-select: none;
+    }
+
+    .maze-btn:active {
+      background: var(--accent, #789262);
+      color: var(--primary, #4a5e2c);
+      transform: scale(0.97);
+    }
+
+    .maze-game-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #4a5e2c;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .maze-game-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .maze-game-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .landslide-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .landslide-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .landslide-card p {
+        font-size: 0.88rem;
+      }
+
+      #mazeGameArea {
+        width: 100%;
+        max-width: 95vw;
+        min-width: 140px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 54vw;
+        max-height: 70vw;
+        min-height: 180px;
+        box-sizing: border-box;
+      }
+
+      .maze-btn {
+        width: 54px;
+        height: 54px;
+        font-size: 1.6rem;
+      }
+
+      .modal-dialog {
+        max-width: 99vw;
+      }
+
+      .maze-game-body {
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #f8fff8 70%, #c7e6b8 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(74, 94, 44, 0.13);
+      border: 2px solid #c7e6b8;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>What to do in<br><span>case of a landslide!</span></h1>
+      </div>
+      <img src="assets/landslide.png" alt="Landslide Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="landslide-card d-flex justify-content-between align-items-center"
+      onclick="openContent('what_is_landslide.html')">
+      <div>
+        <h2>What is Landslide?</h2>
+        <p>(Ano ang Landslide?)</p>
+      </div>
+      <img src="assets/what_landslide.png" alt="Signs Icon" />
+    </div>
+
+    <div class="landslide-card d-flex justify-content-between align-items-center"
+      onclick="openContent('landslide_signs.html')">
+      <div>
+        <h2>Signs of possible landslides</h2>
+        <p>(Mga palatandaan ng posibleng pagguho ng lupa)</p>
+      </div>
+      <img src="assets/signs_landslide.png" alt="Signs Icon" />
+    </div>
+
+    <div class="landslide-card d-flex justify-content-between align-items-center"
+      onclick="openContent('landslide_during.html')">
+      <div>
+        <h2>What to do during landslides</h2>
+        <p>(Ano ang dapat gawin sa panahon ng pagguho ng lupa)</p>
+      </div>
+      <img src="assets/during_landslide.png" alt="Tips Icon" />
+    </div>
+
+    <div class="landslide-card d-flex justify-content-between align-items-center"
+      onclick="openContent('landslide_after.html')">
+      <div>
+        <h2>What to do after landslides</h2>
+        <p>(Ano ang dapat gawin sa pagkaptapos ng pagguho ng lupa)</p>
+      </div>
+      <img src="assets/after_landslide.png" alt="Tips Icon" />
+    </div>
+
+    <div class="landslide-card d-flex justify-content-between align-items-center"
+      onclick="openContent('landslide_preparation.html')">
+      <div>
+        <h2>How to prepare for landslides?</h2>
+        <p>(Paano maghanda laban sa pagguho ng lupa?)</p>
+      </div>
+      <img src="assets/preparedness.png" alt="Preparation Icon" />
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+// Array of trivia facts
+    const triviaFacts = [
+      "On February 17, 2006, a massive landslide in Guinsaugon, Saint Bernard, Southern Leyte, Philippines killed about 1,126 people.",
+  "In September 2018, a landslide in Naga City, Cebu, Philippines killed at least 78 people after heavy rainfall and quarrying operations.",
+  "A landslide in February 2024 in Maco, Davao de Oro, Philippines killed at least 98 people.",
+  "The 1949 Khait landslide in Tajik SSR buried 33 villages and killed an estimated 28,000 people.",
+  "The largest known landslide in the Alps occurred about 10,000 years ago at Flims, Switzerland, involving approximately 12 km³ of rock.",
+  "Slopes deforested or cut for mining are more likely to fail in heavy rain.",
+  "Earthquakes often trigger landslides by shaking loose unstable slopes.",
+  "After heavy rainfall, soil saturation often reduces slope stability leading to landslides.",
+  "In the Philippines, many hillside communities are at high risk of landslides during typhoons.",
+  "A landslide may block a river and form a dam which can later burst.",
+  "Monitoring rainfall thresholds helps predict landslide danger.",
+  "Vegetation and root systems significantly improve slope stability.",
+  "Debris flows (fast-moving landslides) can reach speeds of over 50 km/h.",
+  "Urban development at the foot of steep slopes increases human risk.",
+  "In Switzerland in 2025, a glacier collapse triggered a large debris flow that destroyed much of the village of Blatten.",
+  "After a landslide, re-vegetation and drainage control are key in recovery.",
+  "Landslide risk increases when slopes are steep, soils are loose, and rainfall is intense.",
+  "In mountainous Philippines, many landslides happen in the wet season (June–November).",
+  "Engineering measures like retaining walls and drainage reduce landslide hazard.",
+  "A 'creep' landslide moves very slowly while a 'rock-slide' or 'debris-flow' moves rapidly.",
+  "Human land-use changes like quarrying in Naga, Cebu contributed to the 2018 landslide.",
+  "Landslides not only kill people but damage roads, utilities, and disrupt communities.",
+  "Early warning signs include soil bulging, cracks in the ground, and small rockfalls.",
+  "Many landslides in the Philippines are triggered by typhoon-enhanced rainfall.",
+  "Emergency response after a landslide must include clearing debris and restoring access.",
+  "Climate change may increase landslide frequency by intensifying rainfall events.",
+  "In Switzerland, better monitoring saved lives in the Blatten glacier collapse.",
+  "Mapping landslide-prone zones is vital for planning safe settlements.",
+  "Community awareness and evacuation plans help mitigate landslide risk.",
+  "The 2006 Southern Leyte landslide remains one of the deadliest in Philippine history."
+
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function goBack() {
+      window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+  </script>
+
+  <div id="maze-game-float" title="Play Maze Landslide Game!" data-bs-toggle="modal" data-bs-target="#mazeGameModal">
+    <i class="bi bi-compass"></i>
+  </div>
+
+  <!-- Maze Mini Game Modal -->
+  <div class="modal fade" id="mazeGameModal" tabindex="-1" aria-labelledby="mazeGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content maze-game-modal">
+        <div class="maze-game-header">
+          <i class="bi bi-joystick"></i>
+          <span class="maze-game-title" id="mazeGameModalLabel">Maze Landslide Escape</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"
+            onclick="endMazeGame()"></button>
+        </div>
+        <div class="maze-game-body">
+          <div class="maze-game-status" id="mazeGameStatus">
+            Move using the arrows. Escape to the finish before the landslide catches you!
+          </div>
+          <div id="mazeGameArea"></div>
+          <div class="maze-controls">
+            <div class="maze-controls-row">
+              <button class="maze-btn" onclick="moveMaze('up')" title="Up"><i class="bi bi-arrow-up"></i></button>
+            </div>
+            <div class="maze-controls-row">
+              <button class="maze-btn" onclick="moveMaze('left')" title="Left"><i class="bi bi-arrow-left"></i>
+              </button>
+              <button class="maze-btn" onclick="moveMaze('down')" title="Down"><i class="bi bi-arrow-down"></i>
+              </button>
+              <button class="maze-btn" onclick="moveMaze('right')" title="Right"><i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content trivia-modal">
+        <div class="trivia-header d-flex align-items-center" style="background: #f8fff8; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+          <i class="bi bi-lightbulb" style="font-size:2rem;color:#789262;background:#f8fff8;border-radius:50%;padding:8px;margin-right:10px;"></i>
+          <span style="font-size:1.2rem;font-weight:600;color:#4a5e2c;">Did you know that:</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #f8fff8 70%, #c7e6b8 100%); border-radius: 0 0 16px 16px;">
+          <div style="font-size:1.08rem;color:#4a5e2c;font-weight:500;">
+            <span style="font-weight:600;">Some fast landslides travel at over 100 km/h, carrying debris and even entire trees downhill.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Maze settings
+    const MAZE_SIZE = 7;
+    let maze = [];
+    let mazePlayer = {
+      x: 3,
+      y: 0
+    };
+    let mazeFinish = {
+      x: 3,
+      y: MAZE_SIZE - 1
+    };
+    let mazeLandslideY = -1;
+    let mazeActive = false;
+    let mazeOver = false;
+    let mazeLandslideInterval = null;
+
+    // 0 = empty, 1 = wall
+    const mazeTemplate = [
+      [0, 0, 1, 0, 0, 1, 0],
+      [1, 0, 1, 0, 1, 0, 0],
+      [0, 0, 0, 0, 1, 0, 1],
+      [0, 1, 1, 0, 0, 0, 0],
+      [0, 0, 0, 1, 1, 1, 0],
+      [1, 0, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1, 0, 0]
+    ];
+
+    function resetMazeGame() {
+      maze = [];
+      for (let y = 0; y < MAZE_SIZE; y++) {
+        maze[y] = [];
+        for (let x = 0; x < MAZE_SIZE; x++) {
+          maze[y][x] = mazeTemplate[y][x];
+        }
+      }
+      mazePlayer = {
+        x: 3,
+        y: 0
+      };
+      mazeFinish = {
+        x: 3,
+        y: MAZE_SIZE - 1
+      };
+      mazeLandslideY = -1;
+      mazeActive = true;
+      mazeOver = false;
+      renderMaze();
+      document.getElementById('mazeGameStatus').innerHTML =
+        "Move using the arrows. Escape to the finish before the landslide catches you!";
+      if (mazeLandslideInterval) clearInterval(mazeLandslideInterval);
+      mazeLandslideInterval = setInterval(advanceLandslide, 900);
+    }
+
+    function renderMaze() {
+      const area = document.getElementById('mazeGameArea');
+      area.innerHTML = '';
+      for (let y = 0; y < MAZE_SIZE; y++) {
+        for (let x = 0; x < MAZE_SIZE; x++) {
+          let div = document.createElement('div');
+          div.className = 'maze-tile';
+          if (maze[y][x] === 1) div.classList.add('wall');
+          if (mazePlayer.x === x && mazePlayer.y === y) {
+            div.classList.add('player');
+            div.innerHTML = '🚶‍♂️';
+          } else if (mazeFinish.x === x && mazeFinish.y === y) {
+            div.classList.add('finish');
+            div.innerHTML = '<i class="bi bi-flag"></i>';
+          } else if (mazeLandslideY >= 0 && y === mazeLandslideY) {
+            div.classList.add('landslide');
+            div.innerHTML = '🪨';
+          }
+          area.appendChild(div);
+        }
+      }
+    }
+
+    function moveMaze(dir) {
+      if (!mazeActive || mazeOver) return;
+      let {
+        x,
+        y
+      } = mazePlayer;
+      let nx = x,
+        ny = y;
+      if (dir === 'up') ny--;
+      if (dir === 'down') ny++;
+      if (dir === 'left') nx--;
+      if (dir === 'right') nx++;
+      if (
+        nx >= 0 && nx < MAZE_SIZE && ny >= 0 && ny < MAZE_SIZE &&
+        maze[ny][nx] === 0 &&
+        !(mazeLandslideY >= 0 && ny === mazeLandslideY)
+      ) {
+        mazePlayer = {
+          x: nx,
+          y: ny
+        };
+        // Check win
+        if (nx === mazeFinish.x && ny === mazeFinish.y) {
+          mazeActive = false;
+          mazeOver = true;
+          renderMaze();
+          document.getElementById('mazeGameStatus').innerHTML =
+            '<span class="maze-game-success">You escaped the landslide! 🎉</span>';
+          if (mazeLandslideInterval) clearInterval(mazeLandslideInterval);
+          return;
+        }
+        renderMaze();
+      }
+    }
+
+    function advanceLandslide() {
+      if (!mazeActive || mazeOver) return;
+      mazeLandslideY++;
+      // Check lose
+      if (mazePlayer.y === mazeLandslideY) {
+        mazeActive = false;
+        mazeOver = true;
+        renderMaze();
+        document.getElementById('mazeGameStatus').innerHTML =
+          '<span class="maze-game-over">Game Over! You were caught by the landslide.<br>Try again!</span>';
+        if (mazeLandslideInterval) clearInterval(mazeLandslideInterval);
+        return;
+      }
+      // If landslide reached finish, stop
+      if (mazeLandslideY >= MAZE_SIZE) {
+        if (mazeLandslideInterval) clearInterval(mazeLandslideInterval);
+        return;
+      }
+      renderMaze();
+    }
+
+    function endMazeGame() {
+      mazeActive = false;
+      mazeOver = true;
+      if (mazeLandslideInterval) clearInterval(mazeLandslideInterval);
+    }
+
+    // Start game when modal opens
+    document.getElementById('mazeGameModal').addEventListener('show.bs.modal', function () {
+      setTimeout(resetMazeGame, 300);
+    });
+    // End game when modal closes
+    document.getElementById('mazeGameModal').addEventListener('hide.bs.modal', function () {
+      endMazeGame();
+    });
+  </script>
+</body>
+
+</html>

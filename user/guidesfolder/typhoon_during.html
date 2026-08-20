@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>During a Typhoon</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2a4d69;
+            --accent: #4b86b4;
+            --bg-light: #ffffff;
+            --bg-color: #9ebce1;
+            --text-dark: #1c1c1c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .back-arrow:hover {
+            background-color: #e0e0e0;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .header-text h1 span {
+            color: var(--primary);
+        }
+
+        .header img {
+            width: 85px;
+            height: auto;
+        }
+
+        .video-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .tip-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background-color: #d0e1f9;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 15px 18px;
+            margin-bottom: 20px;
+        }
+
+        .tip-img {
+            width: 150px;
+            height: 100px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .tip-img1 {
+            width: 220px;
+            height: 120px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .tip-content {
+            flex: 1;
+        }
+
+        .tip-content h2 {
+            margin: 0 0 8px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .tip-content p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .translated {
+            display: block;
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+
+        #help-float {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1050;
+            background: var(--primary);
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #help-float:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .modal-content.quiz-modal {
+            background: linear-gradient(135deg, #e8f2fa 60%, #b5d0ee 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(14, 76, 146, 0.10);
+            border: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .quiz-header {
+            background: var(--primary);
+            color: #fff;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 18px 24px 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-header i {
+            font-size: 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .quiz-body {
+            padding: 24px 24px 12px 24px;
+        }
+
+        .quiz-label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .quiz-question {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #b5d0ee;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+            border-left: 5px solid var(--accent);
+            transition: box-shadow 0.2s;
+        }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        #quizResult {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .is-valid {
+            border-color: #198754 !important;
+            background-color: #e9fbe8 !important;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fbeaea !important;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-body {
+                padding: 14px 4px 8px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .tip-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .tip-img {
+                margin-bottom: 10px;
+            }
+
+            .tip-content {
+                text-align: left;
+            }
+
+            .tip-content h2 {
+                font-size: 1.1rem;
+            }
+
+            .tip-content p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="d-flex align-items-center mb-3">
+            <span class="back-arrow" onclick="goBack()">
+                <i class="bi bi-chevron-left"></i>
+            </span>
+        </div>
+
+        <div class="header">
+            <div class="header-text">
+                <h1>During a Typhoon<br><span>Tips to Stay Safe</span></h1>
+            </div>
+            <img src="assets/during_typhoon.png" alt="Typhoon Icon" />
+        </div>
+
+        <div class="video-section">
+            <video class="video-player" controls>
+                <source src="videos/During a Typhoon.mp4" type="video/mp4">
+            </video>
+            <p><em>This video shows safety measures to follow during a typhoon.</em></p>
+            <p><small>Clip from:
+                    <a href="https://youtu.be/7rsZCvagPXs" target="_blank">
+                        "SCIENCE 8 Q2. Module 6 - What To Do BEFORE, DURING and AFTER Typhoon? Part 2" by Khristine Min
+                        Jin on YouTube
+                    </a>
+                </small></p>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/inside_safe_spot.png" alt="Stay Indoors" class="tip-img1">
+            <div class="tip-content">
+                <h2>1. Stay indoors</h2>
+                <p>
+                    Remain inside a sturdy house and avoid going outside until authorities declare it safe.<br><br>
+                    <span class="translated">Manatili sa loob ng matibay na bahay at huwag lalabas hangga’t hindi
+                        sinasabi ng awtoridad na ligtas na.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/away_windows.png" alt="Stay Away from Windows" class="tip-img">
+            <div class="tip-content">
+                <h2>2. Keep away from windows</h2>
+                <p>
+                    Strong winds can break glass—stay in safer parts of the house.<br><br>
+                    <span class="translated">Lumayo sa mga bintana dahil maaaring mabasag ng malakas na hangin.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/flood_avoid.png" alt="Flood Safety" class="tip-img">
+            <div class="tip-content">
+                <h2>3. Be alert for flooding</h2>
+                <p>
+                    Move to higher ground if your area is prone to floods.<br><br>
+                    <span class="translated">Agad na pumunta sa mataas na lugar kung ang inyong lugar ay madalas
+                        bahain.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/power_off_utilities.png" alt="Turn Off Utilities" class="tip-img">
+            <div class="tip-content">
+                <h2>4. Turn off utilities if necessary</h2>
+                <p>
+                    Switch off electricity and gas to prevent accidents.<br><br>
+                    <span class="translated">Patayin ang kuryente at gas upang maiwasan ang aksidente.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/listen_news.png" alt="/Listen to Authorities" class="tip-img">
+            <div class="tip-content">
+                <h2>5. Follow official instructions</h2>
+                <p>
+                    Stay tuned to the radio, TV, or official social media for updates.<br><br>
+                    <span class="translated">Makinig sa radyo, TV, o opisyal na social media para sa mga abiso at
+                        babala.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/emergency_kit.png" alt="Use Emergency Kit" class="tip-img">
+            <div class="tip-content">
+                <h2>6. Use your emergency supply</h2>
+                <p>
+                    Have your supplies ready in case the typhoon lasts for hours or days.<br><br>
+                    <span class="translated">Gamitin ang mga nakahandang gamit kung tatagal ang bagyo ng ilang oras o
+                        araw.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/evacuate_ready.png" alt="Be Ready to Evacuate" class="tip-img">
+            <div class="tip-content">
+                <h2>7. Be ready to evacuate</h2>
+                <p>
+                    Prepare to leave your home immediately if advised by authorities. Bring only essential
+                    items.<br><br>
+                    <span class="translated">Maging handa na lumikas agad kung kinakailangan ayon sa utos ng awtoridad.
+                        Dalhin lamang ang mga mahahalagang gamit.</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+        ?
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content quiz-modal">
+                <div class="quiz-header">
+                    <i class="bi bi-patch-question-fill"></i>
+                    <span class="quiz-title" id="quizModalLabel">During a Typhoon Quiz</span>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="quiz-body">
+                    <form id="quizForm">
+                        <div class="quiz-question">
+                            <div class="quiz-label">1. What should you do during a typhoon? (Select all that apply)
+                            </div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q1" id="q1a" value="Stay Indoors">
+                                    <label class="form-check-label" for="q1a">Stay indoors</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q1" id="q1b" value="Go Outside">
+                                    <label class="form-check-label" for="q1b">Go outside to watch the storm</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q1" id="q1c" value="Keep Away from Windows">
+                                    <label class="form-check-label" for="q1c">Keep away from windows</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q1" id="q1d" value="Listen to Authorities">
+                                    <label class="form-check-label" for="q1d">Listen to authorities for updates</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">2. What should you do if your area is prone to flooding?</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2a" value="Move to Higher Ground">
+                                    <label class="form-check-label" for="q2a">Move to higher ground</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2b" value="Stay in the Basement">
+                                    <label class="form-check-label" for="q2b">Stay in the basement</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2c" value="Go Swimming">
+                                    <label class="form-check-label" for="q2c">Go swimming</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">3. Why should you turn off electricity and gas during a typhoon if
+                                necessary?</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3a" value="To prevent accidents">
+                                    <label class="form-check-label" for="q3a">To prevent accidents</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3b" value="To save money">
+                                    <label class="form-check-label" for="q3b">To save money</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3c" value="To keep the house warm">
+                                    <label class="form-check-label" for="q3c">To keep the house warm</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn quiz-btn w-100" onclick="checkTyphoonDuringQuiz()">Check Answers
+                        </button>
+                    </form>
+                    <div id="quizResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.location.href = 'typhoon.html';
+        }
+
+        function checkTyphoonDuringQuiz() {
+            // Correct answers
+            const answers = {
+                q1: ["Stay Indoors", "Keep Away from Windows", "Listen to Authorities"],
+                q2: "Move to Higher Ground",
+                q3: "To prevent accidents"
+            };
+            let correct = 0;
+            let form = document.getElementById('quizForm');
+            let result = '';
+
+            // Remove previous coloring
+            form.querySelectorAll('.form-check-input').forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+            });
+
+            // Q1 (checkboxes)
+            let q1Checked = Array.from(form.querySelectorAll('input[name="q1"]:checked')).map(i => i.value);
+            let q1Inputs = form.querySelectorAll('input[name="q1"]');
+            function arraysEqual(a, b) {
+                if (a.length !== b.length) return false;
+                const sortedA = [...a].sort();
+                const sortedB = [...b].sort();
+                return sortedA.every((val, i) => val === sortedB[i]);
+            }
+            if (arraysEqual(q1Checked, answers.q1)) {
+                q1Inputs.forEach(i => {
+                    if (i.checked) i.classList.add('is-valid');
+                });
+                correct++;
+            } else {
+                q1Inputs.forEach(i => {
+                    if (i.checked) i.classList.add('is-invalid');
+                });
+            }
+
+            // Q2 (radio)
+            let q2 = form.querySelector('input[name="q2"]:checked');
+            if (q2 && q2.value === answers.q2) {
+                q2.classList.add('is-valid');
+                correct++;
+            } else if (q2) {
+                q2.classList.add('is-invalid');
+            }
+
+            // Q3 (radio)
+            let q3 = form.querySelector('input[name="q3"]:checked');
+            if (q3 && q3.value === answers.q3) {
+                q3.classList.add('is-valid');
+                correct++;
+            } else if (q3) {
+                q3.classList.add('is-invalid');
+            }
+
+            if (correct === 3) {
+                result = `<div class="alert alert-success">All correct! 🎉</div>`;
+            } else {
+                result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+            }
+            document.getElementById('quizResult').innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>

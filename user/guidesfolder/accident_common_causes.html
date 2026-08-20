@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Common Causes of Accidents</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2a4d69;
+            --accent: #4b86b4;
+            --bg-light: #ffffff;
+            --bg-color: #b0c0ce;
+            --text-dark: #1c1c1c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .back-arrow:hover {
+            background-color: #e0e0e0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .header-text h1 span {
+            color: var(--primary);
+        }
+
+        .header img {
+            width: 85px;
+            height: auto;
+        }
+
+        .video-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .tip-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background-color: #a7c0ca;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 15px 18px;
+            margin-bottom: 20px;
+        }
+
+        .tip-img {
+            width: 150px;
+            height: 100px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .tip-img1 {
+            width: 220px;
+            height: 120px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .tip-content {
+            flex: 1;
+        }
+
+        .tip-content h2 {
+            margin: 0 0 8px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .tip-content p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .translated {
+            display: block;
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+
+        #help-float {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1050;
+            background: var(--primary);
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #help-float:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .modal-content.quiz-modal {
+            background: linear-gradient(135deg, #f6faff 60%, #b0c0ce 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(42, 77, 105, 0.10);
+            border: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .quiz-header {
+            background: var(--primary);
+            color: #fff;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 18px 24px 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-header i {
+            font-size: 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .quiz-body {
+            padding: 24px 24px 12px 24px;
+        }
+
+        .quiz-label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .quiz-question {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #b0c0ce;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+            border-left: 5px solid var(--accent);
+            transition: box-shadow 0.2s;
+        }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        #quizResult {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .drag-list,
+        .drop-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .drag-item {
+            background: #e1f5c3;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 2px;
+            user-select: none;
+            transition: background 0.2s, border 0.2s;
+        }
+
+        .drag-item.selected {
+            outline: 3px solid var(--accent);
+            background: #d6f7b7;
+        }
+
+        .drop-zone {
+            min-height: 38px;
+            background: #f6ffe6;
+            border: 2px dashed #b6cb9c;
+            border-radius: 8px;
+            padding: 6px 10px;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        .drop-zone.filled {
+            background: #e1f5c3;
+        }
+
+        .drop-label {
+            font-weight: 500;
+            color: #2a4d69;
+            margin-bottom: 4px;
+        }
+
+        .is-valid {
+            border-color: #198754 !important;
+            background-color: #e9fbe8 !important;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fbeaea !important;
+        }
+
+        /* Add dropdown quiz specific styles */
+        .quiz-select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            font-size: 1rem;
+            margin-top: 6px;
+            margin-bottom: 8px;
+            background: #f6faff;
+            color: var(--primary);
+            transition: border 0.2s, background 0.2s;
+        }
+
+        .quiz-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: #e1f5c3;
+        }
+
+        .quiz-select.is-valid {
+            border-color: #198754 !important;
+            background-color: #e9fbe8 !important;
+            color: #198754;
+        }
+
+        .quiz-select.is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fbeaea !important;
+            color: #dc3545;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-body {
+                padding: 14px 4px 8px 4px;
+            }
+
+            .drag-list,
+            .drop-list {
+                gap: 7px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .tip-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .tip-img {
+                margin-bottom: 10px;
+            }
+
+            .tip-content {
+                text-align: left;
+            }
+
+            .tip-content h2 {
+                font-size: 1.1rem;
+            }
+
+            .tip-content p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="d-flex align-items-center mb-3">
+            <span class="back-arrow" onclick="goBack()">
+                <i class="bi bi-chevron-left"></i>
+            </span>
+        </div>
+
+        <div class="header">
+            <div class="header-text">
+                <h1>Common Causes of <br><span>Accidents</span></h1>
+            </div>
+            <img src="assets/accident_causes.png" alt="Accident Icon" />
+        </div>
+
+        <div class="video-section">
+            <video class="video-player" controls>
+                <source src="videos/Common Causes of Accidents.mp4" type="video/mp4">
+            </video>
+            <p><em>This video explains the most common causes of accidents in daily life.</em></p>
+            <p><small>A video from:
+                    <a href="https://youtu.be/H4kEfhjJ6h4" target="_blank">
+                        "9 COMMON CAUSES OF ROAD ACCIDENT IN THE PHILLIPINES" by SafetyContractors@Safeworks on YouTube
+                    </a>
+                </small></p>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/distracted_driving.png" alt="Distracted Driving" class="tip-img">
+            <div class="tip-content">
+                <h2>1. Distracted Driving</h2>
+                <p>
+                    Using mobile phones or being distracted while driving often leads to road accidents.<br><br>
+                    <span class="translated">Ang paggamit ng cellphone o pagiging abala habang nagmamaneho ay madalas na
+                        sanhi ng aksidente sa kalsada.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/overspeeding.png" alt="Overspeeding" class="tip-img">
+            <div class="tip-content">
+                <h2>2. Overspeeding</h2>
+                <p>
+                    Driving above the speed limit reduces reaction time and increases accident risks.<br><br>
+                    <span class="translated">Ang sobrang bilis ng pagmamaneho ay nagpapababa ng oras ng reaksyon at
+                        nagpapataas ng panganib ng aksidente.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/drunk_driving.png" alt="Drunk Driving" class="tip-img">
+            <div class="tip-content">
+                <h2>3. Drunk Driving</h2>
+                <p>
+                    Driving under the influence of alcohol impairs judgment and coordination.<br><br>
+                    <span class="translated">Ang pagmamaneho habang lasing ay nakakasama sa pag-iisip at
+                        koordinasyon.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/slippery_road.png" alt="Slippery Floors" class="tip-img">
+            <div class="tip-content">
+                <h2>4. Slippery Surfaces</h2>
+                <p>
+                    Wet or uneven floors often cause slips, trips, and falls at home or workplaces.<br><br>
+                    <span class="translated">Madalas magdulot ng pagdulas at pagkahulog ang basa o hindi pantay na sahig
+                        sa bahay o trabaho.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/reckless_driving.png" alt="Reckless Behavior" class="tip-img">
+            <div class="tip-content">
+                <h2>5. Reckless Behavior</h2>
+                <p>
+                    Ignoring traffic rules, horseplay, or careless actions often result in accidents.<br><br>
+                    <span class="translated">Ang hindi pagsunod sa batas trapiko o pabaya at mapanganib na gawain ay
+                        madalas na nagiging sanhi ng aksidente.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/fatigue.png" alt="Fatigue" class="tip-img">
+            <div class="tip-content">
+                <h2>6. Fatigue</h2>
+                <p>
+                    Tiredness or lack of sleep reduces focus and slows reaction time, causing accidents.<br><br>
+                    <span class="translated">Ang sobrang pagod o kulang sa tulog ay nakakapagpababa ng konsentrasyon at
+                        reaksyon, na nagiging sanhi ng aksidente.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <img src="assets/lack_safety.png" alt="Lack of Safety Measures" class="tip-img1">
+            <div class="tip-content">
+                <h2>7. Lack of Safety Measures</h2>
+                <p>
+                    Not wearing helmets, seatbelts, or ignoring safety signs increases accident risks.<br><br>
+                    <span class="translated">Ang hindi pagsusuot ng helmet, seatbelt, o hindi pagsunod sa safety signs
+                        ay
+                        nakakadagdag sa panganib ng aksidente.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+        ?
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content quiz-modal">
+                <div class="quiz-header">
+                    <i class="bi bi-patch-question-fill"></i>
+                    <span class="quiz-title" id="quizModalLabel">Accident Causes: Matching Quiz</span>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="quiz-body">
+                    <form id="quizForm" onsubmit="return false;">
+                        <div class="quiz-question">
+                            <div class="quiz-label mb-2">Choose the correct answer for each question below.</div>
+                            <div class="mb-3">
+                                <label for="q1" class="form-label">1. Which cause involves using a mobile phone while driving?</label>
+                                <select class="quiz-select" id="q1">
+                                    <option value="">Select answer...</option>
+                                    <option value="Distracted Driving">Distracted Driving</option>
+                                    <option value="Slippery Surfaces">Slippery Surfaces</option>
+                                    <option value="Lack of Safety Measures">Lack of Safety Measures</option>
+                                    <option value="Fatigue">Fatigue</option>
+                                    <option value="Overspeeding">Overspeeding</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="q2" class="form-label">2. Which cause is related to wet or uneven floors?</label>
+                                <select class="quiz-select" id="q2">
+                                    <option value="">Select answer...</option>
+                                    <option value="Distracted Driving">Distracted Driving</option>
+                                    <option value="Slippery Surfaces">Slippery Surfaces</option>
+                                    <option value="Lack of Safety Measures">Lack of Safety Measures</option>
+                                    <option value="Fatigue">Fatigue</option>
+                                    <option value="Overspeeding">Overspeeding</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="q3" class="form-label">3. Which cause is about not wearing helmets or seatbelts?</label>
+                                <select class="quiz-select" id="q3">
+                                    <option value="">Select answer...</option>
+                                    <option value="Distracted Driving">Distracted Driving</option>
+                                    <option value="Slippery Surfaces">Slippery Surfaces</option>
+                                    <option value="Lack of Safety Measures">Lack of Safety Measures</option>
+                                    <option value="Fatigue">Fatigue</option>
+                                    <option value="Overspeeding">Overspeeding</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn quiz-btn w-100" onclick="checkDropdownQuiz()">Check Answers</button>
+                    </form>
+                    <div id="quizResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.location.href = 'accident.html';
+        }
+
+        // Tap/click-to-select matching logic
+        let selectedAnswer = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select answer
+            document.querySelectorAll('.drag-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    // If already placed in a drop-zone, remove and return to answer list
+                    if (item.parentElement.classList.contains('drop-zone')) {
+                        item.parentElement.classList.remove('filled');
+                        document.getElementById('dragList').appendChild(item);
+                        return;
+                    }
+                    // Highlight as selected
+                    document.querySelectorAll('.drag-item.selected').forEach(sel => sel.classList.remove('selected'));
+                    selectedAnswer = item;
+                    item.classList.add('selected');
+                });
+            });
+
+            // Place answer in drop-zone
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('click', function () {
+                    // If already has an answer, return it to answer list
+                    let existing = zone.querySelector('.drag-item');
+                    if (existing) {
+                        document.getElementById('dragList').appendChild(existing);
+                        zone.classList.remove('filled');
+                    }
+                    // Place selected answer if available and not already placed
+                    if (selectedAnswer && selectedAnswer.parentElement.id === 'dragList') {
+                        zone.appendChild(selectedAnswer);
+                        zone.classList.add('filled');
+                        selectedAnswer.classList.remove('selected');
+                        selectedAnswer = null;
+                    }
+                });
+            });
+
+            // Deselect answer if clicking empty area in answer list
+            document.getElementById('dragList').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    document.querySelectorAll('.drag-item.selected').forEach(sel => sel.classList.remove('selected'));
+                    selectedAnswer = null;
+                }
+            });
+        });
+
+        function checkMatchingQuiz() {
+            const correct = {
+                drop1: "Distracted Driving",
+                drop2: "Slippery Surfaces",
+                drop3: "Lack of Safety Measures"
+            };
+            let score = 0;
+            let total = 3;
+            let result = '';
+
+            // Remove previous coloring
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.remove('is-valid', 'is-invalid');
+            });
+
+            Object.keys(correct).forEach(dropId => {
+                let zone = document.getElementById(dropId);
+                let answer = zone.querySelector('.drag-item');
+                if (answer && answer.textContent.trim() === correct[dropId]) {
+                    zone.classList.add('is-valid');
+                    score++;
+                } else if (answer) {
+                    zone.classList.add('is-invalid');
+                }
+            });
+
+            if (score === total) {
+                result = `<div class="alert alert-success">All correct! 🎉</div>`;
+            } else {
+                result = `<div class="alert alert-danger">${total - score} incorrect. Try again!</div>`;
+            }
+            document.getElementById('quizResult').innerHTML = result;
+        }
+
+        function checkDropdownQuiz() {
+            const correct = {
+                q1: "Distracted Driving",
+                q2: "Slippery Surfaces",
+                q3: "Lack of Safety Measures"
+            };
+            let score = 0;
+            let total = 3;
+            let result = '';
+
+            // Remove previous coloring
+            document.querySelectorAll('.quiz-select').forEach(sel => {
+                sel.classList.remove('is-valid', 'is-invalid');
+            });
+
+            // Check answers
+            Object.keys(correct).forEach(qid => {
+                let sel = document.getElementById(qid);
+                if (sel.value === correct[qid]) {
+                    sel.classList.add('is-valid');
+                    score++;
+                } else if (sel.value) {
+                    sel.classList.add('is-invalid');
+                }
+            });
+
+            if (score === total) {
+                result = `<div class="alert alert-success">All correct! 🎉</div>`;
+            } else {
+                result = `<div class="alert alert-danger">${total - score} incorrect. Try again!</div>`;
+            }
+            document.getElementById('quizResult').innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>

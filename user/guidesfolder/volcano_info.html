@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Volcano</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #8b0000;
+            --accent: #e85a4f;
+            --bg-light: #ffffff;
+            --bg-color: #e9a698;
+            --text-dark: #1c1c1c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .back-arrow:hover {
+            background-color: #e0e0e0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .header-text h1 span {
+            color: var(--primary);
+        }
+
+        .header img {
+            width: 85px;
+            height: auto;
+        }
+
+        .video-list {
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin: 30px 0;
+        }
+
+        .video-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .video-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .video-list::-webkit-scrollbar-thumb {
+            background-color: #aaa;
+            border-radius: 4px;
+        }
+
+        .content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            background-color: #e7b3b1;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background-color: #aaa;
+            border-radius: 4px;
+        }
+
+        .translated {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        ul {
+            padding-left: 18px;
+        }
+
+        /* Floating "?" icon */
+        #help-float {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1050;
+            background: var(--primary);
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #help-float:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Quiz Modal Custom Design */
+        .modal-content.quiz-modal {
+            background: linear-gradient(135deg, #fffbe6 60%, #f5e1c3 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(127, 81, 18, 0.15);
+            border: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .quiz-header {
+            background: var(--primary);
+            color: #fff;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 18px 24px 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-header i {
+            font-size: 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .quiz-body {
+            padding: 24px 24px 12px 24px;
+        }
+
+        .quiz-label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .quiz-question {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #e1c3a2;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+            border-left: 5px solid var(--accent);
+            transition: box-shadow 0.2s;
+        }
+
+        .quiz-question span {
+            font-size: 1rem;
+            color: #7f5112;
+            font-weight: 500;
+        }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        #quizResult {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .is-valid {
+            border-color: #198754 !important;
+            background-color: #e9fbe8 !important;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fbeaea !important;
+        }
+
+        @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .content {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="d-flex align-items-center mb-3">
+            <span class="back-arrow" onclick="goBack()">
+                <i class="bi bi-chevron-left"></i>
+            </span>
+        </div>
+
+        <div class="header">
+            <div class="header-text">
+                <h1>What is a<br><span>Volcano?</span></h1>
+            </div>
+            <img src="assets/what_volcano.png" alt="Volcano Icon" />
+        </div>
+
+        <!-- Scrollable Video Section -->
+        <div class="video-list">
+            <div class="video-section">
+                <video class="video-player" controls>
+                    <source src="videos/What is a Volcano and Volcanic Eruption.mp4" type="video/mp4">
+                </video>
+                <p><em>This video explains what a volcano is and how eruptions occur.</em></p>
+                <p><small>A video from:
+                        <a href="https://youtu.be/Hg1ktHeXaPU" target="_blank">
+                            "Volcanic Eruption (Tagalog)" by Literacy Corner on YouTube
+                        </a>
+                    </small></p>
+            </div>
+
+            <div class="video-section">
+                <video class="video-player" controls>
+                    <source src="videos/Volcano Alert Levels.mp4" type="video/mp4">
+                </video>
+                <p><em>This video explains the different alert levels of volcano and what they mean.</em></p>
+                <p><small>A video from:
+                        <a href="https://youtu.be/NDu4XtOwZqc" target="_blank">
+                            "EXPLAINER: PHIVOLCS Alert Levels" by UNTV News and Rescue on YouTube
+                        </a>
+                    </small></p>
+            </div>
+        </div>
+
+
+        <!-- Scrollable Content Section -->
+        <div class="content">
+            <p>
+                A <strong>volcano</strong> is an opening in the Earth’s crust where molten rock (magma), gases, and ash
+                escape to the surface. When pressure builds up inside the Earth, a <strong>volcanic eruption</strong>
+                occurs, releasing lava, ash clouds, and pyroclastic flows.
+            </p>
+            <div class="translated">
+                Ang <strong>bulkan</strong> ay isang siwang sa balat ng mundo kung saan lumalabas ang tunaw na bato
+                (magma), abo, at gas. Kapag naipon ang matinding presyon, nagaganap ang <strong>pagsabog ng
+                    bulkan</strong>.
+            </div>
+
+            <p class="section-title">Types of Volcanoes</p>
+            <ul>
+                <li><strong>Shield Volcano</strong> – Broad, gently sloping sides built by fluid lava flows (e.g., Jolo
+                    Volcanic Complex, Sulu).</li>
+                <li><strong>Composite/Stratovolcano</strong> – Steep-sided, layered volcanoes with explosive eruptions
+                    (e.g., Mayon Volcano, Albay).</li>
+                <li><strong>Cinder Cone</strong> – Small, steep volcanoes formed from ash, cinders, and volcanic rocks
+                    (e.g., Mt. Iraya, Batanes).</li>
+                <li><strong>Caldera</strong> – Large depression formed when a volcano collapses after a massive eruption
+                    (e.g., Taal Volcano, Batangas).</li>
+                <li><strong>Lava Dome</strong> – Dome-shaped mound formed by slow extrusion of thick, viscous lava
+                    (e.g., Mt. Bulusan Lava Dome, Sorsogon).</li>
+                <li><strong>Mid-Ocean Ridges</strong> – Underwater volcanic mountain chains formed by seafloor spreading
+                    (e.g., Philippine Sea Ridges).</li>
+            </ul>
+
+
+            <p class="section-title">Types of Eruptions</p>
+            <ul>
+                <li><strong>Hawaiian</strong> – Gentle eruptions with highly fluid lava fountains and flows.</li>
+                <li><strong>Strombolian</strong> – Moderate bursts of lava, ash, and volcanic bombs, usually
+                    short-lived.</li>
+                <li><strong>Vulcanian</strong> – Short, violent explosions ejecting ash, gas, and rock fragments.</li>
+                <li><strong>Pelean</strong> – Characterized by pyroclastic flows caused by dome collapse or explosion.
+                </li>
+                <li><strong>Plinian</strong> – Extremely powerful eruptions producing tall ash columns, pumice, and
+                    widespread fallout.</li>
+                <li><strong>Phreatic</strong> – Steam-driven explosions caused by water interacting with hot magma or
+                    rock.</li>
+                <li><strong>Effusive</strong> – Gentle lava flow forming broad layers over time.</li>
+                <li><strong>Explosive</strong> – Violent eruptions releasing ash clouds, pyroclastic flows, and gas.
+                </li>
+            </ul>
+
+            <p class="section-title">PHIVOLCS Volcano Alert Levels</p>
+            <ul>
+                <li><strong>Alert Level 0 – Normal</strong> : No eruption in foreseeable future. Safe condition.</li>
+                <li><strong>Alert Level 1 – Low-Level Unrest</strong> : Slight increase in seismic and volcanic
+                    activity; no eruption imminent.</li>
+                <li><strong>Alert Level 2 – Moderate Unrest</strong> : Increasing unrest; eruption possible within weeks
+                    to months.</li>
+                <li><strong>Alert Level 3 – Relatively High Unrest</strong> : Intrusion of magma at the crater; eruption
+                    possible within days or weeks.</li>
+                <li><strong>Alert Level 4 – Intense Unrest</strong> : Hazardous eruption possible within days.</li>
+                <li><strong>Alert Level 5 – Hazardous Eruption Ongoing</strong> : Hazardous eruption is in progress.
+                </li>
+            </ul>
+
+            <p class="section-title">Effects of Volcanic Eruptions</p>
+            <ul>
+                <li>Ashfall damaging health, crops, and infrastructure</li>
+                <li>Lava flows destroying property and land</li>
+                <li>Pyroclastic flows causing extreme hazards</li>
+                <li>Lahars (mudflows) burying communities</li>
+                <li>Climate effects from volcanic gases and ash</li>
+            </ul>
+
+            <p class="section-title">Did You Know?</p>
+            <p>
+                The Philippines is part of the <strong>Pacific Ring of Fire</strong>, home to over 20 active volcanoes.
+                The eruption of Mt. Pinatubo in 1991 was one of the largest of the 20th century, affecting global
+                climate for years.
+            </p>
+        </div>
+    </div>
+
+    <!-- Floating "?" icon -->
+    <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+        ?
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content quiz-modal">
+                <div class="quiz-header">
+                    <i class="bi bi-patch-question-fill"></i>
+                    <span class="quiz-title" id="quizModalLabel">Quick Volcano Quiz</span>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="quiz-body">
+                    <form id="quizForm">
+                        <div class="quiz-question">
+                            <div class="quiz-label">1. Which type of volcano is Mayon Volcano?</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1a" value="Shield">
+                                    <label class="form-check-label" for="q1a">Shield Volcano</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1b" value="Composite">
+                                    <label class="form-check-label" for="q1b">Composite/Stratovolcano</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1c" value="Cinder">
+                                    <label class="form-check-label" for="q1c">Cinder Cone</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">2. What is Alert Level 5 for volcanoes?</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2a" value="Normal">
+                                    <label class="form-check-label" for="q2a">Normal, no eruption</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2b" value="Hazardous">
+                                    <label class="form-check-label" for="q2b">Hazardous eruption ongoing</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2c" value="LowUnrest">
+                                    <label class="form-check-label" for="q2c">Low-level unrest</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">3. Which of the following is an effect of volcanic eruptions?</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3a" value="Ashfall">
+                                    <label class="form-check-label" for="q3a">Ashfall damaging health and crops</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3b" value="Rainbow">
+                                    <label class="form-check-label" for="q3b">Rainbow formation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" id="q3c" value="Snowfall">
+                                    <label class="form-check-label" for="q3c">Snowfall in the tropics</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn quiz-btn w-100" onclick="checkQuiz()">Check Answers</button>
+                    </form>
+                    <div id="quizResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.location.href = 'volcano.html';
+        }
+
+        function checkQuiz() {
+            const answers = {
+                q1: "Composite",
+                q2: "Hazardous",
+                q3: "Ashfall"
+            };
+            let correct = 0;
+            let form = document.getElementById('quizForm');
+            let result = '';
+            // Remove previous coloring
+            form.querySelectorAll('.form-check-input').forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+            });
+
+            // Q1
+            let q1 = form.querySelector('input[name="q1"]:checked');
+            if (q1 && q1.value === answers.q1) {
+                q1.classList.add('is-valid');
+                correct++;
+            } else if (q1) {
+                q1.classList.add('is-invalid');
+            }
+            // Q2
+            let q2 = form.querySelector('input[name="q2"]:checked');
+            if (q2 && q2.value === answers.q2) {
+                q2.classList.add('is-valid');
+                correct++;
+            } else if (q2) {
+                q2.classList.add('is-invalid');
+            }
+            // Q3
+            let q3 = form.querySelector('input[name="q3"]:checked');
+            if (q3 && q3.value === answers.q3) {
+                q3.classList.add('is-valid');
+                correct++;
+            } else if (q3) {
+                q3.classList.add('is-invalid');
+            }
+
+            if (correct === 3) {
+                result = `<div class="alert alert-success">All correct! 🎉</div>`;
+            } else {
+                result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+            }
+            document.getElementById('quizResult').innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>

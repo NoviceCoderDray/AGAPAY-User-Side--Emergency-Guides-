@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Signs of a Typhoon</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0e4c92;
+      --accent: #3a6ea5;
+      --bg-light: #ffffff;
+      --bg-color: #9ebce1;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header-text h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .header img {
+      width: 80px;
+      height: auto;
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background-color: #cfe0f5;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 15px 18px;
+      margin-bottom: 20px;
+    }
+
+    .tip-img {
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tip-content {
+      flex: 1;
+    }
+
+    .tip-content h2 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .tip-content p {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .translated {
+      display: block;
+      margin-top: 8px;
+      font-style: italic;
+      color: #555;
+    }
+
+    #help-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #help-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .modal-content.quiz-modal {
+      background: linear-gradient(135deg, #e8f2fa 60%, #b5d0ee 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(14, 76, 146, 0.10);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+    }
+
+    .quiz-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .quiz-body {
+      padding: 24px 24px 12px 24px;
+    }
+
+    .quiz-label {
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .quiz-question {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #b5d0ee;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+      border-left: 5px solid var(--accent);
+      transition: box-shadow 0.2s;
+    }
+
+    .quiz-btn {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .quiz-btn:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    #quizResult {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .is-valid {
+      border-color: #198754 !important;
+      background-color: #e9fbe8 !important;
+    }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+      background-color: #fbeaea !important;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-body {
+        padding: 14px 4px 8px 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tip-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .tip-img {
+        margin-bottom: 10px;
+      }
+
+      .tip-content {
+        text-align: left;
+      }
+
+      .tip-content h2 {
+        font-size: 1.1rem;
+      }
+
+      .tip-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="back-arrow" onclick="goBack()">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </div>
+
+
+    <div class="header">
+      <div class="header-text">
+        <h1>Signs That May<br><span>Indicate a Typhoon</span></h1>
+      </div>
+      <img src="assets/typhoon_warning.png" alt="Typhoon Icon" />
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/dark_clouds.png" alt="Dark Clouds" class="tip-img">
+      <div class="tip-content">
+        <h2>1. Dark, Thick Clouds</h2>
+        <p>
+          The sky becomes unusually dark with thick, fast-moving clouds before a typhoon.<br><br>
+          <span class="translated">Nagiging sobrang madilim ang kalangitan na may makakapal at mabilis na ulap bago ang
+            isang bagyo.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/strong_winds.png" alt="Strong Winds" class="tip-img">
+      <div class="tip-content">
+        <h2>2. Sudden Strong Winds</h2>
+        <p>
+          Strong gusts of wind may arrive even before the rain starts.<br><br>
+          <span class="translated">Maaaring maramdaman ang biglaang malalakas na hangin kahit bago magsimula ang
+            ulan.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/heavy_rain.png" alt="Heavy Rain" class="tip-img">
+      <div class="tip-content">
+        <h2>3. Continuous Heavy Rain</h2>
+        <p>
+          Prolonged heavy rainfall usually signals that a typhoon is approaching.<br><br>
+          <span class="translated">Ang matagal na malakas na ulan ay karaniwang hudyat ng papalapit na bagyo.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/storm_surge.png" alt="High Waves" class="tip-img">
+      <div class="tip-content">
+        <h2>4. Unusual Rise of Sea Water</h2>
+        <p>
+          Storm surges and unusually high waves are signs of an incoming typhoon near coastal areas.<br><br>
+          <span class="translated">Ang biglaang pagtaas ng tubig-dagat at malalaking alon ay palatandaan ng papalapit na
+            bagyo.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/weather_alert.png" alt="Weather Alerts" class="tip-img">
+      <div class="tip-content">
+        <h2>5. Weather Bureau Warnings</h2>
+        <p>
+          Official typhoon warnings from PAGASA or local authorities should always be taken seriously.<br><br>
+          <span class="translated">Ang mga opisyal na babala mula sa PAGASA o lokal na awtoridad ay dapat laging
+            seryosohin.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+    ?
+  </div>
+
+  <!-- Quiz Modal -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content quiz-modal">
+        <div class="quiz-header">
+          <i class="bi bi-patch-question-fill"></i>
+          <span class="quiz-title" id="quizModalLabel">Typhoon Signs Quiz</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="quiz-body">
+          <form id="quizForm">
+            <div class="quiz-question">
+              <div class="quiz-label">1. Which of the following is a visual sign that a typhoon may be approaching?</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q1" id="q1a" value="Dark, Thick Clouds">
+                  <label class="form-check-label" for="q1a">Dark, Thick Clouds</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q1" id="q1b" value="Clear Blue Sky">
+                  <label class="form-check-label" for="q1b">Clear Blue Sky</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q1" id="q1c" value="Snowfall">
+                  <label class="form-check-label" for="q1c">Snowfall</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">2. What should you do if PAGASA issues a typhoon warning?</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q2" id="q2a" value="Ignore the warning">
+                  <label class="form-check-label" for="q2a">Ignore the warning</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q2" id="q2b" value="Take it seriously and prepare">
+                  <label class="form-check-label" for="q2b">Take it seriously and prepare</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q2" id="q2c" value="Go to the beach">
+                  <label class="form-check-label" for="q2c">Go to the beach</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">3. Which of these are common signs of an incoming typhoon? (Select all that apply)
+              </div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3a" value="Sudden Strong Winds">
+                  <label class="form-check-label" for="q3a">Sudden Strong Winds</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3b" value="Continuous Heavy Rain">
+                  <label class="form-check-label" for="q3b">Continuous Heavy Rain</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3c" value="Unusual Rise of Sea Water">
+                  <label class="form-check-label" for="q3c">Unusual Rise of Sea Water</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3d" value="Snowfall">
+                  <label class="form-check-label" for="q3d">Snowfall</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3e" value="Weather Bureau Warnings">
+                  <label class="form-check-label" for="q3e">Weather Bureau Warnings</label>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn quiz-btn w-100" onclick="checkTyphoonSignsQuiz()">Check Answers</button>
+          </form>
+          <div id="quizResult" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function goBack() {
+      window.location.href = 'typhoon.html';
+    }
+
+    function checkTyphoonSignsQuiz() {
+      // Correct answers
+      const answers = {
+        q1: "Dark, Thick Clouds",
+        q2: "Take it seriously and prepare",
+        q3: [
+          "Sudden Strong Winds",
+          "Continuous Heavy Rain",
+          "Unusual Rise of Sea Water",
+          "Weather Bureau Warnings"
+        ]
+      };
+      let correct = 0;
+      let form = document.getElementById('quizForm');
+      let result = '';
+
+      // Remove previous coloring
+      form.querySelectorAll('.form-check-input').forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+
+      // Q1 (radio)
+      let q1 = form.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === answers.q1) {
+        q1.classList.add('is-valid');
+        correct++;
+      } else if (q1) {
+        q1.classList.add('is-invalid');
+      }
+
+      // Q2 (radio)
+      let q2 = form.querySelector('input[name="q2"]:checked');
+      if (q2 && q2.value === answers.q2) {
+        q2.classList.add('is-valid');
+        correct++;
+      } else if (q2) {
+        q2.classList.add('is-invalid');
+      }
+
+      // Q3 (checkboxes)
+      let q3Checked = Array.from(form.querySelectorAll('input[name="q3"]:checked')).map(i => i.value);
+      let q3Inputs = form.querySelectorAll('input[name="q3"]');
+      function arraysEqual(a, b) {
+        if (a.length !== b.length) return false;
+        const sortedA = [...a].sort();
+        const sortedB = [...b].sort();
+        return sortedA.every((val, i) => val === sortedB[i]);
+      }
+      if (arraysEqual(q3Checked, answers.q3)) {
+        q3Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q3Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      if (correct === 3) {
+        result = `<div class="alert alert-success">All correct! 🎉</div>`;
+      } else {
+        result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+      }
+      document.getElementById('quizResult').innerHTML = result;
+    }
+  </script>
+
+</body>
+
+</html>

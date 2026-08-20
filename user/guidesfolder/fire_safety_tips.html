@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fire Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #802108;
+      --accent: #a7432d;
+      --bg-light: #ffffff;
+      --bg-color: #f5a684;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header-text h1 {
+      font-size: 1.6rem;
+      margin: 0;
+      line-height: 1.3;
+      font-weight: bold;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .header img {
+      width: 80px;
+      height: auto;
+    }
+
+    .video-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .video-player {
+      width: 100%;
+      max-height: 280px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background-color: #ffc598;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 15px 18px;
+      margin-bottom: 20px;
+    }
+
+    .tip-img {
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tip-content {
+      flex: 1;
+    }
+
+    .tip-content h2 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .tip-content p {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .translated {
+      display: block;
+      margin-top: 8px;
+      font-style: italic;
+      color: #555;
+    }
+
+    /* Floating "?" icon */
+    #help-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #help-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    /* Quiz Modal Custom Design */
+    .modal-content.quiz-modal {
+      background: linear-gradient(135deg, #fffbe6 60%, #f5e1c3 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(127, 81, 18, 0.15);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+    }
+
+    .quiz-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .quiz-body {
+      padding: 24px 24px 12px 24px;
+    }
+
+    .quiz-label {
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .quiz-question {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #e1c3a2;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+      border-left: 5px solid var(--accent);
+      transition: box-shadow 0.2s;
+    }
+
+    .quiz-question span {
+      font-size: 1rem;
+      color: #7f5112;
+      font-weight: 500;
+    }
+
+    .quiz-btn {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .quiz-btn:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    #quizResult {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .is-valid {
+      border-color: #198754 !important;
+      background-color: #e9fbe8 !important;
+    }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+      background-color: #fbeaea !important;
+    }
+
+    @media (max-width: 480px) {
+      .tip-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .tip-img {
+        margin-bottom: 10px;
+      }
+
+      .tip-content {
+        text-align: left;
+      }
+
+      .tip-content h2 {
+        font-size: 1.1rem;
+      }
+
+      .tip-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="back-arrow" onclick="goBack(this)">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </div>
+
+
+    <div class="header">
+      <div class="header-text">
+        <h1>Safety Tips<br><span>During a Fire</span></h1>
+      </div>
+      <img src="assets/fire_tips.png" alt="Fire Safety Icon" />
+    </div>
+
+    <div class="video-section">
+      <video class="video-player" controls>
+        <source src="videos/What to do during Fire.mp4" type="video/mp4">
+      </video>
+      <p><em>This is an offline fire safety video. Please watch carefully.</em></p>
+      <p><small>A video from:
+          <a href="https://youtu.be/Y24R6N8GY8I" target="_blank">
+            "Burn Prevention: What to do if there is a fire" by Children's National Hospital on YouTube
+          </a>
+        </small></p>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/stay_calm.png" alt="Stay Calm" class="tip-img">
+      <div class="tip-content">
+        <h2>1. Stay calm and think clearly</h2>
+        <p>
+          Keep calm and don’t let fear take over. Focus on what to do next so you can act fast and safely.<br><br>
+          <span class="translated">Manatiling kalmado at huwag hayaang manaig ang takot. Ituon ang isip sa susunod na
+            hakbang upang makakilos nang mabilis at ligtas.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/get_out.png" alt="Get Out" class="tip-img">
+      <div class="tip-content">
+        <h2>2. Leave right away and never go back</h2>
+        <p>
+          Once you’re out of the house or building, stay out. Don’t go back for anything — your life is more
+          important.<br><br>
+          <span class="translated">Kapag nakaalis ka na sa bahay o gusali, huwag nang bumalik. Huwag nang kunin pa ang
+            anumang gamit — mas mahalaga ang iyong buhay.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/use_stairs.png" alt="Use Stairs" class="tip-img">
+      <div class="tip-content">
+        <h2>3. Use the stairs — not the elevator</h2>
+        <p>
+          During a fire, elevators can stop working or trap you. Take the stairs to stay safe.<br><br>
+          <span class="translated">Huwag gumamit ng elevator sa oras ng sunog. Maaaring huminto ito o mabilanggo ka.
+            Gumamit ng hagdan para sa kaligtasan.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/check_doors.png" alt="Check Doors" class="tip-img">
+      <div class="tip-content">
+        <h2>4. Feel the door before you open</h2>
+        <p>
+          Use the back of your hand to check if the door is hot. If it is, don’t open it — the fire could be right
+          outside.<br><br>
+          <span class="translated">Gamitin ang likod ng kamay upang suriin kung mainit ang pinto. Kung mainit ito, huwag
+            buksan — maaaring nasa likod lang ang apoy.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/crawl_low.png" alt="Crawl Low" class="tip-img">
+      <div class="tip-content">
+        <h2>5. Stay low and crawl under smoke</h2>
+        <p>
+          Smoke rises fast. If the place is filled with smoke, stay close to the floor where the air is clearer.<br><br>
+          <span class="translated">Ang usok ay mabilis tumaas. Kung mausok na ang paligid, gumapang nang mababa dahil
+            mas malinaw ang hangin malapit sa sahig.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/stop_drop_roll.png" alt="Stop, Drop, and Roll" class="tip-img">
+      <div class="tip-content">
+        <h2>6. Stop, drop, and roll if on fire</h2>
+        <p>
+          If your clothes catch fire, don’t run. Stop, drop to the ground, and roll until the flames are out.<br><br>
+          <span class="translated">Kung nasunog ang iyong damit, huwag tumakbo. Huminto, humiga sa sahig, at gumulong
+            hanggang mamatay ang apoy.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/call_help.png" alt="Call Help" class="tip-img">
+      <div class="tip-content">
+        <h2>7. Ask for help as soon as you're safe</h2>
+        <p>
+          Once you're in a safe place, call 911 or ask someone to contact emergency services right away.<br><br>
+          <span class="translated">Kapag ligtas ka na, tumawag agad sa 911 o humingi ng tulong sa iba upang makontak ang
+            mga awtoridad.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/safe_zone.png" alt="Safe Zone" class="tip-img">
+      <div class="tip-content">
+        <h2>8. Go to your family’s safe meeting spot</h2>
+        <p>
+          Have a planned area outside where everyone will meet. It helps check if anyone is missing.<br><br>
+          <span class="translated">Magtakda ng lugar sa labas kung saan dapat magkita ang pamilya. Nakakatulong ito
+            upang malaman kung may nawawala.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function goBack() {
+      window.location.href = 'fire.html';
+    }
+  </script>
+
+  <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+    ?
+  </div>
+
+  <!-- Quiz Modal -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content quiz-modal">
+        <div class="quiz-header">
+          <i class="bi bi-patch-question-fill"></i>
+          <span class="quiz-title" id="quizModalLabel">Fire Safety Tips Quiz</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="quiz-body">
+          <form id="quizForm">
+            <div class="quiz-question">
+              <div class="quiz-label">1. What should you do during a fire? (Select all that apply)</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1a" value="Stay Calm">
+                  <label class="form-check-label" for="q1a">Stay calm and think clearly</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1b" value="Go Back">
+                  <label class="form-check-label" for="q1b">Go back inside for belongings</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1c" value="Leave Immediately">
+                  <label class="form-check-label" for="q1c">Leave right away and never go back</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q1" id="q1d" value="Use Elevator">
+                  <label class="form-check-label" for="q1d">Use the elevator to escape</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">2. Which of these are correct fire safety actions? (Select all that apply)</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2a" value="Use Stairs">
+                  <label class="form-check-label" for="q2a">Use the stairs, not the elevator</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2b" value="Feel Door">
+                  <label class="form-check-label" for="q2b">Feel the door before opening</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2c" value="Crawl Low">
+                  <label class="form-check-label" for="q2c">Stay low and crawl under smoke</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2d" value="Hide Closet">
+                  <label class="form-check-label" for="q2d">Hide in a closet</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">3. What should you do after escaping a fire? (Select all that apply)</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3a" value="Call Help">
+                  <label class="form-check-label" for="q3a">Call 911 or emergency services</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3b" value="Go Safe Spot">
+                  <label class="form-check-label" for="q3b">Go to your family’s safe meeting spot</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3c" value="Reenter">
+                  <label class="form-check-label" for="q3c">Re-enter the building for pets</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q3" id="q3d" value="Wait Safe">
+                  <label class="form-check-label" for="q3d">Wait for help in a safe place</label>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn quiz-btn w-100" onclick="checkQuiz()">Check Answers</button>
+          </form>
+          <div id="quizResult" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkQuiz() {
+      // Correct answers
+      const answers = {
+        q1: ["Stay Calm", "Leave Immediately"],
+        q2: ["Use Stairs", "Feel Door", "Crawl Low"],
+        q3: ["Call Help", "Go Safe Spot", "Wait Safe"]
+      };
+      let correct = 0;
+      let form = document.getElementById('quizForm');
+      let result = '';
+
+      // Helper to check if two arrays have the same elements (order doesn't matter)
+      function arraysEqual(a, b) {
+        if (a.length !== b.length) return false;
+        const sortedA = [...a].sort();
+        const sortedB = [...b].sort();
+        return sortedA.every((val, i) => val === sortedB[i]);
+      }
+
+      // Remove previous coloring
+      form.querySelectorAll('.form-check-input').forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+
+      // Q1
+      let q1Checked = Array.from(form.querySelectorAll('input[name="q1"]:checked')).map(i => i.value);
+      let q1Inputs = form.querySelectorAll('input[name="q1"]');
+      if (arraysEqual(q1Checked, answers.q1)) {
+        q1Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q1Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      // Q2
+      let q2Checked = Array.from(form.querySelectorAll('input[name="q2"]:checked')).map(i => i.value);
+      let q2Inputs = form.querySelectorAll('input[name="q2"]');
+      if (arraysEqual(q2Checked, answers.q2)) {
+        q2Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q2Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      // Q3
+      let q3Checked = Array.from(form.querySelectorAll('input[name="q3"]:checked')).map(i => i.value);
+      let q3Inputs = form.querySelectorAll('input[name="q3"]');
+      if (arraysEqual(q3Checked, answers.q3)) {
+        q3Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q3Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      if (correct === 3) {
+        result = `<div class="alert alert-success">All correct! 🎉</div>`;
+      } else {
+        result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+      }
+      document.getElementById('quizResult').innerHTML = result;
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>First Aid Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0c5c2c;
+      --accent: #2f855a;
+      --bg-light: #ffffff;
+      --bg-color: #8abf95;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+   .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .firstaid-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .firstaid-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .firstaid-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .firstaid-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .firstaid-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    #firstaid-game-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent);
+      animation: shake-float 0.7s infinite alternate;
+    }
+    #firstaid-game-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    @keyframes shake-float {
+      0% { transform: translate(0, 0) rotate(-3deg);}
+      100% { transform: translate(2px, 2px) rotate(3deg);}
+    }
+    .modal-content.firstaid-game-modal {
+      max-width: 350px;
+      width: 98vw;
+      margin: auto;
+      padding-left: 0;
+      padding-right: 0;
+      overflow: hidden;
+      border-radius: 18px; /* Match modal curve */
+      border: none;        /* Remove border */
+      background-clip: padding-box;
+    }
+    @media (max-width: 480px) {
+      .modal-content.firstaid-game-modal {
+        max-width: 99vw;
+        width: 99vw;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      #firstaidGameArea {
+        width: 96vw;
+        min-width: 180px;
+        max-width: 99vw;
+        padding-left: 4vw;
+        padding-right: 4vw;
+      }
+    }
+    .firstaid-game-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .firstaid-game-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+    .firstaid-game-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    .firstaid-game-body {
+      padding: 18px 12px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #firstaidGameArea {
+      width: 320px;
+      min-height: 220px;
+      background: #f6fff6;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px #b0e0ce;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .firstaid-patient-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      border: 3px solid #b0e0ce;
+      background: #fff;
+      box-shadow: 0 2px 8px #b0e0ce;
+    }
+    .firstaid-injury {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0c5c2c;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .firstaid-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .firstaid-option-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.08rem;
+      font-weight: 600;
+      padding: 12px 18px;
+      width: 90%;
+      box-shadow: 0 2px 8px #b0e0ce;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+    }
+    .firstaid-option-btn:hover, .firstaid-option-btn:focus {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    .firstaid-game-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0c5c2c;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+    .firstaid-game-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .firstaid-game-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .firstaid-timer {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2f855a;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .firstaid-score {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #2f855a;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .firstaid-hearts {
+      font-size: 1.3rem;
+      color: #dc3545;
+      margin-bottom: 8px;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .firstaid-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .firstaid-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .firstaid-card p {
+        font-size: 0.88rem;
+      }
+      #firstaidGameArea {
+        width: 98vw;
+        min-width: 220px;
+        max-width: 99vw;
+        min-height: 160px;
+      }
+      .modal-dialog {
+        max-width: 99vw;
+      }
+      .firstaid-option-btn {
+        font-size: 0.98rem;
+        padding: 10px 8px;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #e6fff2 70%, #b3ffd6 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(12, 92, 44, 0.13);
+      border: 2px solid #b3ffd6;
+      padding-bottom: 8px;
+    }
+    .volcano-game-controls .firstaid-option-btn {
+      padding: 14px 38px;
+      font-size: 1.15rem;
+      width: 140px;
+      border-radius: 12px;
+      margin: 10px auto 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>Basic<br><span>First Aid Tips</span></h1>
+      </div>
+      <img src="assets/firstaid.png" alt="First Aid Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="firstaid-card d-flex justify-content-between align-items-center"
+      onclick="openContent('firstaid_bleeding.html')">
+      <div>
+        <h2>First Aid for Bleeding</h2>
+        <p>(Pagbigay lunas sa pagdurugo)</p>
+      </div>
+      <img src="assets/bleeding.png" alt="Bleeding Icon" />
+    </div>
+
+    <div class="firstaid-card d-flex justify-content-between align-items-center"
+      onclick="openContent('firstaid_burns.html')">
+      <div>
+        <h2>First Aid for Burns</h2>
+        <p>(Pagbigay lunas sa paso)</p>
+      </div>
+      <img src="assets/burns.png" alt="Burns Icon" />
+    </div>
+
+    <div class="firstaid-card d-flex justify-content-between align-items-center"
+      onclick="openContent('firstaid_choking.html')">
+      <div>
+        <h2>What to do if someone is choking</h2>
+        <p>(Anong gagawin kung may nasasamid?)</p>
+      </div>
+      <img src="assets/choking.png" alt="Choking Icon" />
+    </div>
+
+    <div class="firstaid-card d-flex justify-content-between align-items-center"
+      onclick="openContent('firstaid_fracture.html')">
+      <div>
+        <h2>How to help with a fracture</h2>
+        <p>(Paano tumulong sa may bali?)</p>
+      </div>
+      <img src="assets/fracture.png" alt="Fracture Icon" />
+    </div>
+
+    <div class="firstaid-card d-flex justify-content-between align-items-center"
+      onclick="openContent('firstaid_cpr.html')">
+      <div>
+        <h2>CPR Basics</h2>
+        <p>(Pangunahing kaalaman sa CPR)</p>
+      </div>
+      <img src="assets/cpr.png" alt="CPR Icon" />
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+
+
+    // Array of trivia facts
+    const triviaFacts = [
+      "The Golden Hour refers to the critical first 60 minutes after a traumatic injury when emergency treatment is most effective.",
+      "The recovery position places an unconscious but breathing person on their side to keep airways clear and prevent choking.",
+      "CPR (cardiopulmonary resuscitation) can double or triple a cardiac arrest victim's chance of survival if performed immediately.",
+      "The Heimlich maneuver was invented by Dr. Henry Heimlich in 1974 and has saved thousands of choking victims.",
+      "Applying ice directly to skin can cause ice burns—always wrap ice packs in cloth before applying to injuries.",
+      "The red cross symbol used globally for first aid was adopted at the Geneva Convention of 1864.",
+      "Tourniquets should only be applied to limbs with life-threatening bleeding that cannot be controlled by direct pressure.",
+      "Shock is a life-threatening condition where blood flow is inadequate to supply oxygen to vital organs and tissues.",
+      "The average adult can lose about 15% of blood volume before experiencing symptoms of shock.",
+      "Tilting the head back to stop a nosebleed is a myth—leaning forward prevents blood from flowing down the throat.",
+      "The five-and-five approach for choking involves five back blows followed by five abdominal thrusts.",
+      "Hands-Only CPR, which involves chest compressions without rescue breaths, is recommended for bystanders untrained in full CPR.",
+      "Aspirin can help during a heart attack by preventing blood clots from growing, but should only be given if not allergic.",
+      "The depth of chest compressions during CPR should be at least 2 inches for adults and at a rate of 100-120 compressions per minute.",
+      "Automated External Defibrillators (AEDs) can detect heart rhythms and will only deliver shocks when necessary.",
+      "Hypothermia can occur in temperatures as high as 60°F (15°C) if a person is wet or in windy conditions.",
+      "The universal choking sign is clutching the throat with one or both hands.",
+      "Burns are classified into first, second, and third degree based on the depth and severity of skin damage.",
+      "Cool running water for 10-20 minutes is the best immediate treatment for minor burns, not ice or butter.",
+      "Epinephrine auto-injectors (EpiPens) must be injected into the outer thigh muscle during severe allergic reactions.",
+      "The ABC approach in first aid stands for Airway, Breathing, and Circulation—the priority order for assessment.",
+      "Wilderness first aid protocols differ from urban first aid because rescue may be hours or days away.",
+      "Fainting is often caused by a sudden drop in blood pressure, reducing blood flow to the brain temporarily.",
+      "The rule of nines helps estimate burn severity by dividing the body into sections worth 9% of total body surface area.",
+      "Activated charcoal can absorb certain poisons in the stomach but should only be administered by medical professionals.",
+      "Hyperventilation during panic attacks can be helped by breathing slowly into cupped hands, not paper bags which can be dangerous.",
+      "The danger zone for food safety is between 40°F and 140°F where bacteria multiply rapidly.",
+      "Anaphylaxis symptoms can include difficulty breathing, swelling, hives, and rapid pulse—requiring immediate epinephrine.",
+      "Compression bandages should be applied firmly but not so tight that they cut off circulation or cause numbness.",
+      "Good Samaritan laws in many countries protect people who provide reasonable emergency assistance from legal liability."
+
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function goBack() {
+      window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+  </script>
+
+  <div id="firstaid-game-float" title="Play First Aid Game!" data-bs-toggle="modal" data-bs-target="#firstaidGameModal">
+    <i class="bi bi-heart-pulse"></i>
+  </div>
+
+  <!-- First Aid Mini Game Modal -->
+  <div class="modal fade" id="firstaidGameModal" tabindex="-1" aria-labelledby="firstaidGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content firstaid-game-modal">
+        <div class="firstaid-game-header">
+          <i class="bi bi-heart-pulse"></i>
+          <span class="firstaid-game-title" id="firstaidGameModalLabel">First Aid Challenge Game</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close" onclick="endFirstAidGame()"></button>
+        </div>
+        <div class="firstaid-game-body">
+          <div class="firstaid-score" id="firstaidScore">Score: 0</div>
+          <div class="firstaid-hearts" id="firstaidHearts">❤️❤️❤️</div>
+          <div class="firstaid-timer" id="firstaidTimer">Time: 5</div>
+          <div id="firstaidGameArea"></div>
+          <div class="firstaid-game-status" id="firstaidGameStatus"></div>
+          <div class="volcano-game-controls">
+            <button class="firstaid-option-btn" onclick="resetFirstAidGame()">Restart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content trivia-modal">
+        <div class="trivia-header d-flex align-items-center" style="background: #e6fff2; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+          <i class="bi bi-lightbulb" style="font-size:2rem;color:#2f855a;background:#eafff4;border-radius:50%;padding:8px;margin-right:10px;"></i>
+          <span style="font-size:1.2rem;font-weight:600;color:#0c5c2c;">Did you know that:</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #e6fff2 70%, #b3ffd6 100%); border-radius: 0 0 16px 16px;">
+          <div style="font-size:1.08rem;color:#0c5c2c;font-weight:500;">
+            <span style="font-weight:600;">Just pressing firmly on a bleeding wound can save a life faster than most high-tech gear.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // First Aid Game Data
+    const firstAidCases = [
+      {
+        injury: "Burn",
+        img: "uploads/burn.jpg",
+        correct: "Cool the burn with running water",
+        options: [
+          "Cool the burn with running water",
+          "Apply ice directly",
+          "Cover with butter"
+        ]
+      },
+      {
+        injury: "Cut (Bleeding)",
+        img: "uploads/cut.jpg",
+        correct: "Apply pressure to stop bleeding",
+        options: [
+          "Apply pressure to stop bleeding",
+          "Remove any embedded object",
+          "Wash with hot water"
+        ]
+      },
+      {
+        injury: "Fracture",
+        img: "uploads/fracture.jpg",
+        correct: "Immobilize the injured area",
+        options: [
+          "Immobilize the injured area",
+          "Move the limb to check movement",
+          "Apply heat pack"
+        ]
+      },
+      {
+        injury: "Fainting",
+        img: "uploads/fainting.jpg",
+        correct: "Lay the person down and raise legs",
+        options: [
+          "Lay the person down and raise legs",
+          "Give them water immediately",
+          "Shake them to wake up"
+        ]
+      }
+    ];
+
+    let firstaidScore = 0;
+    let firstaidLives = 3;
+    let firstaidTimer = 5;
+    let firstaidTimerInterval = null;
+    let firstaidCurrentCase = null;
+    let firstaidGameActive = false;
+    let firstaidAskedIndexes = [];
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function showFirstAidCase() {
+      const area = document.getElementById('firstaidGameArea');
+      area.innerHTML = '';
+      document.getElementById('firstaidGameStatus').textContent = '';
+
+      // Pick a random case that hasn't been answered correctly yet
+      let availableIndexes = [];
+      for (let i = 0; i < firstAidCases.length; i++) {
+        if (!firstaidAskedIndexes.includes(i)) availableIndexes.push(i);
+      }
+      if (availableIndexes.length === 0) {
+        endFirstAidGame('win');
+        return;
+      }
+      let idx = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+      firstaidCurrentCase = { ...firstAidCases[idx], _idx: idx };
+
+      // Shuffle options
+      let options = shuffleArray([...firstaidCurrentCase.options]);
+      // Patient image
+      let img = document.createElement('img');
+      img.src = firstaidCurrentCase.img;
+      img.className = 'firstaid-patient-img';
+      img.alt = firstaidCurrentCase.injury;
+      area.appendChild(img);
+      // Injury text
+      let injury = document.createElement('div');
+      injury.className = 'firstaid-injury';
+      injury.textContent = "Patient: " + firstaidCurrentCase.injury;
+      area.appendChild(injury);
+      // Options
+      let optionsDiv = document.createElement('div');
+      optionsDiv.className = 'firstaid-options';
+      options.forEach(opt => {
+        let btn = document.createElement('button');
+        btn.className = 'firstaid-option-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectFirstAidOption(opt);
+        optionsDiv.appendChild(btn);
+      });
+      area.appendChild(optionsDiv);
+      // Start timer
+      firstaidTimer = 5;
+      document.getElementById('firstaidTimer').textContent = "Time: " + firstaidTimer;
+      if (firstaidTimerInterval) clearInterval(firstaidTimerInterval);
+      firstaidTimerInterval = setInterval(() => {
+        if (!firstaidGameActive) return;
+        firstaidTimer--;
+        document.getElementById('firstaidTimer').textContent = "Time: " + firstaidTimer;
+        if (firstaidTimer <= 0) {
+          clearInterval(firstaidTimerInterval);
+          selectFirstAidOption(null); // Timeout
+        }
+      }, 1000);
+    }
+
+    function selectFirstAidOption(opt) {
+      if (!firstaidGameActive) return;
+      firstaidGameActive = false;
+      clearInterval(firstaidTimerInterval);
+      let status = document.getElementById('firstaidGameStatus');
+      if (opt === firstaidCurrentCase.correct) {
+        firstaidScore++;
+        firstaidAskedIndexes.push(firstaidCurrentCase._idx);
+        status.innerHTML = '<span class="firstaid-game-success">Correct! 👍</span>';
+      } else {
+        firstaidLives--;
+        status.innerHTML = '<span class="firstaid-game-over">Wrong! The patient worsened.</span>';
+      }
+      updateFirstAidScore();
+      setTimeout(() => {
+        if (firstaidScore >= 3) {
+          endFirstAidGame('win');
+        } else if (firstaidLives <= 0) {
+          endFirstAidGame('lose');
+        } else {
+          firstaidGameActive = true;
+          showFirstAidCase();
+        }
+      }, 1200);
+    }
+
+    function updateFirstAidScore() {
+      document.getElementById('firstaidScore').textContent = "Score: " + firstaidScore;
+      let hearts = '';
+      for (let i = 0; i < firstaidLives; i++) hearts += '❤️';
+      document.getElementById('firstaidHearts').textContent = hearts;
+    }
+
+    function startFirstAidGame() {
+      firstaidScore = 0;
+      firstaidLives = 3;
+      firstaidAskedIndexes = [];
+      firstaidGameActive = true;
+      updateFirstAidScore();
+      showFirstAidCase();
+    }
+
+    function endFirstAidGame(result) {
+      firstaidGameActive = false;
+      clearInterval(firstaidTimerInterval);
+      if (result === 'lose') {
+        document.getElementById('firstaidGameStatus').innerHTML =
+          '<span class="firstaid-game-over">Game Over! <br>Score: ' + firstaidScore + '</span>';
+      } else if (result === 'win') {
+        document.getElementById('firstaidGameStatus').innerHTML =
+          '<span class="firstaid-game-success">Congratulations! You answered 3 correctly! 🎉</span>';
+      }
+    }
+
+    function resetFirstAidGame() {
+      endFirstAidGame();
+      setTimeout(startFirstAidGame, 200);
+    }
+
+    // Start game when modal opens
+    document.getElementById('firstaidGameModal').addEventListener('show.bs.modal', function () {
+      setTimeout(startFirstAidGame, 300);
+    });
+    // End game when modal closes
+    document.getElementById('firstaidGameModal').addEventListener('hide.bs.modal', function () {
+      endFirstAidGame();
+    });
+  </script>
+</body>
+
+</html>

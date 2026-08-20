@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Before a Typhoon</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2a4d69;
+      --accent: #4b86b4;
+      --bg-light: #ffffff;
+      --bg-color: #9ebce1;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .header img {
+      width: 85px;
+      height: auto;
+    }
+
+    .video-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .video-player {
+      width: 100%;
+      max-height: 280px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background-color: #d0e1f9;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 15px 18px;
+      margin-bottom: 20px;
+    }
+
+    .tip-img {
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tip-img1 {
+      width: 220px;
+      height: 120px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tip-content {
+      flex: 1;
+    }
+
+    .tip-content h2 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .tip-content p {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .translated {
+      display: block;
+      margin-top: 8px;
+      font-style: italic;
+      color: #555;
+    }
+
+    #help-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary);
+      color: #fff;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #help-float:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .modal-content.quiz-modal {
+      background: linear-gradient(135deg, #e8f2fa 60%, #b5d0ee 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(14, 76, 146, 0.10);
+      border: 2px solid var(--accent);
+      padding-bottom: 8px;
+    }
+
+    .quiz-header {
+      background: var(--primary);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 18px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-header i {
+      font-size: 2rem;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .quiz-body {
+      padding: 24px 24px 12px 24px;
+    }
+
+    .quiz-label {
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .quiz-question {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #b5d0ee;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+      border-left: 5px solid var(--accent);
+      transition: box-shadow 0.2s;
+    }
+
+    .quiz-btn {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .quiz-btn:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    #quizResult {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .is-valid {
+      border-color: #198754 !important;
+      background-color: #e9fbe8 !important;
+    }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+      background-color: #fbeaea !important;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-body {
+        padding: 14px 4px 8px 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .tip-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .tip-img {
+        margin-bottom: 10px;
+      }
+
+      .tip-content {
+        text-align: left;
+      }
+
+      .tip-content h2 {
+        font-size: 1.1rem;
+      }
+
+      .tip-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="back-arrow" onclick="goBack()">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </div>
+
+    <div class="header">
+      <div class="header-text">
+        <h1>Before a Typhoon<br><span>Preparation Tips</span></h1>
+      </div>
+      <img src="assets/before_typhoon.png" alt="Typhoon Icon" />
+    </div>
+
+    <div class="video-section">
+      <video class="video-player" controls>
+        <source src="videos/Before a Typhoon.mp4" type="video/mp4">
+      </video>
+      <p><em>This video explains important preparations before a typhoon.</em></p>
+      <p><small>Clip from:
+          <a href="https://youtu.be/7rsZCvagPXs" target="_blank">
+            "SCIENCE 8 Q2. Module 6 - What To Do BEFORE, DURING and AFTER Typhoon? Part 2" by Khristine Min Jin on
+            YouTube
+          </a>
+        </small></p>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/check_house.png" alt="Secure Your Home" class="tip-img1">
+      <div class="tip-content">
+        <h2>1. Secure your house</h2>
+        <p>
+          Check and repair your roof, windows, and walls to withstand strong winds.<br><br>
+          <span class="translated">Siguraduhin na matibay ang bubong, bintana, at pader ng bahay laban sa malakas na
+            hangin.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/emergency_kit.png" alt="Emergency Kit" class="tip-img">
+      <div class="tip-content">
+        <h2>2. Prepare an emergency kit</h2>
+        <p>
+          Stock up on food, water, flashlight, batteries, medicines, and other essentials.<br><br>
+          <span class="translated">Maghanda ng emergency kit na may pagkain, tubig, flashlight, baterya, gamot, at iba
+            pang kailangan.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/emergency_plan.png" alt="Evacuation Plan" class="tip-img">
+      <div class="tip-content">
+        <h2>3. Know evacuation routes</h2>
+        <p>
+          Identify the nearest evacuation centers and safe routes before the storm hits.<br><br>
+          <span class="translated">Alamin ang pinakamalapit na evacuation center at ligtas na ruta bago dumating ang
+            bagyo.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/store_important_documents.png" alt="Store Supplies Safely" class="tip-img">
+      <div class="tip-content">
+        <h2>4. Store and protect important documents</h2>
+        <p>
+          Keep valuables, important documents, and supplies in waterproof containers.<br><br>
+          <span class="translated">Ilagay ang mahahalagang gamit at dokumento sa mga lalagyang hindi napapasukan ng
+            tubig.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/stay_informed.png" alt="Listen to Weather Updates" class="tip-img">
+      <div class="tip-content">
+        <h2>5. Monitor weather updates</h2>
+        <p>
+          Stay updated with news and warnings from PAGASA and local authorities.<br><br>
+          <span class="translated">Makinig sa balita at babala mula sa PAGASA at lokal na pamahalaan.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <img src="assets/help_neighbors.png" alt="Help Neighbors" class="tip-img">
+      <div class="tip-content">
+        <h2>6. Help your neighbors</h2>
+        <p>
+          Assist the elderly, children, and people with disabilities in preparing for the typhoon.<br><br>
+          <span class="translated">Tumulong sa matatanda, bata, at PWD sa paghahanda bago ang bagyo.</span>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+    ?
+  </div>
+
+  <!-- Quiz Modal -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content quiz-modal">
+        <div class="quiz-header">
+          <i class="bi bi-patch-question-fill"></i>
+          <span class="quiz-title" id="quizModalLabel">Before a Typhoon Quiz</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="quiz-body">
+          <form id="quizForm">
+            <div class="quiz-question">
+              <div class="quiz-label">1. Which of the following is an important preparation before a typhoon?</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q1" id="q1a" value="Check and repair your house">
+                  <label class="form-check-label" for="q1a">Check and repair your house</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q1" id="q1b" value="Go swimming">
+                  <label class="form-check-label" for="q1b">Go swimming</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q1" id="q1c" value="Ignore weather updates">
+                  <label class="form-check-label" for="q1c">Ignore weather updates</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">2. What should you include in your emergency kit? (Select all that apply)</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2a" value="Food and water">
+                  <label class="form-check-label" for="q2a">Food and water</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2b" value="Flashlight and batteries">
+                  <label class="form-check-label" for="q2b">Flashlight and batteries</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2c" value="Medicines">
+                  <label class="form-check-label" for="q2c">Medicines</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="q2" id="q2d" value="Unimportant papers">
+                  <label class="form-check-label" for="q2d">Rejected thesis ideas</label>
+                </div>
+              </div>
+            </div>
+            <div class="quiz-question">
+              <div class="quiz-label">3. Why is it important to know evacuation routes before a typhoon?</div>
+              <div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q3" id="q3a" value="To escape safely if needed">
+                  <label class="form-check-label" for="q3a">To escape safely if needed</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q3" id="q3b" value="To take a shortcut to work">
+                  <label class="form-check-label" for="q3b">To take a shortcut to work</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q3" id="q3c" value="To avoid your neighbors">
+                  <label class="form-check-label" for="q3c">To avoid your neighbors</label>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn quiz-btn w-100" onclick="checkTyphoonBeforeQuiz()">Check Answers</button>
+          </form>
+          <div id="quizResult" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function goBack() {
+      window.location.href = 'typhoon.html';
+    }
+
+    function checkTyphoonBeforeQuiz() {
+      // Correct answers
+      const answers = {
+        q1: "Check and repair your house",
+        q2: ["Food and water", "Flashlight and batteries", "Medicines"],
+        q3: "To escape safely if needed"
+      };
+      let correct = 0;
+      let form = document.getElementById('quizForm');
+      let result = '';
+
+      // Remove previous coloring
+      form.querySelectorAll('.form-check-input').forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+
+      // Q1 (radio)
+      let q1 = form.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === answers.q1) {
+        q1.classList.add('is-valid');
+        correct++;
+      } else if (q1) {
+        q1.classList.add('is-invalid');
+      }
+
+      // Q2 (checkboxes)
+      let q2Checked = Array.from(form.querySelectorAll('input[name="q2"]:checked')).map(i => i.value);
+      let q2Inputs = form.querySelectorAll('input[name="q2"]');
+      function arraysEqual(a, b) {
+        if (a.length !== b.length) return false;
+        const sortedA = [...a].sort();
+        const sortedB = [...b].sort();
+        return sortedA.every((val, i) => val === sortedB[i]);
+      }
+      if (arraysEqual(q2Checked, answers.q2)) {
+        q2Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-valid');
+        });
+        correct++;
+      } else {
+        q2Inputs.forEach(i => {
+          if (i.checked) i.classList.add('is-invalid');
+        });
+      }
+
+      // Q3 (radio)
+      let q3 = form.querySelector('input[name="q3"]:checked');
+      if (q3 && q3.value === answers.q3) {
+        q3.classList.add('is-valid');
+        correct++;
+      } else if (q3) {
+        q3.classList.add('is-invalid');
+      }
+
+      if (correct === 3) {
+        result = `<div class="alert alert-success">All correct! 🎉</div>`;
+      } else {
+        result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+      }
+      document.getElementById('quizResult').innerHTML = result;
+    }
+  </script>
+
+</body>
+
+</html>

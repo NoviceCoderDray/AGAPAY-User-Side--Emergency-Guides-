@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accident Safety Tips</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2a4d69;
+      --accent: #4b86b4;
+      --bg-light: #ffffff;
+      --bg-color: #b0c0ce;
+      --text-dark: #1c1c1c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      color: var(--primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .back-arrow:hover {
+      background-color: #e0e0e0;
+    }
+
+    .header-text h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .header-text h1 span {
+      color: var(--primary);
+    }
+
+    .acc-card {
+      background-color: #fefefe;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      min-height: 95px;
+    }
+
+    .acc-card:hover {
+      background-color: #f4f4f4;
+      transform: scale(1.01);
+    }
+
+    .acc-card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .acc-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .acc-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    #maze-ambulance-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary, #2a4d69);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent, #4b86b4);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #maze-ambulance-float:hover {
+      background: var(--accent, #4b86b4);
+      color: var(--primary, #2a4d69);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.maze-ambulance-modal {
+      background: linear-gradient(135deg, #f8fff8 60%, #b0c0ce 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(41, 128, 185, 0.10);
+      border: 2px solid var(--accent, #4b86b4);
+      padding-bottom: 8px;
+    }
+
+    .maze-ambulance-header {
+      background: var(--primary, #2a4d69);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 10px 18px 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .maze-ambulance-header i {
+      font-size: 2rem;
+      background: var(--accent, #4b86b4);
+      color: var(--primary, #2a4d69);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .maze-ambulance-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .maze-ambulance-body {
+      padding: 18px 12px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #mazeAmbulanceGameArea {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      background: #eaf6fb;
+      border: 3px solid var(--primary, #2a4d69);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #b0c0ce;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+      gap: 2px;
+      touch-action: none;
+    }
+
+    .maze-tile {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 7px;
+      border: 2px solid #b0c0ce;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      user-select: none;
+      position: relative;
+      z-index: 2;
+      transition: background 0.2s;
+    }
+
+    .maze-tile.wall {
+      background: #b0c0ce;
+      border: 2px solid #2a4d69;
+    }
+
+    .maze-tile.vehicle {
+      background: #4b86b4;
+      border: 2px solid #2a4d69;
+      font-size: 1.3rem;
+      z-index: 3;
+    }
+
+    .maze-tile.ambulance {
+      background: #fff;
+      border: 2px solid #dc3545;
+      font-size: 1.7rem;
+      z-index: 4;
+      box-shadow: 0 2px 8px #dc3545;
+    }
+
+    .maze-tile.finish {
+      background: #dc3545;
+      border: 2px solid #fff;
+      font-size: 1.7rem;
+      z-index: 2;
+    }
+
+    .maze-ambulance-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 8px;
+      margin-top: 2px;
+    }
+
+    .maze-ambulance-controls-row {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .maze-ambulance-btn {
+      background: var(--primary, #2a4d69);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 2.6rem;
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #b0c0ce;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      font-weight: bold;
+      outline: none;
+      user-select: none;
+    }
+
+    .maze-ambulance-btn:active {
+      background: var(--accent, #4b86b4);
+      color: var(--primary, #2a4d69);
+      transform: scale(0.97);
+    }
+
+    .maze-ambulance-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2a4d69;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .maze-ambulance-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .maze-ambulance-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .maze-ambulance-timer {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #dc3545;
+      margin-bottom: 6px;
+      text-align: center;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2px 12px;
+      border: 2px solid #b0c0ce;
+      display: inline-block;
+      min-width: 60px;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .acc-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .acc-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .acc-card p {
+        font-size: 0.88rem;
+      }
+
+      #mazeAmbulanceGameArea {
+        width: 98vw;
+        min-width: 180px;
+        max-width: 99vw;
+        height: 54vw;
+        max-height: 70vw;
+        min-height: 180px;
+      }
+
+      .modal-dialog {
+        max-width: 99vw;
+      }
+
+      .maze-ambulance-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.9rem;
+      }
+    }
+
+    /* Enlarge modal for mobile and desktop so the 10x10 maze fits well */
+    @media (max-width: 600px) {
+      .modal-dialog {
+        max-width: 99vw !important;
+        width: 99vw !important;
+        margin: 0 auto;
+      }
+
+      #mazeAmbulanceGameArea {
+        width: 98vw !important;
+        height: 98vw !important;
+        min-width: 320px;
+        min-height: 320px;
+        max-width: 99vw;
+        max-height: 99vw;
+        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-rows: repeat(10, 1fr) !important;
+      }
+    }
+
+    @media (min-width: 601px) {
+      .modal-dialog {
+        max-width: 540px !important;
+        width: 540px !important;
+      }
+
+      #mazeAmbulanceGameArea {
+        width: 480px !important;
+        height: 480px !important;
+        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-rows: repeat(10, 1fr) !important;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #f8fbff 70%, #b0c0ce 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(42, 77, 105, 0.13);
+      border: 2px solid #b0c0ce;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" style="max-width: 600px;">
+    <div class="d-flex align-items-center mb-3">
+      
+      <span class="back-arrow me-auto" onclick="goBack()">
+      <i class="bi bi-chevron-left"></i>
+      </span>
+
+      <!-- Change the Trivia back-arrow span to trigger the modal -->
+      <span class="back-arrow ms-auto" title="Trivia" id="triviaBtn" data-bs-toggle="modal" data-bs-target="#triviaModal">
+        <i class="bi bi-lightbulb"></i>
+      </span>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="header-text">
+        <h1>What to do in<br><span>Case of an Accident!</span></h1>
+      </div>
+      <img src="assets/accident.png" alt="Accident Icon" style="width: 65px; max-width: 25%;" />
+    </div>
+
+    <div class="acc-card d-flex justify-content-between align-items-center"
+      onclick="openContent('accident_common_causes.html')">
+      <div>
+        <h2>Common Causes of Accidents</h2>
+        <p>(Mga karaniwang sanhi ng aksidente)</p>
+      </div>
+      <img src="assets/accident_causes.png" alt="Causes Icon" />
+    </div>
+
+    <div class="acc-card d-flex justify-content-between align-items-center"
+      onclick="openContent('vehicle_accident_response.html')">
+      <div>
+        <h2>What to do if you get into a vehicle accident</h2>
+        <p>(Ano ang gagawin kung naaksidente ka sa sasakyan)</p>
+      </div>
+      <img src="assets/car_accident.png" alt="Response Icon" />
+    </div>
+
+    <div class="acc-card d-flex justify-content-between align-items-center"
+      onclick="openContent('accident_prevention.html')">
+      <div>
+        <h2>Accident Prevention Tips</h2>
+        <p>(Mga paraan para makaiwas sa aksidente)</p>
+      </div>
+      <img src="assets/prevention_accident.png" alt="Prevention Icon" />
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+
+
+
+// Array of trivia facts
+    const triviaFacts = [
+      "Globally, about 1.19 million people die every year in road traffic crashes.",
+  "Road traffic injuries are the leading cause of death among children and young adults aged 5–29.",
+  "In low- and middle-income countries, about 92% of road traffic deaths occur.",
+  "In the Philippines, road accidents are among the top causes of death for young people.",
+  "Common causes of road accidents include speeding, distracted driving, and poor road conditions.",
+  "Wearing helmets and seat belts significantly reduces injury risk in crashes.",
+  "Road design that separates vulnerable users (pedestrians, cyclists) decreases crash risk.",
+  "Poor road maintenance, like potholes and broken guardrails, contributes to accidents.",
+  "Weather conditions like rain and flood increase the risk of road accidents.",
+  "The annual global cost of road traffic crashes is about 3% of many countries’ GDP.",
+  "Motorcyclists and pedestrians make up more than half of road deaths in many countries.",
+  "Regular vehicle inspections help reduce crashes caused by mechanical failure.",
+  "In many countries, driver fatigue and alcohol remain major risk factors.",
+  "Post-crash emergency medical response time affects survival chances.",
+  "Infrastructure improvements like safe crossings and lighting reduce pedestrian crashes.",
+  "Promoting public transport and safer urban mobility helps reduce accident rates.",
+  "In the Philippines, only a small portion of crash victims are bicyclists or pedestrians compared to the global average.",
+  "Data collection and reporting improve road safety policies and enforcement.",
+  "Autonomous and driver-assist technologies may reduce human-error crashes.",
+  "Insurance incentives for safe driving behavior encourage better practice.",
+  "In some countries, road accidents kill more people than many natural disasters.",
+  "Young male drivers tend to be at higher risk for severe road accidents.",
+  "Urban traffic congestion may increase minor accidents but lower average speed and severity.",
+  "Designing roads for vulnerable users is part of the Safe System approach.",
+  "Road safety education for young drivers helps lower crash rates.",
+  "Globally, road crashes remain a persistent public health crisis despite some declines.",
+  "Vehicle safety features like ABS brakes, airbags, and stability control reduce fatality risk.",
+  "Building a nationwide road-safety culture is as important as laws and infrastructure.",
+  "Speed limit enforcement is a proven measure to reduce crash fatalities.",
+  "Road accidents are predictable and largely preventable with proper measures."
+
+    ];
+
+    function updateTriviaContent() {
+      // Get a random trivia fact
+      const randomIndex = Math.floor(Math.random() * triviaFacts.length);
+      const randomFact = triviaFacts[randomIndex];
+      
+      // Update the trivia content
+      document.querySelector('.trivia-body div').innerHTML = 
+        `<span style="font-weight:600;">${randomFact}</span>`;
+    }
+
+    // Add event listener to trivia modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const triviaModal = document.getElementById('triviaModal');
+      triviaModal.addEventListener('show.bs.modal', updateTriviaContent);
+    });
+    // End of trivia facts code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function goBack() {
+      window.location.href = '../guides.php';
+    }
+
+    function openContent(file) {
+      window.location.href = file;
+    }
+  </script>
+
+  <style>
+    #maze-ambulance-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 1050;
+      background: var(--primary, #2a4d69);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 3px solid var(--accent, #4b86b4);
+      animation: shake-float 0.7s infinite alternate;
+    }
+
+    #maze-ambulance-float:hover {
+      background: var(--accent, #4b86b4);
+      color: var(--primary, #2a4d69);
+    }
+
+    @keyframes shake-float {
+      0% {
+        transform: translate(0, 0) rotate(-3deg);
+      }
+
+      100% {
+        transform: translate(2px, 2px) rotate(3deg);
+      }
+    }
+
+    .modal-content.maze-ambulance-modal {
+      background: linear-gradient(135deg, #f8fff8 60%, #b0c0ce 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(41, 128, 185, 0.10);
+      border: 2px solid var(--accent, #4b86b4);
+      padding-bottom: 8px;
+    }
+
+    .maze-ambulance-header {
+      background: var(--primary, #2a4d69);
+      color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 10px 18px 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .maze-ambulance-header i {
+      font-size: 2rem;
+      background: var(--accent, #4b86b4);
+      color: var(--primary, #2a4d69);
+      border-radius: 50%;
+      padding: 8px;
+      margin-right: 8px;
+    }
+
+    .maze-ambulance-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .maze-ambulance-body {
+      padding: 18px 12px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #mazeAmbulanceGameArea {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      background: #eaf6fb;
+      border: 3px solid var(--primary, #2a4d69);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px #b0c0ce;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+      gap: 2px;
+      touch-action: none;
+    }
+
+    .maze-tile {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 7px;
+      border: 2px solid #b0c0ce;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      user-select: none;
+      position: relative;
+      z-index: 2;
+      transition: background 0.2s;
+    }
+
+    .maze-tile.wall {
+      background: #b0c0ce;
+      border: 2px solid #2a4d69;
+    }
+
+    .maze-tile.vehicle {
+      background: #4b86b4;
+      border: 2px solid #2a4d69;
+      font-size: 1.3rem;
+      z-index: 3;
+    }
+
+    .maze-tile.ambulance {
+      background: #fff;
+      border: 2px solid #dc3545;
+      font-size: 1.7rem;
+      z-index: 4;
+      box-shadow: 0 2px 8px #dc3545;
+    }
+
+    .maze-tile.finish {
+      background: #dc3545;
+      border: 2px solid #fff;
+      font-size: 1.7rem;
+      z-index: 2;
+    }
+
+    .maze-ambulance-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 8px;
+      margin-top: 2px;
+    }
+
+    .maze-ambulance-controls-row {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .maze-ambulance-btn {
+      background: var(--primary, #2a4d69);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 2.6rem;
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #b0c0ce;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      font-weight: bold;
+      outline: none;
+      user-select: none;
+    }
+
+    .maze-ambulance-btn:active {
+      background: var(--accent, #4b86b4);
+      color: var(--primary, #2a4d69);
+      transform: scale(0.97);
+    }
+
+    .maze-ambulance-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2a4d69;
+      margin-bottom: 4px;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .maze-ambulance-over {
+      color: #dc3545;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .maze-ambulance-success {
+      color: #198754;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .maze-ambulance-timer {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #dc3545;
+      margin-bottom: 6px;
+      text-align: center;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2px 12px;
+      border: 2px solid #b0c0ce;
+      display: inline-block;
+      min-width: 60px;
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .acc-card {
+        min-height: 85px;
+        padding: 14px 16px;
+      }
+
+      .acc-card h2 {
+        font-size: 1.05rem;
+        font-weight: bolder;
+      }
+
+      .acc-card p {
+        font-size: 0.88rem;
+      }
+
+      #mazeAmbulanceGameArea {
+        width: 98vw;
+        min-width: 180px;
+        max-width: 99vw;
+        height: 54vw;
+        max-height: 70vw;
+        min-height: 180px;
+      }
+
+      .modal-dialog {
+        max-width: 99vw;
+      }
+
+      .maze-ambulance-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.9rem;
+      }
+    }
+
+    /* Enlarge modal for mobile and desktop so the 10x10 maze fits well */
+    @media (max-width: 600px) {
+      .modal-dialog {
+        max-width: 99vw !important;
+        width: 99vw !important;
+        margin: 0 auto;
+      }
+
+      #mazeAmbulanceGameArea {
+        width: 98vw !important;
+        height: 98vw !important;
+        min-width: 320px;
+        min-height: 320px;
+        max-width: 99vw;
+        max-height: 99vw;
+        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-rows: repeat(10, 1fr) !important;
+      }
+    }
+
+    @media (min-width: 601px) {
+      .modal-dialog {
+        max-width: 540px !important;
+        width: 540px !important;
+      }
+
+      #mazeAmbulanceGameArea {
+        width: 480px !important;
+        height: 480px !important;
+        grid-template-columns: repeat(10, 1fr) !important;
+        grid-template-rows: repeat(10, 1fr) !important;
+      }
+    }
+
+    .trivia-modal {
+      background: linear-gradient(135deg, #f8fbff 70%, #b0c0ce 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(42, 77, 105, 0.13);
+      border: 2px solid #b0c0ce;
+      padding-bottom: 8px;
+    }
+  </style>
+
+  <div id="maze-ambulance-float" title="Play Ambulance Maze Game!" data-bs-toggle="modal" data-bs-target="#mazeAmbulanceGameModal">
+    <i class="bi bi-truck-front"></i>
+  </div>
+
+  <!-- Maze Ambulance Mini Game Modal -->
+  <div class="modal fade" id="mazeAmbulanceGameModal" tabindex="-1" aria-labelledby="mazeAmbulanceGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content maze-ambulance-modal">
+        <div class="maze-ambulance-header" style="padding: 10px 18px 8px 18px; min-height: 0; align-items: center;">
+          <i class="bi bi-truck-front"></i>
+          <span class="maze-ambulance-title" id="mazeAmbulanceGameModalLabel">Ambulance Maze Rescue</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close" onclick="endMazeAmbulanceGame()"></button>
+        </div>
+        <div class="maze-ambulance-body">
+          <div class="maze-ambulance-timer" id="mazeAmbulanceTimer">Time: 20</div>
+          <div class="maze-ambulance-status" id="mazeAmbulanceStatus">
+            Tap the arrows to drive the ambulance through the traffic maze and reach the accident before time runs out!
+          </div>
+          <div id="mazeAmbulanceGameArea"></div>
+          <div class="maze-ambulance-controls">
+            <div class="maze-ambulance-controls-row">
+              <button class="maze-ambulance-btn" onclick="moveMazeAmbulance('up')" title="Up"><i class="bi bi-arrow-up"></i></button>
+            </div>
+            <div class="maze-ambulance-controls-row">
+              <button class="maze-ambulance-btn" onclick="moveMazeAmbulance('left')" title="Left"><i class="bi bi-arrow-left"></i></button>
+              <button class="maze-ambulance-btn" onclick="moveMazeAmbulance('down')" title="Down"><i class="bi bi-arrow-down"></i></button>
+              <button class="maze-ambulance-btn" onclick="moveMazeAmbulance('right')" title="Right"><i class="bi bi-arrow-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:flex;align-items:center;min-height:100vh;justify-content:center;">
+      <div class="modal-content trivia-modal">
+        <div class="trivia-header d-flex align-items-center" style="background: #f8fbff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 14px 20px 6px 20px;">
+          <i class="bi bi-lightbulb" style="font-size:2rem;color:#4b86b4;background:#eaf6fb;border-radius:50%;padding:8px;margin-right:10px;"></i>
+          <span style="font-size:1.2rem;font-weight:600;color:#2a4d69;">Did you know that:</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="trivia-body" style="padding: 10px 20px 18px 20px; background: linear-gradient(135deg, #f8fbff 70%, #b0c0ce 100%); border-radius: 0 0 16px 16px;">
+          <div style="font-size:1.08rem;color:#2a4d69;font-weight:500;">
+            <span style="font-weight:600;">Just 5 seconds of distraction at highway speed is like driving blind for more than a football field.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Update spawn and finish for each round
+
+    const MAZE_SIZE = 10;
+    const mazeAmbulanceMaps = [
+      // Round 1
+      {
+        map: [
+          [0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
+          [0, 2, 1, 0, 0, 0, 0, 0, 2, 0],
+          [0, 0, 0, 1, 2, 0, 0, 0, 0, 1],
+          [0, 1, 2, 0, 0, 1, 0, 2, 0, 0],
+          [0, 0, 1, 0, 2, 0, 1, 0, 0, 1],
+          [1, 0, 0, 2, 0, 0, 0, 2, 0, 1],
+          [0, 0, 0, 0, 2, 0, 0, 2, 0, 0],
+          [1, 0, 2, 0, 0, 1, 0, 0, 0, 1],
+          [1, 0, 1, 1, 0, 0, 2, 0, 1, 0],
+          [0, 1, 0, 0, 0, 2, 1, 0, 0, 0]
+        ],
+        spawn: { x: 0, y: 0 },
+        finish: { x: 9, y: 9 }
+      },
+      // Round 2
+      {
+        map: [
+          [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+          [0, 2, 0, 2, 0, 0, 1, 0, 2, 0],
+          [0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+          [0, 1, 2, 0, 1, 1, 0, 2, 1, 0],
+          [0, 0, 0, 2, 2, 0, 1, 0, 0, 0],
+          [1, 1, 0, 0, 0, 0, 2, 1, 0, 2],
+          [0, 2, 1, 0, 2, 0, 0, 0, 2, 0],
+          [0, 0, 0, 1, 0, 2, 1, 0, 1, 1],
+          [1, 0, 2, 0, 0, 0, 1, 2, 0, 2],
+          [0, 0, 0, 0, 2, 0, 0, 1, 0, 1]
+        ],
+        spawn: { x: 0, y: 4 },
+        finish: { x: 9, y: 4 }
+      },
+      // Round 3
+      {
+        map: [
+          [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+          [0, 2, 0, 2, 0, 0, 1, 0, 2, 0],
+          [0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+          [0, 1, 2, 0, 1, 1, 0, 2, 1, 0],
+          [0, 0, 0, 2, 2, 0, 1, 0, 0, 0],
+          [1, 1, 0, 0, 1, 0, 2, 1, 0, 0],
+          [0, 2, 1, 0, 2, 0, 0, 0, 2, 0],
+          [0, 0, 0, 0, 0, 2, 1, 0, 0, 0],
+          [1, 0, 2, 0, 0, 0, 1, 2, 0, 0],
+          [0, 0, 0, 0, 2, 0, 0, 1, 0, 0]
+        ],
+        spawn: { x: 8, y: 7 },
+        finish: { x: 5, y: 9 }
+      }
+    ];
+
+    let mazeAmbulance = [];
+    let mazeAmbulancePos = { x: 0, y: 4 };
+    let mazeAmbulanceFinish = { x: 9, y: 4 };
+    let mazeAmbulanceTimer = 30; 
+    let mazeAmbulanceInterval = null;
+    let mazeAmbulanceActive = false;
+    let mazeAmbulanceOver = false;
+    let mazeAmbulanceRound = 0;
+
+    function resetMazeAmbulanceGameVars() {
+      mazeAmbulanceRound = mazeAmbulanceRound || 0;
+      const roundData = mazeAmbulanceMaps[mazeAmbulanceRound % mazeAmbulanceMaps.length];
+      mazeAmbulance = [];
+      for (let y = 0; y < MAZE_SIZE; y++) {
+        mazeAmbulance[y] = [];
+        for (let x = 0; x < MAZE_SIZE; x++) {
+          mazeAmbulance[y][x] = roundData.map[y][x];
+        }
+      }
+      mazeAmbulancePos = { x: roundData.spawn.x, y: roundData.spawn.y };
+      mazeAmbulanceFinish = { x: roundData.finish.x, y: roundData.finish.y };
+      mazeAmbulanceActive = true;
+      mazeAmbulanceOver = false;
+      document.getElementById('mazeAmbulanceStatus').innerHTML =
+        `Round ${mazeAmbulanceRound + 1} of 3<br>Tap the arrows to drive the ambulance through the traffic maze and reach the accident before time runs out!`;
+      document.getElementById('mazeAmbulanceTimer').textContent = "Time: " + mazeAmbulanceTimer;
+      renderMazeAmbulance();
+      // Only start timer on first round
+      if (mazeAmbulanceRound === 0) {
+        if (mazeAmbulanceInterval) clearInterval(mazeAmbulanceInterval);
+        mazeAmbulanceInterval = setInterval(() => {
+          if (!mazeAmbulanceActive || mazeAmbulanceOver) return;
+          mazeAmbulanceTimer--;
+          document.getElementById('mazeAmbulanceTimer').textContent = "Time: " + mazeAmbulanceTimer;
+          if (mazeAmbulanceTimer <= 0) {
+            endMazeAmbulanceGame('timeout');
+          }
+        }, 1000);
+      }
+    }
+
+    function renderMazeAmbulance() {
+      const area = document.getElementById('mazeAmbulanceGameArea');
+      area.innerHTML = '';
+      area.style.gridTemplateColumns = `repeat(${MAZE_SIZE}, 1fr)`;
+      area.style.gridTemplateRows = `repeat(${MAZE_SIZE}, 1fr)`;
+      for (let y = 0; y < MAZE_SIZE; y++) {
+        for (let x = 0; x < MAZE_SIZE; x++) {
+          let div = document.createElement('div');
+          div.className = 'maze-tile';
+          if (mazeAmbulance[y][x] === 1) div.classList.add('wall');
+          if (mazeAmbulance[y][x] === 2) div.classList.add('vehicle');
+          if (mazeAmbulancePos.x === x && mazeAmbulancePos.y === y) {
+            div.classList.add('ambulance');
+            div.innerHTML = '<i class="bi bi-truck-front"></i>';
+          } else if (mazeAmbulanceFinish.x === x && mazeAmbulanceFinish.y === y) {
+            div.classList.add('finish');
+            div.innerHTML = '<i class="bi bi-exclamation-triangle"></i>';
+          }
+          area.appendChild(div);
+        }
+      }
+    }
+
+    function moveMazeAmbulance(dir) {
+      if (!mazeAmbulanceActive || mazeAmbulanceOver) return;
+      let { x, y } = mazeAmbulancePos;
+      let nx = x, ny = y;
+      if (dir === 'up') ny--;
+      if (dir === 'down') ny++;
+      if (dir === 'left') nx--;
+      if (dir === 'right') nx++;
+      if (
+        nx >= 0 && nx < MAZE_SIZE && ny >= 0 && ny < MAZE_SIZE &&
+        mazeAmbulance[ny][nx] === 0
+      ) {
+        mazeAmbulancePos = { x: nx, y: ny };
+        // Check win
+        if (nx === mazeAmbulanceFinish.x && ny === mazeAmbulanceFinish.y) {
+          mazeAmbulanceActive = false;
+          mazeAmbulanceOver = true;
+          renderMazeAmbulance();
+          if (mazeAmbulanceRound < 2) {
+            document.getElementById('mazeAmbulanceStatus').innerHTML =
+              `<span class="maze-ambulance-success">Great! You rescued this round!<br>Get ready for the next maze...</span>`;
+            setTimeout(() => {
+              mazeAmbulanceRound++;
+              mazeAmbulanceActive = true;
+              mazeAmbulanceOver = false;
+              resetMazeAmbulanceGameVars();
+            }, 1800);
+          } else {
+            document.getElementById('mazeAmbulanceStatus').innerHTML =
+              `<span class="maze-ambulance-success">Congratulations! You completed all rescue rounds! 🚑</span>`;
+            if (mazeAmbulanceInterval) clearInterval(mazeAmbulanceInterval);
+          }
+          return;
+        }
+        renderMazeAmbulance();
+      }
+    }
+
+    function endMazeAmbulanceGame(result) {
+      mazeAmbulanceActive = false;
+      mazeAmbulanceOver = true;
+      if (mazeAmbulanceInterval) clearInterval(mazeAmbulanceInterval);
+      if (result === 'timeout') {
+        document.getElementById('mazeAmbulanceStatus').innerHTML =
+          `<span class="maze-ambulance-over">Game Over! The ambulance was too late.<br>Try again!</span>`;
+        mazeAmbulanceRound = 0;
+      }
+    }
+
+    function resetMazeAmbulanceGame() {
+      endMazeAmbulanceGame();
+      mazeAmbulanceRound = 0;
+      mazeAmbulanceTimer = 30; 
+      setTimeout(resetMazeAmbulanceGameVars, 200);
+    }
+
+    // Start game when modal opens
+    document.getElementById('mazeAmbulanceGameModal').addEventListener('show.bs.modal', function () {
+      mazeAmbulanceRound = 0;
+      mazeAmbulanceTimer = 30; 
+      setTimeout(resetMazeAmbulanceGameVars, 300);
+    });
+    document.getElementById('mazeAmbulanceGameModal').addEventListener('hide.bs.modal', function () {
+      endMazeAmbulanceGame();
+    });
+  </script>
+</body>
+
+</html>

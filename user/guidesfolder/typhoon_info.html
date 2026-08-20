@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Typhoon</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0e4c92;
+            --accent: #3a6ea5;
+            --bg-light: #ffffff;
+            --bg-color: #9ebce1;
+            --text-dark: #1c1c1c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .back-arrow:hover {
+            background-color: #e0e0e0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .header-text h1 span {
+            color: var(--primary);
+        }
+
+        .header img {
+            width: 85px;
+            height: auto;
+        }
+
+        .video-list {
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin: 30px 0;
+        }
+
+        .video-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .video-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .video-list::-webkit-scrollbar-thumb {
+            background-color: #aaa;
+            border-radius: 4px;
+        }
+
+        .content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            background-color: #e8f2fa;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background-color: #aaa;
+            border-radius: 4px;
+        }
+
+        .translated {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        ul {
+            padding-left: 18px;
+        }
+
+        #help-float {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1050;
+            background: var(--primary);
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #help-float:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .modal-content.quiz-modal {
+            background: linear-gradient(135deg, #e8f2fa 60%, #b5d0ee 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(14, 76, 146, 0.10);
+            border: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .quiz-header {
+            background: var(--primary);
+            color: #fff;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 18px 24px 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quiz-header i {
+            font-size: 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .quiz-body {
+            padding: 24px 24px 12px 24px;
+        }
+
+        .quiz-label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .quiz-question {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #b5d0ee;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+            border-left: 5px solid var(--accent);
+            transition: box-shadow 0.2s;
+        }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        #quizResult {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .is-valid {
+            border-color: #198754 !important;
+            background-color: #e9fbe8 !important;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fbeaea !important;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-body {
+                padding: 14px 4px 8px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .content {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="d-flex align-items-center mb-3">
+            <span class="back-arrow" onclick="goBack()">
+                <i class="bi bi-chevron-left"></i>
+            </span>
+        </div>
+
+        <div class="header">
+            <div class="header-text">
+                <h1>What is<br><span>Typhoon?</span></h1>
+            </div>
+            <img src="assets/what_typhoon.png" alt="Typhoon Icon" />
+        </div>
+
+        <!-- Scrollable Video Section -->
+        <div class="video-list">
+            <div class="video-section">
+                <video class="video-player" controls>
+                    <source src="videos/Typhoon_in_the_Philippines.mp4" type="video/mp4">
+                </video>
+                <p><em>This video explains how typhoons affect the Philippines and why the country is vulnerable.</em>
+                </p>
+                <p><small>A video from:
+                        <a href="https://youtu.be/6AD18wR48Y8" target="_blank">
+                            "Why the Philippines is prone to Typhoons" by EarthPen on YouTube
+                        </a>
+                    </small></p>
+            </div>
+
+            <div class="video-section">
+                <video class="video-player" controls>
+                    <source src="videos/Typhoon Categories.mp4" type="video/mp4">
+                </video>
+                <p><em>This video provides the categories of typhoons and how strong they were.</em></p>
+                <p><small>A video from:
+                        <a href="https://youtu.be/U0Cspsfvev0" target="_blank">
+                            "HUWAT Trivia: 5 Tropical Cyclone Classifications in the Philippines" by UNTV News and
+                            Rescue on YouTube
+                        </a>
+                    </small></p>
+            </div>
+        </div>
+
+        <!-- Scrollable Content Section -->
+        <div class="content">
+            <p>
+                A <strong>typhoon</strong> is a powerful tropical cyclone that forms over the Northwest Pacific Ocean.
+                It is characterized by strong winds, heavy rain, and storm surges. In the Philippines, typhoons are
+                called
+                “bagyo” and occur frequently due to the country’s location in the Pacific typhoon belt.
+            </p>
+            <div class="translated">
+                Ang <strong>bagyo</strong> ay isang malakas na unos na nabubuo sa Karagatang Pasipiko. Ito ay may dalang
+                malalakas
+                na hangin, matinding ulan, at storm surge. Madalas itong maranasan sa Pilipinas dahil sa kinalalagyan
+                nito sa Pacific typhoon belt.
+            </div>
+
+            <p class="section-title">How Typhoons Form</p>
+            <ul>
+                <li>Warm ocean waters (at least 26°C) provide energy.</li>
+                <li>Moist air rises and condenses, releasing heat.</li>
+                <li>Rotation of the Earth (Coriolis effect) causes spiraling winds.</li>
+                <li>Low-pressure center forms the “eye” of the typhoon.</li>
+            </ul>
+
+            <p class="section-title">Categories of Typhoons (Philippines)</p>
+            <ul>
+                <li><strong>Tropical Depression</strong> – Winds of up to 61 km/h.</li>
+                <li><strong>Tropical Storm</strong> – Winds of 62–88 km/h.</li>
+                <li><strong>Severe Tropical Storm</strong> – Winds of 89–117 km/h.</li>
+                <li><strong>Typhoon</strong> – Winds of 118–220 km/h.</li>
+                <li><strong>Super Typhoon</strong> – Winds exceeding 220 km/h.</li>
+            </ul>
+
+            <p class="section-title">Effects of Typhoons</p>
+            <ul>
+                <li>Flooding in low-lying and coastal areas</li>
+                <li>Landslides in mountainous regions</li>
+                <li>Storm surges damaging coastal communities</li>
+                <li>Power outages and infrastructure damage</li>
+                <li>Loss of lives and livelihoods</li>
+            </ul>
+
+            <p class="section-title">Did You Know?</p>
+            <p>
+                The Philippines experiences about <strong>20 typhoons every year</strong>, with around 5–7 being
+                destructive.
+                Typhoon Haiyan (Yolanda) in 2013 was one of the strongest recorded, with winds exceeding 300 km/h.
+            </p>
+        </div>
+    </div>
+
+    <!-- Floating Help Button -->
+    <div id="help-float" title="Quiz yourself!" data-bs-toggle="modal" data-bs-target="#quizModal">
+        ?
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content quiz-modal">
+                <div class="quiz-header">
+                    <i class="bi bi-patch-question-fill"></i>
+                    <span class="quiz-title" id="quizModalLabel">Typhoon Quiz</span>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="quiz-body">
+                    <form id="quizForm">
+                        <div class="quiz-question">
+                            <div class="quiz-label">1. What is the minimum ocean temperature needed for a typhoon to form?
+                            </div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1a" value="18°C">
+                                    <label class="form-check-label" for="q1a">18°C</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1b" value="26°C">
+                                    <label class="form-check-label" for="q1b">26°C</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" id="q1c" value="35°C">
+                                    <label class="form-check-label" for="q1c">35°C</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">2. Which of the following is NOT a category of typhoon in the
+                                Philippines?</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2a" value="Tropical Depression">
+                                    <label class="form-check-label" for="q2a">Tropical Depression</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2b" value="Super Typhoon">
+                                    <label class="form-check-label" for="q2b">Super Typhoon</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2c" value="Mega Cyclone">
+                                    <label class="form-check-label" for="q2c">Mega Cyclone</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" id="q2d" value="Typhoon">
+                                    <label class="form-check-label" for="q2d">Typhoon</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <div class="quiz-label">3. What are common effects of typhoons in the Philippines? (Select all
+                                that apply)</div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q3" id="q3a" value="Flooding">
+                                    <label class="form-check-label" for="q3a">Flooding</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q3" id="q3b" value="Landslides">
+                                    <label class="form-check-label" for="q3b">Landslides</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q3" id="q3c" value="Storm Surges">
+                                    <label class="form-check-label" for="q3c">Storm Surges</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="q3" id="q3d" value="Earthquakes">
+                                    <label class="form-check-label" for="q3d">Earthquakes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn quiz-btn w-100" onclick="checkTyphoonQuiz()">Check Answers
+                        </button>
+                    </form>
+                    <div id="quizResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.location.href = 'typhoon.html';
+        }
+
+        function checkTyphoonQuiz() {
+            // Correct answers
+            const answers = {
+                q1: "26°C",
+                q2: "Mega Cyclone",
+                q3: ["Flooding", "Landslides", "Storm Surges"]
+            };
+            let correct = 0;
+            let form = document.getElementById('quizForm');
+            let result = '';
+
+            // Remove previous coloring
+            form.querySelectorAll('.form-check-input').forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+            });
+
+            // Q1 (radio)
+            let q1 = form.querySelector('input[name="q1"]:checked');
+            if (q1 && q1.value === answers.q1) {
+                q1.classList.add('is-valid');
+                correct++;
+            } else if (q1) {
+                q1.classList.add('is-invalid');
+            }
+
+            // Q2 (radio)
+            let q2 = form.querySelector('input[name="q2"]:checked');
+            if (q2 && q2.value === answers.q2) {
+                q2.classList.add('is-valid');
+                correct++;
+            } else if (q2) {
+                q2.classList.add('is-invalid');
+            }
+
+            // Q3 (checkboxes)
+            let q3Checked = Array.from(form.querySelectorAll('input[name="q3"]:checked')).map(i => i.value);
+            let q3Inputs = form.querySelectorAll('input[name="q3"]');
+            function arraysEqual(a, b) {
+                if (a.length !== b.length) return false;
+                const sortedA = [...a].sort();
+                const sortedB = [...b].sort();
+                return sortedA.every((val, i) => val === sortedB[i]);
+            }
+            if (arraysEqual(q3Checked, answers.q3)) {
+                q3Inputs.forEach(i => {
+                    if (i.checked) i.classList.add('is-valid');
+                });
+                correct++;
+            } else {
+                q3Inputs.forEach(i => {
+                    if (i.checked) i.classList.add('is-invalid');
+                });
+            }
+
+            if (correct === 3) {
+                result = `<div class="alert alert-success">All correct! 🎉</div>`;
+            } else {
+                result = `<div class="alert alert-danger">${3 - correct} incorrect. Try again!</div>`;
+            }
+            document.getElementById('quizResult').innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>
